@@ -62,7 +62,7 @@ h1 { margin: 0; font-size: 40px; line-height: 1.1; color: var(--primary); letter
 
 .topic-btn {
   width: 100%;
-  min-height: 84px;
+  min-height: 80px;
   background: var(--card);
   color: var(--ink);
   border: 2px solid var(--line);
@@ -74,7 +74,7 @@ h1 { margin: 0; font-size: 40px; line-height: 1.1; color: var(--primary); letter
 .topic-btn .icon { font-size: 28px; line-height: 1; }
 .topic-btn .name { font-size: 20px; font-weight: 800; }
 .topic.main .topic-btn {
-  min-height: 112px;
+  min-height: 100px;
   background: var(--primary);
   border-color: var(--primary-dark);
   box-shadow: 0 5px 0 var(--primary-dark);
@@ -115,6 +115,40 @@ h1 { margin: 0; font-size: 40px; line-height: 1.1; color: var(--primary); letter
 .data-date { display: block; margin-top: 4px; font-weight: 700; }
 .data-date[hidden] { display: none; }
 .noscript { margin: 12px; padding: 12px; background: #fff3cd; color: #5c3b00; border-radius: 12px; font-size: 16px; }
+
+/* 게임 화면 */
+.screen[hidden] { display: none; }
+.game-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.streak { margin: 0; font-size: 24px; font-weight: 800; color: #c2410c; }
+.qnum { margin: 0; font-size: 16px; color: var(--sub); font-weight: 700; }
+.timer { height: 16px; border-radius: 8px; background: #d5e1f7; overflow: hidden; }
+.timer-fill { height: 100%; width: 100%; border-radius: 8px; background: #16a34a; }
+.timer-fill.low { background: #dc2626; }
+.question { margin: 4px 0; font-size: 24px; line-height: 1.35; font-weight: 800; text-align: center; word-break: keep-all; overflow-wrap: anywhere; min-height: 64px; display: flex; align-items: center; justify-content: center; }
+.choices { display: flex; flex-direction: column; gap: 12px; }
+.choice {
+  width: 100%; min-height: 96px; padding: 10px 12px;
+  background: var(--card); color: var(--ink);
+  border: 3px solid var(--line); box-shadow: 0 4px 0 var(--line);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+}
+.c-name { font-size: 24px; font-weight: 800; line-height: 1.25; word-break: keep-all; overflow-wrap: anywhere; max-width: 100%; }
+.c-val { font-size: 18px; font-weight: 700; min-height: 0; }
+.choice:disabled { cursor: default; }
+.choice.pressed { background: #dbe7ff; border-color: var(--primary); box-shadow: 0 1px 0 var(--primary); transform: translateY(3px); }
+.choice.right { background: #dcfce7; border-color: #15803d; box-shadow: 0 4px 0 #15803d; color: #14532d; }
+.choice.wrong { background: #fee2e2; border-color: #b91c1c; box-shadow: 0 4px 0 #b91c1c; color: #7f1d1d; }
+.choice.dim { opacity: .75; }
+.verdict { margin: 0; min-height: 28px; text-align: center; font-size: 20px; font-weight: 800; }
+.verdict.good { color: #15803d; }
+.verdict.bad { color: #b91c1c; }
+.refline { margin: 0; text-align: center; font-size: 16px; color: var(--sub); word-break: keep-all; overflow-wrap: anywhere; }
+.end { display: flex; flex-direction: column; gap: 10px; padding: 12px; background: var(--card); border: 2px solid var(--line); border-radius: var(--radius); }
+.end[hidden] { display: none; }
+.end-text { margin: 0; text-align: center; font-size: 22px; font-weight: 800; word-break: keep-all; }
+.home-btn, .retry-btn { width: 100%; min-height: 52px; font-size: 18px; font-weight: 800; background: var(--primary); color: #fff; box-shadow: 0 4px 0 var(--primary-dark); }
+.retry-btn { background: var(--accent); color: #3b2300; box-shadow: 0 4px 0 #b45309; }
+.retry-btn[hidden] { display: none; }
 
 /* 화면 높이가 낮은 폰(예: 640px 이하)에서도 한 화면에 들어오게 살짝 줄임 */
 @media (max-height: 700px) {
