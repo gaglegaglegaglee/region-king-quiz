@@ -1,0 +1,131 @@
+/* 지역왕 화면 모양 — 색·크기는 아래 :root 한 곳에서 바꿉니다 */
+:root {
+  --bg: #eef4ff;
+  --card: #ffffff;
+  --ink: #14213d;
+  --sub: #475569;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --accent: #f59e0b;
+  --line: #c7d7f5;
+  --btn-min: 48px;
+  --radius: 18px;
+  --max-w: 480px;
+  --font: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Nanum Gothic", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  overscroll-behavior: none;
+}
+.app {
+  max-width: var(--max-w);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 16px 16px 0;
+  display: flex;
+  flex-direction: column;
+}
+.screen { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+
+.hero { text-align: center; padding: 6px 0 2px; }
+h1 { margin: 0; font-size: 40px; line-height: 1.1; color: var(--primary); letter-spacing: -1px; }
+.tagline { margin: 8px 0 0; font-size: 16px; color: var(--sub); word-break: keep-all; }
+
+.topics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.topic { display: flex; flex-direction: column; align-items: stretch; gap: 4px; min-width: 0; }
+.topic.main { grid-column: 1 / -1; }
+
+.btn {
+  font-family: inherit;
+  min-height: var(--btn-min);
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform .08s, box-shadow .08s, background .08s;
+}
+.btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.btn:active { transform: translateY(3px); }
+
+.topic-btn {
+  width: 100%;
+  min-height: 84px;
+  background: var(--card);
+  color: var(--ink);
+  border: 2px solid var(--line);
+  box-shadow: 0 4px 0 var(--line);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  padding: 8px;
+}
+.topic-btn:active { box-shadow: 0 1px 0 var(--line); }
+.topic-btn .icon { font-size: 28px; line-height: 1; }
+.topic-btn .name { font-size: 20px; font-weight: 800; }
+.topic.main .topic-btn {
+  min-height: 112px;
+  background: var(--primary);
+  border-color: var(--primary-dark);
+  box-shadow: 0 5px 0 var(--primary-dark);
+  color: #fff;
+}
+.topic.main .topic-btn:active { box-shadow: 0 2px 0 var(--primary-dark); }
+.topic.main .topic-btn .icon { font-size: 38px; }
+.topic.main .topic-btn .name { font-size: 26px; }
+.record { margin: 0; text-align: center; font-size: 16px; color: var(--sub); }
+
+.rank-btn {
+  width: 100%;
+  min-height: 56px;
+  font-size: 18px;
+  font-weight: 800;
+  background: var(--accent);
+  color: #3b2300;
+  box-shadow: 0 4px 0 #b45309;
+}
+.rank-btn:active { box-shadow: 0 1px 0 #b45309; }
+
+.toast {
+  margin: 0; min-height: 24px; text-align: center; font-size: 16px; font-weight: 700; color: var(--primary-dark);
+}
+
+.source {
+  margin: 8px -16px 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--sub);
+  text-align: center;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  border-top: 1px solid var(--line);
+  background: #e3ecfb;
+}
+.noscript { margin: 12px; padding: 12px; background: #fff3cd; color: #5c3b00; border-radius: 12px; font-size: 16px; }
+
+/* 화면 높이가 낮은 폰(예: 640px 이하)에서도 한 화면에 들어오게 살짝 줄임 */
+@media (max-height: 700px) {
+  .app { padding-top: 8px; }
+  .screen { gap: 8px; }
+  h1 { font-size: 32px; }
+  .tagline { margin-top: 4px; }
+  .topic-btn { min-height: 64px; }
+  .topic-btn .icon { font-size: 24px; }
+  .topic-btn .name { font-size: 18px; }
+  .topic.main .topic-btn { min-height: 84px; }
+  .topic.main .topic-btn .icon { font-size: 30px; }
+  .topic.main .topic-btn .name { font-size: 22px; }
+  .rank-btn { min-height: 52px; }
+  .source { padding-top: 8px; padding-bottom: 8px; margin-top: 4px; }
+}
