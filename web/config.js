@@ -25,7 +25,8 @@ window.JIYEOK_CONFIG = {
 
   // 게임 진행 설정
   game: {
-    nextDelayMs: 1200,        // 맞힌 뒤 다음 문제로 넘어가기까지 (정답·값을 보여 주는 시간)
+    nextDelayMs: 1200,        // (아래 설명 참고)
+    resultDelayMs: 1800,      // 틀린 뒤 정답·값을 보여 주다가 결과 화면으로 넘어가기까지        // 맞힌 뒤 다음 문제로 넘어가기까지 (정답·값을 보여 주는 시간)
     requestTimeoutMs: 10000,  // 서버 응답을 기다리는 최대 시간
     defaultTimeLimitSec: 15   // 서버가 시간을 알려 주지 않을 때만 쓰는 값
   },
@@ -41,6 +42,25 @@ window.JIYEOK_CONFIG = {
     retry: "다시 시도",
     offline: "지금 게임 서버에 연결할 수 없어요. 잠시 후 다시 눌러 주세요.",
     serverError: "서버에서 문제가 생겼어요. 잠시 후 다시 해 주세요.",
+    slow: "서버 응답이 늦어요. 잠시 뒤 다시 시도해 주세요.",
+    answerIs: "정답은 ‘{name}’{josa}.",
+    answerLine: "정답: {name}",
+    markRight: "✓ 정답",
+    markWrong: "✗ 오답",
+    resultTitle: "{n}연승!",
+    resultZero: "아쉽게도 첫 문제에서 끝났어요",
+    reasons: {
+      wrong: "틀려서 끝났어요.",
+      timeout: "시간이 지나서 끝났어요.",
+      quit: "그만하기를 눌러서 끝났어요.",
+      nomore: "더 낼 문제가 없어서 여기서 끝났어요.",
+      error: "연결에 문제가 있어서 끝났어요."
+    },
+    lostResult: "연결이 잠시 끊겨 결과를 확인하지 못했어요. 화면에 보이던 연승까지만 보여 드려요.",
+    noExplain: "마지막 문제의 해설을 불러오지 못했어요.",
+    lastQuestion: "마지막 문제",
+    quit: "그만하기",
+    again: "다시 하기",
     refLine: "기준 {date} · 출처 {source}"
   },
 

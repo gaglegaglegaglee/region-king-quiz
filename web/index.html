@@ -30,13 +30,31 @@
       <div class="timer" id="g-timer" aria-hidden="true"><div class="timer-fill" id="g-fill"></div></div>
       <h2 class="question" id="g-question"></h2>
       <div class="choices" id="g-choices"></div>
-      <p class="verdict" id="g-verdict" role="status" aria-live="assertive"></p>
+      <p class="verdict" id="g-verdict" role="status" aria-live="assertive" tabindex="-1"></p>
       <p class="refline" id="g-ref"></p>
-      <div class="end" id="g-end" hidden>
-        <p class="end-text" id="g-end-text"></p>
+      <button type="button" class="btn quit-btn" id="g-quit">그만하기</button>
+      <div class="end" id="g-err" hidden>
+        <p class="end-text" id="g-err-text" role="alert"></p>
         <button type="button" class="btn retry-btn" id="g-retry" hidden>다시 시도</button>
         <button type="button" class="btn home-btn" id="g-home">홈으로</button>
       </div>
+    </main>
+
+    <main class="screen" id="result" hidden aria-label="결과 화면">
+      <h2 class="r-title" id="r-title" tabindex="-1"></h2>
+      <p class="r-reason" id="r-reason"></p>
+      <div class="r-actions">
+        <button type="button" class="btn again-btn" id="r-again">다시 하기</button>
+        <button type="button" class="btn home-btn" id="r-home">홈으로</button>
+      </div>
+      <section class="r-explain" id="r-explain" hidden aria-label="마지막 문제 해설">
+        <h3 class="r-h">마지막 문제</h3>
+        <p class="r-q" id="r-q"></p>
+        <ul class="r-rows" id="r-rows"></ul>
+        <p class="r-answer" id="r-answer"></p>
+        <p class="refline" id="r-ref"></p>
+      </section>
+      <p class="refline" id="r-noexplain" hidden></p>
     </main>
 
     <footer class="source">

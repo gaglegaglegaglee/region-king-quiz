@@ -150,6 +150,29 @@ h1 { margin: 0; font-size: 40px; line-height: 1.1; color: var(--primary); letter
 .retry-btn { background: var(--accent); color: #3b2300; box-shadow: 0 4px 0 #b45309; }
 .retry-btn[hidden] { display: none; }
 
+/* 결과 화면 / 그만하기 */
+.quit-btn { align-self: center; min-width: 120px; min-height: 48px; padding: 0 16px; font-size: 16px; font-weight: 700; background: transparent; color: var(--sub); border: 2px solid var(--line); }
+.quit-btn[hidden] { display: none; }
+.choice .c-mark { font-size: 16px; font-weight: 800; }
+.choice .c-mark:empty { display: none; }
+.r-title { margin: 8px 0 0; font-size: 36px; line-height: 1.2; text-align: center; color: var(--primary); word-break: keep-all; outline: none; }
+.r-reason { margin: 0; text-align: center; font-size: 18px; font-weight: 700; color: var(--sub); word-break: keep-all; }
+.r-actions { display: flex; gap: 10px; }
+.r-actions .btn { flex: 1; min-height: 56px; font-size: 18px; font-weight: 800; }
+.again-btn { background: var(--accent); color: #3b2300; box-shadow: 0 4px 0 #b45309; }
+.r-actions .home-btn { width: auto; }
+.r-explain { background: var(--card); border: 2px solid var(--line); border-radius: var(--radius); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.r-h { margin: 0; font-size: 16px; color: var(--sub); }
+.r-q { margin: 0; font-size: 20px; font-weight: 800; line-height: 1.35; word-break: keep-all; overflow-wrap: anywhere; }
+.r-rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.r-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 10px 12px; border-radius: 12px; background: #f1f5fb; border: 2px solid transparent; }
+.r-row.right { background: #dcfce7; border-color: #15803d; color: #14532d; }
+.r-name { font-size: 18px; font-weight: 800; overflow-wrap: anywhere; }
+.r-mark { font-size: 16px; font-weight: 800; }
+.r-val { margin-left: auto; font-size: 18px; font-weight: 800; }
+.r-answer { margin: 0; font-size: 18px; font-weight: 800; color: #15803d; overflow-wrap: anywhere; }
+.verdict { outline: none; }
+
 /* 화면 높이가 낮은 폰(예: 640px 이하)에서도 한 화면에 들어오게 살짝 줄임 */
 @media (max-height: 700px) {
   .app { padding-top: 8px; }
