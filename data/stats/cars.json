@@ -1,0 +1,1011 @@
+{
+ "stat_key": "cars",
+ "label": "자동차 등록 대수",
+ "unit": "대",
+ "decimals": 0,
+ "source": "국토교통부 자동차등록대수현황(KOSIS)",
+ "ref_date": "2026-08",
+ "inputs": [
+  {
+   "key": "cars",
+   "ref_date": "2026-08"
+  }
+ ],
+ "values": [
+  {
+   "region_code": "11",
+   "value": 3150052
+  },
+  {
+   "region_code": "12",
+   "value": 2071767
+  },
+  {
+   "region_code": "26",
+   "value": 1586922
+  },
+  {
+   "region_code": "27",
+   "value": 1266989
+  },
+  {
+   "region_code": "28",
+   "value": 1761693
+  },
+  {
+   "region_code": "30",
+   "value": 750374
+  },
+  {
+   "region_code": "31",
+   "value": 613085
+  },
+  {
+   "region_code": "36",
+   "value": 205764
+  },
+  {
+   "region_code": "41",
+   "value": 6775618
+  },
+  {
+   "region_code": "43",
+   "value": 965899
+  },
+  {
+   "region_code": "44",
+   "value": 1302273
+  },
+  {
+   "region_code": "47",
+   "value": 1573158
+  },
+  {
+   "region_code": "48",
+   "value": 2036905
+  },
+  {
+   "region_code": "50",
+   "value": 732454,
+   "quiz_exclude": true
+  },
+  {
+   "region_code": "51",
+   "value": 883550
+  },
+  {
+   "region_code": "52",
+   "value": 1010781
+  },
+  {
+   "region_code": "11110",
+   "value": 49728
+  },
+  {
+   "region_code": "11140",
+   "value": 48433
+  },
+  {
+   "region_code": "11170",
+   "value": 71291
+  },
+  {
+   "region_code": "11200",
+   "value": 104698
+  },
+  {
+   "region_code": "11215",
+   "value": 95620
+  },
+  {
+   "region_code": "11230",
+   "value": 107424
+  },
+  {
+   "region_code": "11260",
+   "value": 114819
+  },
+  {
+   "region_code": "11290",
+   "value": 121784
+  },
+  {
+   "region_code": "11305",
+   "value": 71983
+  },
+  {
+   "region_code": "11320",
+   "value": 92776
+  },
+  {
+   "region_code": "11350",
+   "value": 148686
+  },
+  {
+   "region_code": "11380",
+   "value": 132241
+  },
+  {
+   "region_code": "11410",
+   "value": 90614
+  },
+  {
+   "region_code": "11440",
+   "value": 120271
+  },
+  {
+   "region_code": "11470",
+   "value": 147256
+  },
+  {
+   "region_code": "11500",
+   "value": 202217
+  },
+  {
+   "region_code": "11530",
+   "value": 139100
+  },
+  {
+   "region_code": "11545",
+   "value": 89295
+  },
+  {
+   "region_code": "11560",
+   "value": 141763
+  },
+  {
+   "region_code": "11590",
+   "value": 104840
+  },
+  {
+   "region_code": "11620",
+   "value": 115329
+  },
+  {
+   "region_code": "11650",
+   "value": 178848
+  },
+  {
+   "region_code": "11680",
+   "value": 249202
+  },
+  {
+   "region_code": "11710",
+   "value": 242998
+  },
+  {
+   "region_code": "11740",
+   "value": 168836
+  },
+  {
+   "region_code": "12110",
+   "value": 101447
+  },
+  {
+   "region_code": "12130",
+   "value": 146348
+  },
+  {
+   "region_code": "12150",
+   "value": 158884
+  },
+  {
+   "region_code": "12170",
+   "value": 76093
+  },
+  {
+   "region_code": "12190",
+   "value": 104943
+  },
+  {
+   "region_code": "12210",
+   "value": 48836
+  },
+  {
+   "region_code": "12240",
+   "value": 151963
+  },
+  {
+   "region_code": "12270",
+   "value": 96923
+  },
+  {
+   "region_code": "12300",
+   "value": 211313
+  },
+  {
+   "region_code": "12330",
+   "value": 219966
+  },
+  {
+   "region_code": "12710",
+   "value": 31364
+  },
+  {
+   "region_code": "12720",
+   "value": 18387
+  },
+  {
+   "region_code": "12730",
+   "value": 15009
+  },
+  {
+   "region_code": "12740",
+   "value": 36818
+  },
+  {
+   "region_code": "12750",
+   "value": 25287
+  },
+  {
+   "region_code": "12760",
+   "value": 37760
+  },
+  {
+   "region_code": "12770",
+   "value": 22447
+  },
+  {
+   "region_code": "12780",
+   "value": 21245
+  },
+  {
+   "region_code": "12790",
+   "value": 158421,
+   "quiz_exclude": true
+  },
+  {
+   "region_code": "12800",
+   "value": 39422
+  },
+  {
+   "region_code": "12810",
+   "value": 59845
+  },
+  {
+   "region_code": "12820",
+   "value": 26517
+  },
+  {
+   "region_code": "12830",
+   "value": 33951
+  },
+  {
+   "region_code": "12840",
+   "value": 31290
+  },
+  {
+   "region_code": "12850",
+   "value": 27914
+  },
+  {
+   "region_code": "12860",
+   "value": 19307
+  },
+  {
+   "region_code": "12870",
+   "value": 150067,
+   "quiz_exclude": true
+  },
+  {
+   "region_code": "26110",
+   "value": 45241,
+   "quiz_exclude": true
+  },
+  {
+   "region_code": "26140",
+   "value": 32170
+  },
+  {
+   "region_code": "26170",
+   "value": 53235
+  },
+  {
+   "region_code": "26200",
+   "value": 33138
+  },
+  {
+   "region_code": "26230",
+   "value": 137299
+  },
+  {
+   "region_code": "26260",
+   "value": 103411
+  },
+  {
+   "region_code": "26290",
+   "value": 148621
+  },
+  {
+   "region_code": "26320",
+   "value": 103439
+  },
+  {
+   "region_code": "26350",
+   "value": 163952
+  },
+  {
+   "region_code": "26380",
+   "value": 112019
+  },
+  {
+   "region_code": "26410",
+   "value": 82847
+  },
+  {
+   "region_code": "26440",
+   "value": 99983
+  },
+  {
+   "region_code": "26470",
+   "value": 167690
+  },
+  {
+   "region_code": "26500",
+   "value": 124034
+  },
+  {
+   "region_code": "26530",
+   "value": 86815
+  },
+  {
+   "region_code": "26710",
+   "value": 93028
+  },
+  {
+   "region_code": "27110",
+   "value": 57043
+  },
+  {
+   "region_code": "27140",
+   "value": 175086
+  },
+  {
+   "region_code": "27170",
+   "value": 78846
+  },
+  {
+   "region_code": "27200",
+   "value": 60512
+  },
+  {
+   "region_code": "27230",
+   "value": 209324
+  },
+  {
+   "region_code": "27260",
+   "value": 218473
+  },
+  {
+   "region_code": "27290",
+   "value": 306074
+  },
+  {
+   "region_code": "27710",
+   "value": 145175
+  },
+  {
+   "region_code": "27720",
+   "value": 16456
+  },
+  {
+   "region_code": "28125",
+   "value": 55856
+  },
+  {
+   "region_code": "28155",
+   "value": 68580
+  },
+  {
+   "region_code": "28177",
+   "value": 182579
+  },
+  {
+   "region_code": "28185",
+   "value": 239755
+  },
+  {
+   "region_code": "28200",
+   "value": 283083
+  },
+  {
+   "region_code": "28237",
+   "value": 236209
+  },
+  {
+   "region_code": "28245",
+   "value": 199387
+  },
+  {
+   "region_code": "28275",
+   "value": 206072
+  },
+  {
+   "region_code": "28290",
+   "value": 125153
+  },
+  {
+   "region_code": "28710",
+   "value": 43792
+  },
+  {
+   "region_code": "28720",
+   "value": 105676,
+   "quiz_exclude": true
+  },
+  {
+   "region_code": "30110",
+   "value": 99703
+  },
+  {
+   "region_code": "30140",
+   "value": 104097
+  },
+  {
+   "region_code": "30170",
+   "value": 244776
+  },
+  {
+   "region_code": "30200",
+   "value": 207585
+  },
+  {
+   "region_code": "30230",
+   "value": 94213
+  },
+  {
+   "region_code": "31110",
+   "value": 105911
+  },
+  {
+   "region_code": "31140",
+   "value": 168340
+  },
+  {
+   "region_code": "31170",
+   "value": 66078
+  },
+  {
+   "region_code": "31200",
+   "value": 128940
+  },
+  {
+   "region_code": "31710",
+   "value": 143816
+  },
+  {
+   "region_code": "36110",
+   "value": 205764
+  },
+  {
+   "region_code": "41110",
+   "value": 599144
+  },
+  {
+   "region_code": "41130",
+   "value": 360406
+  },
+  {
+   "region_code": "41150",
+   "value": 182843
+  },
+  {
+   "region_code": "41170",
+   "value": 231556
+  },
+  {
+   "region_code": "41190",
+   "value": 305203
+  },
+  {
+   "region_code": "41210",
+   "value": 117455
+  },
+  {
+   "region_code": "41220",
+   "value": 368892
+  },
+  {
+   "region_code": "41250",
+   "value": 40348
+  },
+  {
+   "region_code": "41270",
+   "value": 340787
+  },
+  {
+   "region_code": "41280",
+   "value": 460887
+  },
+  {
+   "region_code": "41290",
+   "value": 33960
+  },
+  {
+   "region_code": "41310",
+   "value": 75958
+  },
+  {
+   "region_code": "41360",
+   "value": 332071
+  },
+  {
+   "region_code": "41370",
+   "value": 135064
+  },
+  {
+   "region_code": "41390",
+   "value": 282610
+  },
+  {
+   "region_code": "41410",
+   "value": 101657
+  },
+  {
+   "region_code": "41430",
+   "value": 74882
+  },
+  {
+   "region_code": "41450",
+   "value": 145638
+  },
+  {
+   "region_code": "41460",
+   "value": 530840
+  },
+  {
+   "region_code": "41480",
+   "value": 276082
+  },
+  {
+   "region_code": "41500",
+   "value": 136536
+  },
+  {
+   "region_code": "41550",
+   "value": 127951
+  },
+  {
+   "region_code": "41570",
+   "value": 249460
+  },
+  {
+   "region_code": "41590",
+   "value": 572808
+  },
+  {
+   "region_code": "41610",
+   "value": 221164
+  },
+  {
+   "region_code": "41630",
+   "value": 153054
+  },
+  {
+   "region_code": "41650",
+   "value": 99410
+  },
+  {
+   "region_code": "41670",
+   "value": 78825
+  },
+  {
+   "region_code": "41800",
+   "value": 34035
+  },
+  {
+   "region_code": "41820",
+   "value": 34791
+  },
+  {
+   "region_code": "41830",
+   "value": 71301
+  },
+  {
+   "region_code": "43110",
+   "value": 487091
+  },
+  {
+   "region_code": "43130",
+   "value": 124165
+  },
+  {
+   "region_code": "43150",
+   "value": 75334
+  },
+  {
+   "region_code": "43720",
+   "value": 21765
+  },
+  {
+   "region_code": "43730",
+   "value": 32647
+  },
+  {
+   "region_code": "43740",
+   "value": 27890
+  },
+  {
+   "region_code": "43745",
+   "value": 22495
+  },
+  {
+   "region_code": "43750",
+   "value": 58971
+  },
+  {
+   "region_code": "43760",
+   "value": 26241
+  },
+  {
+   "region_code": "43770",
+   "value": 71642
+  },
+  {
+   "region_code": "43800",
+   "value": 17639
+  },
+  {
+   "region_code": "44130",
+   "value": 372195
+  },
+  {
+   "region_code": "44150",
+   "value": 60659
+  },
+  {
+   "region_code": "44180",
+   "value": 56654
+  },
+  {
+   "region_code": "44200",
+   "value": 220062
+  },
+  {
+   "region_code": "44210",
+   "value": 108666
+  },
+  {
+   "region_code": "44230",
+   "value": 66634
+  },
+  {
+   "region_code": "44250",
+   "value": 27380
+  },
+  {
+   "region_code": "44270",
+   "value": 116565
+  },
+  {
+   "region_code": "44710",
+   "value": 35976
+  },
+  {
+   "region_code": "44760",
+   "value": 37165
+  },
+  {
+   "region_code": "44770",
+   "value": 29335
+  },
+  {
+   "region_code": "44790",
+   "value": 19982
+  },
+  {
+   "region_code": "44800",
+   "value": 61999
+  },
+  {
+   "region_code": "44810",
+   "value": 51087
+  },
+  {
+   "region_code": "44825",
+   "value": 37914
+  },
+  {
+   "region_code": "47110",
+   "value": 292123
+  },
+  {
+   "region_code": "47130",
+   "value": 157574
+  },
+  {
+   "region_code": "47150",
+   "value": 82416
+  },
+  {
+   "region_code": "47170",
+   "value": 92283
+  },
+  {
+   "region_code": "47190",
+   "value": 236391
+  },
+  {
+   "region_code": "47210",
+   "value": 60300
+  },
+  {
+   "region_code": "47230",
+   "value": 65682
+  },
+  {
+   "region_code": "47250",
+   "value": 59068
+  },
+  {
+   "region_code": "47280",
+   "value": 40314
+  },
+  {
+   "region_code": "47290",
+   "value": 151264
+  },
+  {
+   "region_code": "47730",
+   "value": 35247
+  },
+  {
+   "region_code": "47750",
+   "value": 18479
+  },
+  {
+   "region_code": "47760",
+   "value": 11485
+  },
+  {
+   "region_code": "47770",
+   "value": 20799
+  },
+  {
+   "region_code": "47820",
+   "value": 28279
+  },
+  {
+   "region_code": "47830",
+   "value": 23077
+  },
+  {
+   "region_code": "47840",
+   "value": 34496
+  },
+  {
+   "region_code": "47850",
+   "value": 73647
+  },
+  {
+   "region_code": "47900",
+   "value": 33903
+  },
+  {
+   "region_code": "47920",
+   "value": 19506
+  },
+  {
+   "region_code": "47930",
+   "value": 30047
+  },
+  {
+   "region_code": "47940",
+   "value": 6742
+  },
+  {
+   "region_code": "48120",
+   "value": 708679
+  },
+  {
+   "region_code": "48170",
+   "value": 182326
+  },
+  {
+   "region_code": "48220",
+   "value": 55441
+  },
+  {
+   "region_code": "48240",
+   "value": 64055
+  },
+  {
+   "region_code": "48250",
+   "value": 310847
+  },
+  {
+   "region_code": "48270",
+   "value": 63867
+  },
+  {
+   "region_code": "48310",
+   "value": 114307
+  },
+  {
+   "region_code": "48330",
+   "value": 197192
+  },
+  {
+   "region_code": "48720",
+   "value": 16691
+  },
+  {
+   "region_code": "48730",
+   "value": 74729,
+   "quiz_exclude": true
+  },
+  {
+   "region_code": "48740",
+   "value": 37772
+  },
+  {
+   "region_code": "48820",
+   "value": 28861
+  },
+  {
+   "region_code": "48840",
+   "value": 23130
+  },
+  {
+   "region_code": "48850",
+   "value": 25556
+  },
+  {
+   "region_code": "48860",
+   "value": 23145
+  },
+  {
+   "region_code": "48870",
+   "value": 47573,
+   "quiz_exclude": true
+  },
+  {
+   "region_code": "48880",
+   "value": 36699
+  },
+  {
+   "region_code": "48890",
+   "value": 26035
+  },
+  {
+   "region_code": "50110",
+   "value": 622437,
+   "quiz_exclude": true
+  },
+  {
+   "region_code": "50130",
+   "value": 110017
+  },
+  {
+   "region_code": "51110",
+   "value": 152353
+  },
+  {
+   "region_code": "51130",
+   "value": 203753
+  },
+  {
+   "region_code": "51150",
+   "value": 120598
+  },
+  {
+   "region_code": "51170",
+   "value": 49982
+  },
+  {
+   "region_code": "51190",
+   "value": 20941
+  },
+  {
+   "region_code": "51210",
+   "value": 42233
+  },
+  {
+   "region_code": "51230",
+   "value": 35475
+  },
+  {
+   "region_code": "51720",
+   "value": 43182
+  },
+  {
+   "region_code": "51730",
+   "value": 30818
+  },
+  {
+   "region_code": "51750",
+   "value": 22771
+  },
+  {
+   "region_code": "51760",
+   "value": 28182
+  },
+  {
+   "region_code": "51770",
+   "value": 23601
+  },
+  {
+   "region_code": "51780",
+   "value": 25829
+  },
+  {
+   "region_code": "51790",
+   "value": 14374
+  },
+  {
+   "region_code": "51800",
+   "value": 13240
+  },
+  {
+   "region_code": "51810",
+   "value": 20992
+  },
+  {
+   "region_code": "51820",
+   "value": 17408
+  },
+  {
+   "region_code": "51830",
+   "value": 17818
+  },
+  {
+   "region_code": "52110",
+   "value": 337645
+  },
+  {
+   "region_code": "52130",
+   "value": 148702
+  },
+  {
+   "region_code": "52140",
+   "value": 152366
+  },
+  {
+   "region_code": "52180",
+   "value": 61551
+  },
+  {
+   "region_code": "52190",
+   "value": 45251
+  },
+  {
+   "region_code": "52210",
+   "value": 54479
+  },
+  {
+   "region_code": "52710",
+   "value": 67181
+  },
+  {
+   "region_code": "52720",
+   "value": 16530
+  },
+  {
+   "region_code": "52730",
+   "value": 15295
+  },
+  {
+   "region_code": "52740",
+   "value": 13907
+  },
+  {
+   "region_code": "52750",
+   "value": 16251
+  },
+  {
+   "region_code": "52770",
+   "value": 17840
+  },
+  {
+   "region_code": "52790",
+   "value": 33830
+  },
+  {
+   "region_code": "52800",
+   "value": 29953
+  }
+ ],
+ "blank_regions": [],
+ "fetched_at": "2026-10-16T09:12:27.548Z",
+ "regions_as_of": "2026-09-30"
+}
