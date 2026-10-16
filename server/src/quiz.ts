@@ -1,6 +1,13 @@
 // 통계 비교 문제 출제 엔진. 정답은 서버만 안다(ServerQuestion), 화면에는 PublicQuestion만 보낸다.
 import { STATS, pairText, type StatDef, type StatKey } from "./stats";
 
+// 시·도는 문제 문구에 줄임말을 쓴다("세종과 강원"). 시·군·구는 display_name 그대로.
+const SIDO_SHORT: Record<string, string> = {
+  "11": "서울", "12": "전남광주", "26": "부산", "27": "대구", "28": "인천", "30": "대전", "31": "울산", "36": "세종",
+  "41": "경기", "43": "충북", "44": "충남", "47": "경북", "48": "경남", "50": "제주", "51": "강원", "52": "전북",
+};
+const sidoShort = (code: string, level: Level) => (level === "sido" ? SIDO_SHORT[code] : undefined);
+
 export type Level = "sido" | "sigungu";
 export type Difficulty = "easy" | "normal" | "hard";
 
@@ -21,7 +28,7 @@ export const BAND_RANGES: Record<Difficulty, [number, number]> = {
 /** 단위 고르기: 쉬움은 시·도(16곳, 널리 아는 큰 지역) 비중을 높게. */
 export const SIDO_SHARE: Record<Difficulty, number> = { easy: 0.5, normal: 0.25, hard: 0.1 };
 
-export interface RegionValue { code: string; name: string; value: number }
+export interface RegionValue { code: string; name: string; value: number; full?: string /* 정식 이름(해설용) */ }
 export const SAMPLE_PAIRS = 800;
 const SMALL_POOL = 40; // 이 이하면 짝을 전부 센다(시·도 16곳 = 120짝)
 const PICK_TRIES = 40;
@@ -37,7 +44,9 @@ export interface ServerQuestion extends PublicQuestion {
   difficulty: Difficulty;
   answer_code: string; // 서버 보관용 — 응답에 넣지 말 것
   values: Record<string, number>; // 코드 → 값(답을 낸 뒤 해설용)
+  full_names: Record<string, string>; // 코드 → 정식 이름
   ref_date: string;
+  source: string;
 }
 export function toPublic(q: ServerQuestion): PublicQuestion {
   return { question_id: q.question_id, stat_key: q.stat_key, text: q.text, choices: q.choices.map((c) => ({ code: c.code, name: c.name })) };
@@ -87,6 +96,7 @@ export interface Pool {
   stat: StatKey;
   level: Level;
   ref_date: string;
+  source: string;
   rows: RegionValue[]; // 값 오름차순(값 없는 지역 제외)
   t1: number; // 어려움/보통 경계 차이
   t2: number; // 보통/쉬움 경계 차이
@@ -97,7 +107,7 @@ export interface Pool {
 const quantile = (sorted: number[], q: number) => sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * q))];
 
 /** 같은 단위 지역들의 값을 정렬하고 난이도 띠 경계를 계산한다(짝 전체를 만들지 않는다). */
-export function buildPool(stat: StatKey, level: Level, ref_date: string, input: RegionValue[]): Pool {
+export function buildPool(stat: StatKey, level: Level, ref_date: string, input: RegionValue[], source = ""): Pool {
   const def = STATS[stat];
   const rows = input.filter((r) => Number.isFinite(r.value)).sort((p, q) => p.value - q.value);
   const n = rows.length;
@@ -111,10 +121,10 @@ export function buildPool(stat: StatKey, level: Level, ref_date: string, input: 
       const d = pairDiff(def, rows[i].value, rows[j].value); if (d !== null) diffs.push(d);
     }
   }
-  if (diffs.length === 0) return { stat, level, ref_date, rows, t1: 0, t2: 0, hi: 0, empty: true };
+  if (diffs.length === 0) return { stat, level, ref_date, source, rows, t1: 0, t2: 0, hi: 0, empty: true };
   diffs.sort((p, q) => p - q);
   const hi = def.diffMode === "relative" ? Math.min(1, diffs[diffs.length - 1]) : rows[n - 1].value - rows[0].value;
-  return { stat, level, ref_date, rows, t1: quantile(diffs, BAND_RANGES.hard[1]), t2: quantile(diffs, BAND_RANGES.easy[0]), hi: Math.max(hi, diffs[diffs.length - 1]), empty: false };
+  return { stat, level, ref_date, source, rows, t1: quantile(diffs, BAND_RANGES.hard[1]), t2: quantile(diffs, BAND_RANGES.easy[0]), hi: Math.max(hi, diffs[diffs.length - 1]), empty: false };
 }
 
 // 같은 isolate 안에서 자료를 잠시 기억한다(자료는 한 달에 한 번 바뀜). 문제마다 D1을 읽지 않게.
@@ -129,16 +139,16 @@ export async function loadPool(db: D1Database, stat: StatKey, level: Level, now:
   if (hit && now - hit.at < POOL_TTL_MS) return hit.pool;
   const res = await db
     .prepare(
-      `SELECT r.code AS code, COALESCE(r.display_name, r.name) AS name, v.value AS value, v.ref_date AS ref_date
+      `SELECT r.code AS code, COALESCE(r.display_name, r.name) AS name, v.value AS value, v.ref_date AS ref_date, v.source AS source
          FROM stat_values v JOIN regions r ON r.code = v.region_code
         WHERE v.stat_key = ?1 AND r.level = ?2 AND r.active = 1
           AND v.ref_date = (SELECT MAX(ref_date) FROM stat_values WHERE stat_key = ?1)
         ORDER BY r.code`,
     )
     .bind(stat, level)
-    .all<{ code: string; name: string; value: number; ref_date: string }>();
+    .all<{ code: string; name: string; value: number; ref_date: string; source: string }>();
   const rows = res.results ?? [];
-  const pool = rows.length < 2 ? null : buildPool(stat, level, rows[0].ref_date, rows.map((x) => ({ code: x.code, name: x.name, value: x.value })));
+  const pool = rows.length < 2 ? null : buildPool(stat, level, rows[0].ref_date, rows.map((x) => ({ code: x.code, name: sidoShort(x.code, level) ?? x.name, full: x.name, value: x.value })), rows[0].source ?? "");
   poolCache.set(ck, { at: now, pool });
   return pool;
 }
@@ -219,7 +229,9 @@ export function pickQuestion(pool: Pool, difficulty: Difficulty, opts: PickOptio
     difficulty: usedDifficulty,
     answer_code: winner.code,
     values: { [first.code]: first.value, [second.code]: second.value },
+    full_names: { [first.code]: first.full ?? first.name, [second.code]: second.full ?? second.name },
     ref_date: pool.ref_date,
+    source: pool.source,
   };
 }
 

@@ -1,7 +1,11 @@
 # 지역왕 게임 서버 (server/)
 
 Cloudflare Workers(작은 서버 프로그램)와 D1(Cloudflare가 주는 작은 데이터 저장소)으로 만든 게임 서버입니다.
-지금은 "서버가 켜져 있는지" 알려 주는 `GET /api/health`만 있습니다.
+창구(API):
+- `GET /api/health` — 서버·자료 상태
+- `POST /api/game/start` `{"topic":"mix|population|age|map|cars"}` — 판 시작, 1번 문제(정답 없음)
+- `POST /api/game/answer` `{"game_id","question_id","choice_code"}` — 답 내기. 답한 뒤에만 정답·두 값·출처를 알려 주고, 맞히면 `next_question`, 틀리거나 시간(15초+여유 2초)이 지나면 `game_over:true`
+- 판 기록은 하루 한 번(cron) 7일 지난 것을 지웁니다. 로컬에서는 `wrangler dev --test-scheduled` 후 `/cdn-cgi/handler/scheduled`로 시험
 
 ## 처음 한 번: 설치
 ```
