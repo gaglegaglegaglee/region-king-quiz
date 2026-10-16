@@ -1,0 +1,13 @@
+{
+  "name": "region-king-collector",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "download-raw": "node src/download-raw.mjs",
+    "build": "node src/build-regions.mjs",
+    "sql": "node src/to-sql.mjs",
+    "load-local": "npm run build && npm run sql && cd ../server && npx wrangler d1 execute DB --local --file=../data/regions.sql",
+    "test": "node --test test/*.test.mjs"
+  }
+}

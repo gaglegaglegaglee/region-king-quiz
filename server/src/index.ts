@@ -22,7 +22,7 @@ function json(body: unknown, status: number, origin: string | null): Response {
 }
 
 async function health(env: Env, origin: string | null): Promise<Response> {
-  const regions = await env.DB.prepare("SELECT COUNT(*) AS n FROM regions").first<{ n: number }>();
+  const regions = await env.DB.prepare("SELECT COUNT(*) AS n FROM regions WHERE active = 1").first<{ n: number }>();
   const metas = await env.DB.prepare(
     "SELECT stat_key, latest_ref_date FROM stat_meta ORDER BY stat_key",
   ).all<{ stat_key: string; latest_ref_date: string | null }>();
