@@ -8,6 +8,8 @@
     "build": "node src/build-regions.mjs",
     "sql": "node src/to-sql.mjs",
     "load-local": "npm run build && npm run sql && cd ../server && npx wrangler d1 execute DB --local --file=../data/regions.sql",
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs",
+    "population": "node src/fetch-population.mjs",
+    "load-population": "npm run population && cd ../server && npx wrangler d1 execute DB --local --file=../data/stats/population.sql"
   }
 }

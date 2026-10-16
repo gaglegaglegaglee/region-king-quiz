@@ -5,7 +5,7 @@ import { buildRegions, parseTsv, buildFile, DEFAULT_AS_OF } from "../src/build-r
 import { toSql } from "../src/to-sql.mjs";
 
 const raw = parseTsv(readFileSync(new URL("../../data/raw/legal-dong-sigungu.tsv", import.meta.url), "utf-8"));
-const list = buildRegions(raw); // 기본 기준일 2026-06-30
+const list = buildRegions(raw, "2026-06-30"); // 개편 전 구성(시·도 17)
 const by = (code) => list.find((r) => r.code === code);
 const byName = (n) => list.filter((r) => r.name === n);
 
@@ -136,4 +136,14 @@ test("SQL: 따옴표 처리와 목록 밖 지역 비활성화", () => {
   const sql = toSql({ source: "s", as_of: "x", raw_downloaded_at: "y", regions: [{ code: "11", name: "a'b", display_name: "a'b", level: "sido", parent_code: null }] });
   assert.match(sql, /'a''b'/);
   assert.match(sql, /UPDATE regions SET active = 0 WHERE code NOT IN \('11'\)/);
+});
+
+test("기본 기준일은 KOSIS 최신 월에 맞춘 2026-09-30 (시·도 16, 시·군·구 230, 전남광주통합·인천 신설구 포함)", () => {
+  assert.equal(DEFAULT_AS_OF, "2026-09-30");
+  const l = buildRegions(raw);
+  assert.equal(l.filter((r) => r.level === "sido").length, 16);
+  assert.equal(l.filter((r) => r.level === "sigungu").length, 230);
+  assert.equal(l.find((r) => r.code === "12").name, "전남광주통합특별시");
+  assert.equal(l.find((r) => r.code === "28155").name, "영종구");
+  assert.equal(l.find((r) => r.code === "41730"), undefined);
 });

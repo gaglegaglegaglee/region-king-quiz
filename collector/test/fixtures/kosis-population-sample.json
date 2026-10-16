@@ -1,0 +1,13 @@
+[
+{"C1_OBJ_NM":"행정구역(시군구)별","DT":"1000","C1":"00","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"전국","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"500","C1":"00","PRD_SE":"M","ITM_ID":"T21","TBL_ID":"DT_1B040A3","ITM_NM":"남자인구수","PRD_DE":"202609","C1_NM":"전국","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"400","C1":"11","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"서울특별시","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"150","C1":"11680","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"강남구","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"250","C1":"11140","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"중구","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"600","C1":"41","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"경기도","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"300","C1":"41110","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"수원시","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"100","C1":"41111","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"장안구","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"200","C1":"41113","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"권선구","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"300","C1":"41220","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"평택시","UNIT_NM":"명","ORG_ID":"101"},
+{"DT":"0","C1":"41222","PRD_SE":"M","ITM_ID":"T20","TBL_ID":"DT_1B040A3","ITM_NM":"총인구수","PRD_DE":"202609","C1_NM":"송탄출장소","UNIT_NM":"명","ORG_ID":"101"}
+]

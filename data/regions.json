@@ -3,10 +3,10 @@
  "source_url": "https://www.code.go.kr/stdcode/regCodeL.do",
  "raw_downloaded_at": "2026-10-16",
  "terms": "공공기관(행정안전부)이 공개한 행정표준코드 자료. 사이트에서 공공누리 표기를 확인하지 못했음 — 출처를 밝혀 사용하고, 공개 배포 전(S1-5) 이용 조건을 사이트 안내(코드검색 안내)에서 다시 확인할 것.",
- "as_of": "2026-06-30",
+ "as_of": "2026-09-30",
  "counts": {
-  "sido": 17,
-  "sigungu": 229
+  "sido": 16,
+  "sigungu": 230
  },
  "regions": [
   {
@@ -17,6 +17,15 @@
    "level": "sido",
    "parent_code": null,
    "legal_code": "1100000000"
+  },
+  {
+   "code": "12",
+   "name": "전남광주통합특별시",
+   "display_name": "전남광주통합특별시",
+   "short_name": "전남광주",
+   "level": "sido",
+   "parent_code": null,
+   "legal_code": "1200000000"
   },
   {
    "code": "26",
@@ -44,15 +53,6 @@
    "level": "sido",
    "parent_code": null,
    "legal_code": "2800000000"
-  },
-  {
-   "code": "29",
-   "name": "광주광역시",
-   "display_name": "광주광역시",
-   "short_name": "광주",
-   "level": "sido",
-   "parent_code": null,
-   "legal_code": "2900000000"
   },
   {
    "code": "30",
@@ -107,15 +107,6 @@
    "level": "sido",
    "parent_code": null,
    "legal_code": "4400000000"
-  },
-  {
-   "code": "46",
-   "name": "전라남도",
-   "display_name": "전라남도",
-   "short_name": "전남",
-   "level": "sido",
-   "parent_code": null,
-   "legal_code": "4600000000"
   },
   {
    "code": "47",
@@ -388,6 +379,249 @@
    "legal_code": "1174000000"
   },
   {
+   "code": "12110",
+   "name": "목포시",
+   "display_name": "목포시",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1211000000"
+  },
+  {
+   "code": "12130",
+   "name": "여수시",
+   "display_name": "여수시",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1213000000"
+  },
+  {
+   "code": "12150",
+   "name": "순천시",
+   "display_name": "순천시",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1215000000"
+  },
+  {
+   "code": "12170",
+   "name": "나주시",
+   "display_name": "나주시",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1217000000"
+  },
+  {
+   "code": "12190",
+   "name": "광양시",
+   "display_name": "광양시",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1219000000"
+  },
+  {
+   "code": "12210",
+   "name": "동구",
+   "display_name": "전남광주 동구",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1221000000"
+  },
+  {
+   "code": "12240",
+   "name": "서구",
+   "display_name": "전남광주 서구",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1224000000"
+  },
+  {
+   "code": "12270",
+   "name": "남구",
+   "display_name": "전남광주 남구",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1227000000"
+  },
+  {
+   "code": "12300",
+   "name": "북구",
+   "display_name": "전남광주 북구",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1230000000"
+  },
+  {
+   "code": "12330",
+   "name": "광산구",
+   "display_name": "광산구",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1233000000"
+  },
+  {
+   "code": "12710",
+   "name": "담양군",
+   "display_name": "담양군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1271000000"
+  },
+  {
+   "code": "12720",
+   "name": "곡성군",
+   "display_name": "곡성군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1272000000"
+  },
+  {
+   "code": "12730",
+   "name": "구례군",
+   "display_name": "구례군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1273000000"
+  },
+  {
+   "code": "12740",
+   "name": "고흥군",
+   "display_name": "고흥군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1274000000"
+  },
+  {
+   "code": "12750",
+   "name": "보성군",
+   "display_name": "보성군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1275000000"
+  },
+  {
+   "code": "12760",
+   "name": "화순군",
+   "display_name": "화순군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1276000000"
+  },
+  {
+   "code": "12770",
+   "name": "장흥군",
+   "display_name": "장흥군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1277000000"
+  },
+  {
+   "code": "12780",
+   "name": "강진군",
+   "display_name": "강진군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1278000000"
+  },
+  {
+   "code": "12790",
+   "name": "해남군",
+   "display_name": "해남군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1279000000"
+  },
+  {
+   "code": "12800",
+   "name": "영암군",
+   "display_name": "영암군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1280000000"
+  },
+  {
+   "code": "12810",
+   "name": "무안군",
+   "display_name": "무안군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1281000000"
+  },
+  {
+   "code": "12820",
+   "name": "함평군",
+   "display_name": "함평군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1282000000"
+  },
+  {
+   "code": "12830",
+   "name": "영광군",
+   "display_name": "영광군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1283000000"
+  },
+  {
+   "code": "12840",
+   "name": "장성군",
+   "display_name": "장성군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1284000000"
+  },
+  {
+   "code": "12850",
+   "name": "완도군",
+   "display_name": "완도군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1285000000"
+  },
+  {
+   "code": "12860",
+   "name": "진도군",
+   "display_name": "진도군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1286000000"
+  },
+  {
+   "code": "12870",
+   "name": "신안군",
+   "display_name": "신안군",
+   "short_name": "전남광주",
+   "level": "sigungu",
+   "parent_code": "12",
+   "legal_code": "1287000000"
+  },
+  {
    "code": "26110",
    "name": "중구",
    "display_name": "부산 중구",
@@ -613,22 +847,22 @@
    "legal_code": "2772000000"
   },
   {
-   "code": "28110",
-   "name": "중구",
-   "display_name": "인천 중구",
+   "code": "28125",
+   "name": "제물포구",
+   "display_name": "제물포구",
    "short_name": "인천",
    "level": "sigungu",
    "parent_code": "28",
-   "legal_code": "2811000000"
+   "legal_code": "2812500000"
   },
   {
-   "code": "28140",
-   "name": "동구",
-   "display_name": "인천 동구",
+   "code": "28155",
+   "name": "영종구",
+   "display_name": "영종구",
    "short_name": "인천",
    "level": "sigungu",
    "parent_code": "28",
-   "legal_code": "2814000000"
+   "legal_code": "2815500000"
   },
   {
    "code": "28177",
@@ -676,13 +910,22 @@
    "legal_code": "2824500000"
   },
   {
-   "code": "28260",
-   "name": "서구",
-   "display_name": "인천 서구",
+   "code": "28275",
+   "name": "서해구",
+   "display_name": "서해구",
    "short_name": "인천",
    "level": "sigungu",
    "parent_code": "28",
-   "legal_code": "2826000000"
+   "legal_code": "2827500000"
+  },
+  {
+   "code": "28290",
+   "name": "검단구",
+   "display_name": "검단구",
+   "short_name": "인천",
+   "level": "sigungu",
+   "parent_code": "28",
+   "legal_code": "2829000000"
   },
   {
    "code": "28710",
@@ -701,51 +944,6 @@
    "level": "sigungu",
    "parent_code": "28",
    "legal_code": "2872000000"
-  },
-  {
-   "code": "29110",
-   "name": "동구",
-   "display_name": "광주 동구",
-   "short_name": "광주",
-   "level": "sigungu",
-   "parent_code": "29",
-   "legal_code": "2911000000"
-  },
-  {
-   "code": "29140",
-   "name": "서구",
-   "display_name": "광주 서구",
-   "short_name": "광주",
-   "level": "sigungu",
-   "parent_code": "29",
-   "legal_code": "2914000000"
-  },
-  {
-   "code": "29155",
-   "name": "남구",
-   "display_name": "광주 남구",
-   "short_name": "광주",
-   "level": "sigungu",
-   "parent_code": "29",
-   "legal_code": "2915500000"
-  },
-  {
-   "code": "29170",
-   "name": "북구",
-   "display_name": "광주 북구",
-   "short_name": "광주",
-   "level": "sigungu",
-   "parent_code": "29",
-   "legal_code": "2917000000"
-  },
-  {
-   "code": "29200",
-   "name": "광산구",
-   "display_name": "광산구",
-   "short_name": "광주",
-   "level": "sigungu",
-   "parent_code": "29",
-   "legal_code": "2920000000"
   },
   {
    "code": "30110",
@@ -1409,204 +1607,6 @@
    "level": "sigungu",
    "parent_code": "44",
    "legal_code": "4482500000"
-  },
-  {
-   "code": "46110",
-   "name": "목포시",
-   "display_name": "목포시",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4611000000"
-  },
-  {
-   "code": "46130",
-   "name": "여수시",
-   "display_name": "여수시",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4613000000"
-  },
-  {
-   "code": "46150",
-   "name": "순천시",
-   "display_name": "순천시",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4615000000"
-  },
-  {
-   "code": "46170",
-   "name": "나주시",
-   "display_name": "나주시",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4617000000"
-  },
-  {
-   "code": "46230",
-   "name": "광양시",
-   "display_name": "광양시",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4623000000"
-  },
-  {
-   "code": "46710",
-   "name": "담양군",
-   "display_name": "담양군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4671000000"
-  },
-  {
-   "code": "46720",
-   "name": "곡성군",
-   "display_name": "곡성군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4672000000"
-  },
-  {
-   "code": "46730",
-   "name": "구례군",
-   "display_name": "구례군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4673000000"
-  },
-  {
-   "code": "46770",
-   "name": "고흥군",
-   "display_name": "고흥군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4677000000"
-  },
-  {
-   "code": "46780",
-   "name": "보성군",
-   "display_name": "보성군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4678000000"
-  },
-  {
-   "code": "46790",
-   "name": "화순군",
-   "display_name": "화순군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4679000000"
-  },
-  {
-   "code": "46800",
-   "name": "장흥군",
-   "display_name": "장흥군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4680000000"
-  },
-  {
-   "code": "46810",
-   "name": "강진군",
-   "display_name": "강진군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4681000000"
-  },
-  {
-   "code": "46820",
-   "name": "해남군",
-   "display_name": "해남군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4682000000"
-  },
-  {
-   "code": "46830",
-   "name": "영암군",
-   "display_name": "영암군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4683000000"
-  },
-  {
-   "code": "46840",
-   "name": "무안군",
-   "display_name": "무안군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4684000000"
-  },
-  {
-   "code": "46860",
-   "name": "함평군",
-   "display_name": "함평군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4686000000"
-  },
-  {
-   "code": "46870",
-   "name": "영광군",
-   "display_name": "영광군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4687000000"
-  },
-  {
-   "code": "46880",
-   "name": "장성군",
-   "display_name": "장성군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4688000000"
-  },
-  {
-   "code": "46890",
-   "name": "완도군",
-   "display_name": "완도군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4689000000"
-  },
-  {
-   "code": "46900",
-   "name": "진도군",
-   "display_name": "진도군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4690000000"
-  },
-  {
-   "code": "46910",
-   "name": "신안군",
-   "display_name": "신안군",
-   "short_name": "전남",
-   "level": "sigungu",
-   "parent_code": "46",
-   "legal_code": "4691000000"
   },
   {
    "code": "47110",

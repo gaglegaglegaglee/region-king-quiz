@@ -1,5 +1,5 @@
 // 법정동코드 원본(data/raw/legal-dong-sigungu.tsv) → 게임용 지역 목록(data/regions.json)
-// 사용법: node src/build-regions.mjs [기준일 YYYY-MM-DD]   (기본 2026-06-30)
+// 사용법: node src/build-regions.mjs [기준일 YYYY-MM-DD]   (기본 2026-09-30)
 //
 // 규칙
 //  - 기준일에 "있는" 코드만 쓴다: 생성일 <= 기준일 이고, 폐지일이 없거나 기준일보다 뒤.
@@ -9,7 +9,7 @@
 //  - 이름이 같은 시·군·구(중구, 동구…)는 display_name 에 시·도 약칭을 붙인다("서울 중구").
 import { readFileSync, writeFileSync } from "node:fs";
 
-export const DEFAULT_AS_OF = "2026-06-30";
+export const DEFAULT_AS_OF = "2026-09-30"; // KOSIS 최신 월(2026-09)이 2026-07-01 개편 이후 구성이라 맞춤
 
 const SHORT = {
   서울특별시: "서울", 부산광역시: "부산", 대구광역시: "대구", 인천광역시: "인천", 광주광역시: "광주",

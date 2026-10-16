@@ -1,0 +1,1487 @@
+{
+ "note": "KOSIS 지역 코드 ↔ 우리 지역 코드. 통계표마다 코드 체계가 다를 수 있어 표별로 보관한다.",
+ "tables": {
+  "101/DT_1B040A3": {
+   "built_for_ref_date": "2026-09",
+   "regions_as_of": "2026-09-30",
+   "map": {
+    "11": {
+     "code": "11",
+     "kosis_name": "서울특별시",
+     "name": "서울특별시",
+     "method": "code+name"
+    },
+    "12": {
+     "code": "12",
+     "kosis_name": "전남광주통합특별시",
+     "name": "전남광주통합특별시",
+     "method": "code+name"
+    },
+    "26": {
+     "code": "26",
+     "kosis_name": "부산광역시",
+     "name": "부산광역시",
+     "method": "code+name"
+    },
+    "27": {
+     "code": "27",
+     "kosis_name": "대구광역시",
+     "name": "대구광역시",
+     "method": "code+name"
+    },
+    "28": {
+     "code": "28",
+     "kosis_name": "인천광역시",
+     "name": "인천광역시",
+     "method": "code+name"
+    },
+    "30": {
+     "code": "30",
+     "kosis_name": "대전광역시",
+     "name": "대전광역시",
+     "method": "code+name"
+    },
+    "31": {
+     "code": "31",
+     "kosis_name": "울산광역시",
+     "name": "울산광역시",
+     "method": "code+name"
+    },
+    "36": {
+     "code": "36",
+     "kosis_name": "세종특별자치시",
+     "name": "세종특별자치시",
+     "method": "code+name"
+    },
+    "41": {
+     "code": "41",
+     "kosis_name": "경기도",
+     "name": "경기도",
+     "method": "code+name"
+    },
+    "43": {
+     "code": "43",
+     "kosis_name": "충청북도",
+     "name": "충청북도",
+     "method": "code+name"
+    },
+    "44": {
+     "code": "44",
+     "kosis_name": "충청남도",
+     "name": "충청남도",
+     "method": "code+name"
+    },
+    "47": {
+     "code": "47",
+     "kosis_name": "경상북도",
+     "name": "경상북도",
+     "method": "code+name"
+    },
+    "48": {
+     "code": "48",
+     "kosis_name": "경상남도",
+     "name": "경상남도",
+     "method": "code+name"
+    },
+    "50": {
+     "code": "50",
+     "kosis_name": "제주특별자치도",
+     "name": "제주특별자치도",
+     "method": "code+name"
+    },
+    "51": {
+     "code": "51",
+     "kosis_name": "강원특별자치도",
+     "name": "강원특별자치도",
+     "method": "code+name"
+    },
+    "52": {
+     "code": "52",
+     "kosis_name": "전북특별자치도",
+     "name": "전북특별자치도",
+     "method": "code+name"
+    },
+    "11110": {
+     "code": "11110",
+     "kosis_name": "종로구",
+     "name": "종로구",
+     "method": "code+name"
+    },
+    "11140": {
+     "code": "11140",
+     "kosis_name": "중구",
+     "name": "중구",
+     "method": "code+name"
+    },
+    "11170": {
+     "code": "11170",
+     "kosis_name": "용산구",
+     "name": "용산구",
+     "method": "code+name"
+    },
+    "11200": {
+     "code": "11200",
+     "kosis_name": "성동구",
+     "name": "성동구",
+     "method": "code+name"
+    },
+    "11215": {
+     "code": "11215",
+     "kosis_name": "광진구",
+     "name": "광진구",
+     "method": "code+name"
+    },
+    "11230": {
+     "code": "11230",
+     "kosis_name": "동대문구",
+     "name": "동대문구",
+     "method": "code+name"
+    },
+    "11260": {
+     "code": "11260",
+     "kosis_name": "중랑구",
+     "name": "중랑구",
+     "method": "code+name"
+    },
+    "11290": {
+     "code": "11290",
+     "kosis_name": "성북구",
+     "name": "성북구",
+     "method": "code+name"
+    },
+    "11305": {
+     "code": "11305",
+     "kosis_name": "강북구",
+     "name": "강북구",
+     "method": "code+name"
+    },
+    "11320": {
+     "code": "11320",
+     "kosis_name": "도봉구",
+     "name": "도봉구",
+     "method": "code+name"
+    },
+    "11350": {
+     "code": "11350",
+     "kosis_name": "노원구",
+     "name": "노원구",
+     "method": "code+name"
+    },
+    "11380": {
+     "code": "11380",
+     "kosis_name": "은평구",
+     "name": "은평구",
+     "method": "code+name"
+    },
+    "11410": {
+     "code": "11410",
+     "kosis_name": "서대문구",
+     "name": "서대문구",
+     "method": "code+name"
+    },
+    "11440": {
+     "code": "11440",
+     "kosis_name": "마포구",
+     "name": "마포구",
+     "method": "code+name"
+    },
+    "11470": {
+     "code": "11470",
+     "kosis_name": "양천구",
+     "name": "양천구",
+     "method": "code+name"
+    },
+    "11500": {
+     "code": "11500",
+     "kosis_name": "강서구",
+     "name": "강서구",
+     "method": "code+name"
+    },
+    "11530": {
+     "code": "11530",
+     "kosis_name": "구로구",
+     "name": "구로구",
+     "method": "code+name"
+    },
+    "11545": {
+     "code": "11545",
+     "kosis_name": "금천구",
+     "name": "금천구",
+     "method": "code+name"
+    },
+    "11560": {
+     "code": "11560",
+     "kosis_name": "영등포구",
+     "name": "영등포구",
+     "method": "code+name"
+    },
+    "11590": {
+     "code": "11590",
+     "kosis_name": "동작구",
+     "name": "동작구",
+     "method": "code+name"
+    },
+    "11620": {
+     "code": "11620",
+     "kosis_name": "관악구",
+     "name": "관악구",
+     "method": "code+name"
+    },
+    "11650": {
+     "code": "11650",
+     "kosis_name": "서초구",
+     "name": "서초구",
+     "method": "code+name"
+    },
+    "11680": {
+     "code": "11680",
+     "kosis_name": "강남구",
+     "name": "강남구",
+     "method": "code+name"
+    },
+    "11710": {
+     "code": "11710",
+     "kosis_name": "송파구",
+     "name": "송파구",
+     "method": "code+name"
+    },
+    "11740": {
+     "code": "11740",
+     "kosis_name": "강동구",
+     "name": "강동구",
+     "method": "code+name"
+    },
+    "12110": {
+     "code": "12110",
+     "kosis_name": "목포시",
+     "name": "목포시",
+     "method": "code+name"
+    },
+    "12130": {
+     "code": "12130",
+     "kosis_name": "여수시",
+     "name": "여수시",
+     "method": "code+name"
+    },
+    "12150": {
+     "code": "12150",
+     "kosis_name": "순천시",
+     "name": "순천시",
+     "method": "code+name"
+    },
+    "12170": {
+     "code": "12170",
+     "kosis_name": "나주시",
+     "name": "나주시",
+     "method": "code+name"
+    },
+    "12190": {
+     "code": "12190",
+     "kosis_name": "광양시",
+     "name": "광양시",
+     "method": "code+name"
+    },
+    "12210": {
+     "code": "12210",
+     "kosis_name": "동구",
+     "name": "동구",
+     "method": "code+name"
+    },
+    "12240": {
+     "code": "12240",
+     "kosis_name": "서구",
+     "name": "서구",
+     "method": "code+name"
+    },
+    "12270": {
+     "code": "12270",
+     "kosis_name": "남구",
+     "name": "남구",
+     "method": "code+name"
+    },
+    "12300": {
+     "code": "12300",
+     "kosis_name": "북구",
+     "name": "북구",
+     "method": "code+name"
+    },
+    "12330": {
+     "code": "12330",
+     "kosis_name": "광산구",
+     "name": "광산구",
+     "method": "code+name"
+    },
+    "12710": {
+     "code": "12710",
+     "kosis_name": "담양군",
+     "name": "담양군",
+     "method": "code+name"
+    },
+    "12720": {
+     "code": "12720",
+     "kosis_name": "곡성군",
+     "name": "곡성군",
+     "method": "code+name"
+    },
+    "12730": {
+     "code": "12730",
+     "kosis_name": "구례군",
+     "name": "구례군",
+     "method": "code+name"
+    },
+    "12740": {
+     "code": "12740",
+     "kosis_name": "고흥군",
+     "name": "고흥군",
+     "method": "code+name"
+    },
+    "12750": {
+     "code": "12750",
+     "kosis_name": "보성군",
+     "name": "보성군",
+     "method": "code+name"
+    },
+    "12760": {
+     "code": "12760",
+     "kosis_name": "화순군",
+     "name": "화순군",
+     "method": "code+name"
+    },
+    "12770": {
+     "code": "12770",
+     "kosis_name": "장흥군",
+     "name": "장흥군",
+     "method": "code+name"
+    },
+    "12780": {
+     "code": "12780",
+     "kosis_name": "강진군",
+     "name": "강진군",
+     "method": "code+name"
+    },
+    "12790": {
+     "code": "12790",
+     "kosis_name": "해남군",
+     "name": "해남군",
+     "method": "code+name"
+    },
+    "12800": {
+     "code": "12800",
+     "kosis_name": "영암군",
+     "name": "영암군",
+     "method": "code+name"
+    },
+    "12810": {
+     "code": "12810",
+     "kosis_name": "무안군",
+     "name": "무안군",
+     "method": "code+name"
+    },
+    "12820": {
+     "code": "12820",
+     "kosis_name": "함평군",
+     "name": "함평군",
+     "method": "code+name"
+    },
+    "12830": {
+     "code": "12830",
+     "kosis_name": "영광군",
+     "name": "영광군",
+     "method": "code+name"
+    },
+    "12840": {
+     "code": "12840",
+     "kosis_name": "장성군",
+     "name": "장성군",
+     "method": "code+name"
+    },
+    "12850": {
+     "code": "12850",
+     "kosis_name": "완도군",
+     "name": "완도군",
+     "method": "code+name"
+    },
+    "12860": {
+     "code": "12860",
+     "kosis_name": "진도군",
+     "name": "진도군",
+     "method": "code+name"
+    },
+    "12870": {
+     "code": "12870",
+     "kosis_name": "신안군",
+     "name": "신안군",
+     "method": "code+name"
+    },
+    "26110": {
+     "code": "26110",
+     "kosis_name": "중구",
+     "name": "중구",
+     "method": "code+name"
+    },
+    "26140": {
+     "code": "26140",
+     "kosis_name": "서구",
+     "name": "서구",
+     "method": "code+name"
+    },
+    "26170": {
+     "code": "26170",
+     "kosis_name": "동구",
+     "name": "동구",
+     "method": "code+name"
+    },
+    "26200": {
+     "code": "26200",
+     "kosis_name": "영도구",
+     "name": "영도구",
+     "method": "code+name"
+    },
+    "26230": {
+     "code": "26230",
+     "kosis_name": "부산진구",
+     "name": "부산진구",
+     "method": "code+name"
+    },
+    "26260": {
+     "code": "26260",
+     "kosis_name": "동래구",
+     "name": "동래구",
+     "method": "code+name"
+    },
+    "26290": {
+     "code": "26290",
+     "kosis_name": "남구",
+     "name": "남구",
+     "method": "code+name"
+    },
+    "26320": {
+     "code": "26320",
+     "kosis_name": "북구",
+     "name": "북구",
+     "method": "code+name"
+    },
+    "26350": {
+     "code": "26350",
+     "kosis_name": "해운대구",
+     "name": "해운대구",
+     "method": "code+name"
+    },
+    "26380": {
+     "code": "26380",
+     "kosis_name": "사하구",
+     "name": "사하구",
+     "method": "code+name"
+    },
+    "26410": {
+     "code": "26410",
+     "kosis_name": "금정구",
+     "name": "금정구",
+     "method": "code+name"
+    },
+    "26440": {
+     "code": "26440",
+     "kosis_name": "강서구",
+     "name": "강서구",
+     "method": "code+name"
+    },
+    "26470": {
+     "code": "26470",
+     "kosis_name": "연제구",
+     "name": "연제구",
+     "method": "code+name"
+    },
+    "26500": {
+     "code": "26500",
+     "kosis_name": "수영구",
+     "name": "수영구",
+     "method": "code+name"
+    },
+    "26530": {
+     "code": "26530",
+     "kosis_name": "사상구",
+     "name": "사상구",
+     "method": "code+name"
+    },
+    "26710": {
+     "code": "26710",
+     "kosis_name": "기장군",
+     "name": "기장군",
+     "method": "code+name"
+    },
+    "27110": {
+     "code": "27110",
+     "kosis_name": "중구",
+     "name": "중구",
+     "method": "code+name"
+    },
+    "27140": {
+     "code": "27140",
+     "kosis_name": "동구",
+     "name": "동구",
+     "method": "code+name"
+    },
+    "27170": {
+     "code": "27170",
+     "kosis_name": "서구",
+     "name": "서구",
+     "method": "code+name"
+    },
+    "27200": {
+     "code": "27200",
+     "kosis_name": "남구",
+     "name": "남구",
+     "method": "code+name"
+    },
+    "27230": {
+     "code": "27230",
+     "kosis_name": "북구",
+     "name": "북구",
+     "method": "code+name"
+    },
+    "27260": {
+     "code": "27260",
+     "kosis_name": "수성구",
+     "name": "수성구",
+     "method": "code+name"
+    },
+    "27290": {
+     "code": "27290",
+     "kosis_name": "달서구",
+     "name": "달서구",
+     "method": "code+name"
+    },
+    "27710": {
+     "code": "27710",
+     "kosis_name": "달성군",
+     "name": "달성군",
+     "method": "code+name"
+    },
+    "27720": {
+     "code": "27720",
+     "kosis_name": "군위군",
+     "name": "군위군",
+     "method": "code+name"
+    },
+    "28125": {
+     "code": "28125",
+     "kosis_name": "제물포구",
+     "name": "제물포구",
+     "method": "code+name"
+    },
+    "28155": {
+     "code": "28155",
+     "kosis_name": "영종구",
+     "name": "영종구",
+     "method": "code+name"
+    },
+    "28177": {
+     "code": "28177",
+     "kosis_name": "미추홀구",
+     "name": "미추홀구",
+     "method": "code+name"
+    },
+    "28185": {
+     "code": "28185",
+     "kosis_name": "연수구",
+     "name": "연수구",
+     "method": "code+name"
+    },
+    "28200": {
+     "code": "28200",
+     "kosis_name": "남동구",
+     "name": "남동구",
+     "method": "code+name"
+    },
+    "28237": {
+     "code": "28237",
+     "kosis_name": "부평구",
+     "name": "부평구",
+     "method": "code+name"
+    },
+    "28245": {
+     "code": "28245",
+     "kosis_name": "계양구",
+     "name": "계양구",
+     "method": "code+name"
+    },
+    "28275": {
+     "code": "28275",
+     "kosis_name": "서해구",
+     "name": "서해구",
+     "method": "code+name"
+    },
+    "28290": {
+     "code": "28290",
+     "kosis_name": "검단구",
+     "name": "검단구",
+     "method": "code+name"
+    },
+    "28710": {
+     "code": "28710",
+     "kosis_name": "강화군",
+     "name": "강화군",
+     "method": "code+name"
+    },
+    "28720": {
+     "code": "28720",
+     "kosis_name": "옹진군",
+     "name": "옹진군",
+     "method": "code+name"
+    },
+    "30110": {
+     "code": "30110",
+     "kosis_name": "동구",
+     "name": "동구",
+     "method": "code+name"
+    },
+    "30140": {
+     "code": "30140",
+     "kosis_name": "중구",
+     "name": "중구",
+     "method": "code+name"
+    },
+    "30170": {
+     "code": "30170",
+     "kosis_name": "서구",
+     "name": "서구",
+     "method": "code+name"
+    },
+    "30200": {
+     "code": "30200",
+     "kosis_name": "유성구",
+     "name": "유성구",
+     "method": "code+name"
+    },
+    "30230": {
+     "code": "30230",
+     "kosis_name": "대덕구",
+     "name": "대덕구",
+     "method": "code+name"
+    },
+    "31110": {
+     "code": "31110",
+     "kosis_name": "중구",
+     "name": "중구",
+     "method": "code+name"
+    },
+    "31140": {
+     "code": "31140",
+     "kosis_name": "남구",
+     "name": "남구",
+     "method": "code+name"
+    },
+    "31170": {
+     "code": "31170",
+     "kosis_name": "동구",
+     "name": "동구",
+     "method": "code+name"
+    },
+    "31200": {
+     "code": "31200",
+     "kosis_name": "북구",
+     "name": "북구",
+     "method": "code+name"
+    },
+    "31710": {
+     "code": "31710",
+     "kosis_name": "울주군",
+     "name": "울주군",
+     "method": "code+name"
+    },
+    "36110": {
+     "code": "36110",
+     "kosis_name": "세종시",
+     "name": "세종시",
+     "method": "code+name"
+    },
+    "41110": {
+     "code": "41110",
+     "kosis_name": "수원시",
+     "name": "수원시",
+     "method": "code+name"
+    },
+    "41130": {
+     "code": "41130",
+     "kosis_name": "성남시",
+     "name": "성남시",
+     "method": "code+name"
+    },
+    "41150": {
+     "code": "41150",
+     "kosis_name": "의정부시",
+     "name": "의정부시",
+     "method": "code+name"
+    },
+    "41170": {
+     "code": "41170",
+     "kosis_name": "안양시",
+     "name": "안양시",
+     "method": "code+name"
+    },
+    "41190": {
+     "code": "41190",
+     "kosis_name": "부천시",
+     "name": "부천시",
+     "method": "code+name"
+    },
+    "41210": {
+     "code": "41210",
+     "kosis_name": "광명시",
+     "name": "광명시",
+     "method": "code+name"
+    },
+    "41220": {
+     "code": "41220",
+     "kosis_name": "평택시",
+     "name": "평택시",
+     "method": "code+name"
+    },
+    "41250": {
+     "code": "41250",
+     "kosis_name": "동두천시",
+     "name": "동두천시",
+     "method": "code+name"
+    },
+    "41270": {
+     "code": "41270",
+     "kosis_name": "안산시",
+     "name": "안산시",
+     "method": "code+name"
+    },
+    "41280": {
+     "code": "41280",
+     "kosis_name": "고양시",
+     "name": "고양시",
+     "method": "code+name"
+    },
+    "41290": {
+     "code": "41290",
+     "kosis_name": "과천시",
+     "name": "과천시",
+     "method": "code+name"
+    },
+    "41310": {
+     "code": "41310",
+     "kosis_name": "구리시",
+     "name": "구리시",
+     "method": "code+name"
+    },
+    "41360": {
+     "code": "41360",
+     "kosis_name": "남양주시",
+     "name": "남양주시",
+     "method": "code+name"
+    },
+    "41370": {
+     "code": "41370",
+     "kosis_name": "오산시",
+     "name": "오산시",
+     "method": "code+name"
+    },
+    "41390": {
+     "code": "41390",
+     "kosis_name": "시흥시",
+     "name": "시흥시",
+     "method": "code+name"
+    },
+    "41410": {
+     "code": "41410",
+     "kosis_name": "군포시",
+     "name": "군포시",
+     "method": "code+name"
+    },
+    "41430": {
+     "code": "41430",
+     "kosis_name": "의왕시",
+     "name": "의왕시",
+     "method": "code+name"
+    },
+    "41450": {
+     "code": "41450",
+     "kosis_name": "하남시",
+     "name": "하남시",
+     "method": "code+name"
+    },
+    "41460": {
+     "code": "41460",
+     "kosis_name": "용인시",
+     "name": "용인시",
+     "method": "code+name"
+    },
+    "41480": {
+     "code": "41480",
+     "kosis_name": "파주시",
+     "name": "파주시",
+     "method": "code+name"
+    },
+    "41500": {
+     "code": "41500",
+     "kosis_name": "이천시",
+     "name": "이천시",
+     "method": "code+name"
+    },
+    "41550": {
+     "code": "41550",
+     "kosis_name": "안성시",
+     "name": "안성시",
+     "method": "code+name"
+    },
+    "41570": {
+     "code": "41570",
+     "kosis_name": "김포시",
+     "name": "김포시",
+     "method": "code+name"
+    },
+    "41590": {
+     "code": "41590",
+     "kosis_name": "화성시",
+     "name": "화성시",
+     "method": "code+name"
+    },
+    "41610": {
+     "code": "41610",
+     "kosis_name": "광주시",
+     "name": "광주시",
+     "method": "code+name"
+    },
+    "41630": {
+     "code": "41630",
+     "kosis_name": "양주시",
+     "name": "양주시",
+     "method": "code+name"
+    },
+    "41650": {
+     "code": "41650",
+     "kosis_name": "포천시",
+     "name": "포천시",
+     "method": "code+name"
+    },
+    "41670": {
+     "code": "41670",
+     "kosis_name": "여주시",
+     "name": "여주시",
+     "method": "code+name"
+    },
+    "41800": {
+     "code": "41800",
+     "kosis_name": "연천군",
+     "name": "연천군",
+     "method": "code+name"
+    },
+    "41820": {
+     "code": "41820",
+     "kosis_name": "가평군",
+     "name": "가평군",
+     "method": "code+name"
+    },
+    "41830": {
+     "code": "41830",
+     "kosis_name": "양평군",
+     "name": "양평군",
+     "method": "code+name"
+    },
+    "43110": {
+     "code": "43110",
+     "kosis_name": "청주시",
+     "name": "청주시",
+     "method": "code+name"
+    },
+    "43130": {
+     "code": "43130",
+     "kosis_name": "충주시",
+     "name": "충주시",
+     "method": "code+name"
+    },
+    "43150": {
+     "code": "43150",
+     "kosis_name": "제천시",
+     "name": "제천시",
+     "method": "code+name"
+    },
+    "43720": {
+     "code": "43720",
+     "kosis_name": "보은군",
+     "name": "보은군",
+     "method": "code+name"
+    },
+    "43730": {
+     "code": "43730",
+     "kosis_name": "옥천군",
+     "name": "옥천군",
+     "method": "code+name"
+    },
+    "43740": {
+     "code": "43740",
+     "kosis_name": "영동군",
+     "name": "영동군",
+     "method": "code+name"
+    },
+    "43745": {
+     "code": "43745",
+     "kosis_name": "증평군",
+     "name": "증평군",
+     "method": "code+name"
+    },
+    "43750": {
+     "code": "43750",
+     "kosis_name": "진천군",
+     "name": "진천군",
+     "method": "code+name"
+    },
+    "43760": {
+     "code": "43760",
+     "kosis_name": "괴산군",
+     "name": "괴산군",
+     "method": "code+name"
+    },
+    "43770": {
+     "code": "43770",
+     "kosis_name": "음성군",
+     "name": "음성군",
+     "method": "code+name"
+    },
+    "43800": {
+     "code": "43800",
+     "kosis_name": "단양군",
+     "name": "단양군",
+     "method": "code+name"
+    },
+    "44130": {
+     "code": "44130",
+     "kosis_name": "천안시",
+     "name": "천안시",
+     "method": "code+name"
+    },
+    "44150": {
+     "code": "44150",
+     "kosis_name": "공주시",
+     "name": "공주시",
+     "method": "code+name"
+    },
+    "44180": {
+     "code": "44180",
+     "kosis_name": "보령시",
+     "name": "보령시",
+     "method": "code+name"
+    },
+    "44200": {
+     "code": "44200",
+     "kosis_name": "아산시",
+     "name": "아산시",
+     "method": "code+name"
+    },
+    "44210": {
+     "code": "44210",
+     "kosis_name": "서산시",
+     "name": "서산시",
+     "method": "code+name"
+    },
+    "44230": {
+     "code": "44230",
+     "kosis_name": "논산시",
+     "name": "논산시",
+     "method": "code+name"
+    },
+    "44250": {
+     "code": "44250",
+     "kosis_name": "계룡시",
+     "name": "계룡시",
+     "method": "code+name"
+    },
+    "44270": {
+     "code": "44270",
+     "kosis_name": "당진시",
+     "name": "당진시",
+     "method": "code+name"
+    },
+    "44710": {
+     "code": "44710",
+     "kosis_name": "금산군",
+     "name": "금산군",
+     "method": "code+name"
+    },
+    "44760": {
+     "code": "44760",
+     "kosis_name": "부여군",
+     "name": "부여군",
+     "method": "code+name"
+    },
+    "44770": {
+     "code": "44770",
+     "kosis_name": "서천군",
+     "name": "서천군",
+     "method": "code+name"
+    },
+    "44790": {
+     "code": "44790",
+     "kosis_name": "청양군",
+     "name": "청양군",
+     "method": "code+name"
+    },
+    "44800": {
+     "code": "44800",
+     "kosis_name": "홍성군",
+     "name": "홍성군",
+     "method": "code+name"
+    },
+    "44810": {
+     "code": "44810",
+     "kosis_name": "예산군",
+     "name": "예산군",
+     "method": "code+name"
+    },
+    "44825": {
+     "code": "44825",
+     "kosis_name": "태안군",
+     "name": "태안군",
+     "method": "code+name"
+    },
+    "47110": {
+     "code": "47110",
+     "kosis_name": "포항시",
+     "name": "포항시",
+     "method": "code+name"
+    },
+    "47130": {
+     "code": "47130",
+     "kosis_name": "경주시",
+     "name": "경주시",
+     "method": "code+name"
+    },
+    "47150": {
+     "code": "47150",
+     "kosis_name": "김천시",
+     "name": "김천시",
+     "method": "code+name"
+    },
+    "47170": {
+     "code": "47170",
+     "kosis_name": "안동시",
+     "name": "안동시",
+     "method": "code+name"
+    },
+    "47190": {
+     "code": "47190",
+     "kosis_name": "구미시",
+     "name": "구미시",
+     "method": "code+name"
+    },
+    "47210": {
+     "code": "47210",
+     "kosis_name": "영주시",
+     "name": "영주시",
+     "method": "code+name"
+    },
+    "47230": {
+     "code": "47230",
+     "kosis_name": "영천시",
+     "name": "영천시",
+     "method": "code+name"
+    },
+    "47250": {
+     "code": "47250",
+     "kosis_name": "상주시",
+     "name": "상주시",
+     "method": "code+name"
+    },
+    "47280": {
+     "code": "47280",
+     "kosis_name": "문경시",
+     "name": "문경시",
+     "method": "code+name"
+    },
+    "47290": {
+     "code": "47290",
+     "kosis_name": "경산시",
+     "name": "경산시",
+     "method": "code+name"
+    },
+    "47730": {
+     "code": "47730",
+     "kosis_name": "의성군",
+     "name": "의성군",
+     "method": "code+name"
+    },
+    "47750": {
+     "code": "47750",
+     "kosis_name": "청송군",
+     "name": "청송군",
+     "method": "code+name"
+    },
+    "47760": {
+     "code": "47760",
+     "kosis_name": "영양군",
+     "name": "영양군",
+     "method": "code+name"
+    },
+    "47770": {
+     "code": "47770",
+     "kosis_name": "영덕군",
+     "name": "영덕군",
+     "method": "code+name"
+    },
+    "47820": {
+     "code": "47820",
+     "kosis_name": "청도군",
+     "name": "청도군",
+     "method": "code+name"
+    },
+    "47830": {
+     "code": "47830",
+     "kosis_name": "고령군",
+     "name": "고령군",
+     "method": "code+name"
+    },
+    "47840": {
+     "code": "47840",
+     "kosis_name": "성주군",
+     "name": "성주군",
+     "method": "code+name"
+    },
+    "47850": {
+     "code": "47850",
+     "kosis_name": "칠곡군",
+     "name": "칠곡군",
+     "method": "code+name"
+    },
+    "47900": {
+     "code": "47900",
+     "kosis_name": "예천군",
+     "name": "예천군",
+     "method": "code+name"
+    },
+    "47920": {
+     "code": "47920",
+     "kosis_name": "봉화군",
+     "name": "봉화군",
+     "method": "code+name"
+    },
+    "47930": {
+     "code": "47930",
+     "kosis_name": "울진군",
+     "name": "울진군",
+     "method": "code+name"
+    },
+    "47940": {
+     "code": "47940",
+     "kosis_name": "울릉군",
+     "name": "울릉군",
+     "method": "code+name"
+    },
+    "48120": {
+     "code": "48120",
+     "kosis_name": "창원시",
+     "name": "창원시",
+     "method": "code+name"
+    },
+    "48170": {
+     "code": "48170",
+     "kosis_name": "진주시",
+     "name": "진주시",
+     "method": "code+name"
+    },
+    "48220": {
+     "code": "48220",
+     "kosis_name": "통영시",
+     "name": "통영시",
+     "method": "code+name"
+    },
+    "48240": {
+     "code": "48240",
+     "kosis_name": "사천시",
+     "name": "사천시",
+     "method": "code+name"
+    },
+    "48250": {
+     "code": "48250",
+     "kosis_name": "김해시",
+     "name": "김해시",
+     "method": "code+name"
+    },
+    "48270": {
+     "code": "48270",
+     "kosis_name": "밀양시",
+     "name": "밀양시",
+     "method": "code+name"
+    },
+    "48310": {
+     "code": "48310",
+     "kosis_name": "거제시",
+     "name": "거제시",
+     "method": "code+name"
+    },
+    "48330": {
+     "code": "48330",
+     "kosis_name": "양산시",
+     "name": "양산시",
+     "method": "code+name"
+    },
+    "48720": {
+     "code": "48720",
+     "kosis_name": "의령군",
+     "name": "의령군",
+     "method": "code+name"
+    },
+    "48730": {
+     "code": "48730",
+     "kosis_name": "함안군",
+     "name": "함안군",
+     "method": "code+name"
+    },
+    "48740": {
+     "code": "48740",
+     "kosis_name": "창녕군",
+     "name": "창녕군",
+     "method": "code+name"
+    },
+    "48820": {
+     "code": "48820",
+     "kosis_name": "고성군",
+     "name": "고성군",
+     "method": "code+name"
+    },
+    "48840": {
+     "code": "48840",
+     "kosis_name": "남해군",
+     "name": "남해군",
+     "method": "code+name"
+    },
+    "48850": {
+     "code": "48850",
+     "kosis_name": "하동군",
+     "name": "하동군",
+     "method": "code+name"
+    },
+    "48860": {
+     "code": "48860",
+     "kosis_name": "산청군",
+     "name": "산청군",
+     "method": "code+name"
+    },
+    "48870": {
+     "code": "48870",
+     "kosis_name": "함양군",
+     "name": "함양군",
+     "method": "code+name"
+    },
+    "48880": {
+     "code": "48880",
+     "kosis_name": "거창군",
+     "name": "거창군",
+     "method": "code+name"
+    },
+    "48890": {
+     "code": "48890",
+     "kosis_name": "합천군",
+     "name": "합천군",
+     "method": "code+name"
+    },
+    "50110": {
+     "code": "50110",
+     "kosis_name": "제주시",
+     "name": "제주시",
+     "method": "code+name"
+    },
+    "50130": {
+     "code": "50130",
+     "kosis_name": "서귀포시",
+     "name": "서귀포시",
+     "method": "code+name"
+    },
+    "51110": {
+     "code": "51110",
+     "kosis_name": "춘천시",
+     "name": "춘천시",
+     "method": "code+name"
+    },
+    "51130": {
+     "code": "51130",
+     "kosis_name": "원주시",
+     "name": "원주시",
+     "method": "code+name"
+    },
+    "51150": {
+     "code": "51150",
+     "kosis_name": "강릉시",
+     "name": "강릉시",
+     "method": "code+name"
+    },
+    "51170": {
+     "code": "51170",
+     "kosis_name": "동해시",
+     "name": "동해시",
+     "method": "code+name"
+    },
+    "51190": {
+     "code": "51190",
+     "kosis_name": "태백시",
+     "name": "태백시",
+     "method": "code+name"
+    },
+    "51210": {
+     "code": "51210",
+     "kosis_name": "속초시",
+     "name": "속초시",
+     "method": "code+name"
+    },
+    "51230": {
+     "code": "51230",
+     "kosis_name": "삼척시",
+     "name": "삼척시",
+     "method": "code+name"
+    },
+    "51720": {
+     "code": "51720",
+     "kosis_name": "홍천군",
+     "name": "홍천군",
+     "method": "code+name"
+    },
+    "51730": {
+     "code": "51730",
+     "kosis_name": "횡성군",
+     "name": "횡성군",
+     "method": "code+name"
+    },
+    "51750": {
+     "code": "51750",
+     "kosis_name": "영월군",
+     "name": "영월군",
+     "method": "code+name"
+    },
+    "51760": {
+     "code": "51760",
+     "kosis_name": "평창군",
+     "name": "평창군",
+     "method": "code+name"
+    },
+    "51770": {
+     "code": "51770",
+     "kosis_name": "정선군",
+     "name": "정선군",
+     "method": "code+name"
+    },
+    "51780": {
+     "code": "51780",
+     "kosis_name": "철원군",
+     "name": "철원군",
+     "method": "code+name"
+    },
+    "51790": {
+     "code": "51790",
+     "kosis_name": "화천군",
+     "name": "화천군",
+     "method": "code+name"
+    },
+    "51800": {
+     "code": "51800",
+     "kosis_name": "양구군",
+     "name": "양구군",
+     "method": "code+name"
+    },
+    "51810": {
+     "code": "51810",
+     "kosis_name": "인제군",
+     "name": "인제군",
+     "method": "code+name"
+    },
+    "51820": {
+     "code": "51820",
+     "kosis_name": "고성군",
+     "name": "고성군",
+     "method": "code+name"
+    },
+    "51830": {
+     "code": "51830",
+     "kosis_name": "양양군",
+     "name": "양양군",
+     "method": "code+name"
+    },
+    "52110": {
+     "code": "52110",
+     "kosis_name": "전주시",
+     "name": "전주시",
+     "method": "code+name"
+    },
+    "52130": {
+     "code": "52130",
+     "kosis_name": "군산시",
+     "name": "군산시",
+     "method": "code+name"
+    },
+    "52140": {
+     "code": "52140",
+     "kosis_name": "익산시",
+     "name": "익산시",
+     "method": "code+name"
+    },
+    "52180": {
+     "code": "52180",
+     "kosis_name": "정읍시",
+     "name": "정읍시",
+     "method": "code+name"
+    },
+    "52190": {
+     "code": "52190",
+     "kosis_name": "남원시",
+     "name": "남원시",
+     "method": "code+name"
+    },
+    "52210": {
+     "code": "52210",
+     "kosis_name": "김제시",
+     "name": "김제시",
+     "method": "code+name"
+    },
+    "52710": {
+     "code": "52710",
+     "kosis_name": "완주군",
+     "name": "완주군",
+     "method": "code+name"
+    },
+    "52720": {
+     "code": "52720",
+     "kosis_name": "진안군",
+     "name": "진안군",
+     "method": "code+name"
+    },
+    "52730": {
+     "code": "52730",
+     "kosis_name": "무주군",
+     "name": "무주군",
+     "method": "code+name"
+    },
+    "52740": {
+     "code": "52740",
+     "kosis_name": "장수군",
+     "name": "장수군",
+     "method": "code+name"
+    },
+    "52750": {
+     "code": "52750",
+     "kosis_name": "임실군",
+     "name": "임실군",
+     "method": "code+name"
+    },
+    "52770": {
+     "code": "52770",
+     "kosis_name": "순창군",
+     "name": "순창군",
+     "method": "code+name"
+    },
+    "52790": {
+     "code": "52790",
+     "kosis_name": "고창군",
+     "name": "고창군",
+     "method": "code+name"
+    },
+    "52800": {
+     "code": "52800",
+     "kosis_name": "부안군",
+     "name": "부안군",
+     "method": "code+name"
+    }
+   }
+  }
+ }
+}
