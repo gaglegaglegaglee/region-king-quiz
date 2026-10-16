@@ -6,7 +6,7 @@ CREATE TABLE games (
   last_at     INTEGER NOT NULL,
   streak      INTEGER NOT NULL DEFAULT 0,
   status      TEXT NOT NULL DEFAULT 'playing' CHECK (status IN ('playing', 'over')),
-  over_reason TEXT CHECK (over_reason IS NULL OR over_reason IN ('wrong', 'timeout', 'abandoned'))
+  over_reason TEXT CHECK (over_reason IS NULL OR over_reason IN ('wrong', 'timeout', 'abandoned', 'error'))
 );
 
 CREATE TABLE game_questions (

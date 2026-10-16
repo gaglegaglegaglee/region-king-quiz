@@ -3,6 +3,7 @@ import { DatabaseSync } from "node:sqlite";
 import m1 from "../migrations/0001_init.sql?raw";
 import m2 from "../migrations/0002_region_display_name.sql?raw";
 import m3 from "../migrations/0003_games.sql?raw";
+import m4 from "../migrations/0004_daily_counts.sql?raw";
 import regionsSql from "../../data/regions.sql?raw";
 import statsSql from "../../data/stats/all.sql?raw";
 import { createWorker } from "../src/index";
@@ -13,7 +14,7 @@ import { difficultyFor, purgeOldGames, RETENTION_DAYS, GRACE_MS, TIME_LIMIT_SEC 
 // ── 진짜 SQL을 돌리는 메모리 D1 흉내(node:sqlite) ──
 function makeD1() {
   const sql = new DatabaseSync(":memory:");
-  sql.exec(m1); sql.exec(m2); sql.exec(m3); sql.exec(regionsSql); sql.exec(statsSql);
+  sql.exec(m1); sql.exec(m2); sql.exec(m3); sql.exec(m4); sql.exec(regionsSql); sql.exec(statsSql);
   const stmt = (q: string, args: unknown[] = []) => ({
     bind: (...a: unknown[]) => stmt(q, a),
     first: async () => (sql.prepare(q).get(...args) as any) ?? null,
@@ -261,5 +262,112 @@ describe("7일 지난 판 삭제(cron)", () => {
     await worker.scheduled({} as any, env, { waitUntil: (p: Promise<unknown>) => pending.push(p) } as any);
     await Promise.all(pending);
     expect(sql.prepare("SELECT 1 FROM games WHERE id=?").get("old2".padEnd(32, "0"))).toBeUndefined();
+  });
+});
+
+describe("남용 방어", () => {
+  const postWith = (e: any, path: string, body: unknown, headers: Record<string, string> = {}) =>
+    worker.fetch(new Request("http://x" + path, { method: "POST", headers: { "Content-Type": "application/json", ...headers }, body: JSON.stringify(body) }), e);
+  const limiter = (limit: number, seen: string[]) => { let n = 0; return { limit: async ({ key }: { key: string }) => { seen.push(key); return { success: ++n <= limit }; } } as unknown as RateLimit; };
+
+  it("주소별 분당 상한을 넘으면 429(한국어), 주소는 제한 장치 키로만 쓰이고 DB에 남지 않는다", async () => {
+    const keys: string[] = [];
+    const e = { ...env, START_LIMITER: limiter(2, keys), ANSWER_LIMITER: limiter(1, []) };
+    const hdr = { "cf-connecting-ip": "203.0.113.77" };
+    expect((await postWith(e, "/api/game/start", { topic: "mix" }, hdr)).status).toBe(200);
+    expect((await postWith(e, "/api/game/start", { topic: "mix" }, hdr)).status).toBe(200);
+    const r = await postWith(e, "/api/game/start", { topic: "mix" }, hdr);
+    expect(r.status).toBe(429);
+    expect(((await r.json()) as any).message).toBe("잠시 후 다시 해 주세요");
+    expect(keys).toEqual(["203.0.113.77", "203.0.113.77", "203.0.113.77"]);
+    const ans = { game_id: "0".repeat(32), question_id: "q1", choice_code: "11" };
+    expect((await postWith(e, "/api/game/answer", ans, hdr)).status).toBe(404); // 첫 번째는 통과(판이 없어서 404)
+    expect((await postWith(e, "/api/game/answer", ans, hdr)).status).toBe(429);
+    const dump = JSON.stringify([sql.prepare("SELECT * FROM games").all(), sql.prepare("SELECT * FROM daily_counts").all()]);
+    expect(dump).not.toContain("203.0.113.77");
+  });
+  it("제한 장치가 고장나도 게임은 막지 않는다", async () => {
+    const bad = { limit: async () => { throw new Error("x"); } } as unknown as RateLimit;
+    expect((await postWith({ ...env, START_LIMITER: bad }, "/api/game/start", { topic: "mix" })).status).toBe(200);
+  });
+  it("하루 전체 판 시작 상한을 넘으면 503, 다음 날(UTC)에는 다시 열린다", async () => {
+    const saved = clock;
+    clock = Date.UTC(2031, 0, 5, 12);
+    const e = { ...env, DAILY_GAME_LIMIT: "3" };
+    for (let i = 0; i < 3; i++) expect((await postWith(e, "/api/game/start", { topic: "age" })).status).toBe(200);
+    const r = await postWith(e, "/api/game/start", { topic: "age" });
+    expect(r.status).toBe(503);
+    expect(((await r.json()) as any).message).toBe("오늘 게임이 너무 많아요. 내일 다시 해 주세요");
+    const before = (sql.prepare("SELECT COUNT(*) n FROM games").get() as any).n;
+    // 동시 요청도 상한을 넘지 못한다
+    await Promise.all([1, 2, 3, 4].map(() => postWith(e, "/api/game/start", { topic: "age" })));
+    expect((sql.prepare("SELECT COUNT(*) n FROM games").get() as any).n).toBe(before);
+    expect((sql.prepare("SELECT n FROM daily_counts WHERE day='2031-01-05'").get() as any).n).toBe(3);
+    clock = Date.UTC(2031, 0, 6, 0, 0, 1);
+    expect((await postWith(e, "/api/game/start", { topic: "age" })).status).toBe(200);
+    clock = saved;
+  });
+  it("잘못된 주제로는 하루 횟수를 쓰지 않는다", async () => {
+    const day = new Date(clock).toISOString().slice(0, 10);
+    const n0 = (sql.prepare("SELECT n FROM daily_counts WHERE day=?").get(day) as any)?.n ?? 0;
+    await post("/api/game/start", { topic: "zzz" });
+    expect((sql.prepare("SELECT n FROM daily_counts WHERE day=?").get(day) as any)?.n ?? 0).toBe(n0);
+  });
+});
+
+describe("다음 문제 만들기 실패", () => {
+  it("판을 끝내고 맞힌 결과(연승)와 game_over를 돌려준다", async () => {
+    let fail = false;
+    const flaky = { prepare: (q: string) => db.prepare(q), batch: async (l: any[]) => { if (fail) throw new Error("D1 장애 SECRET"); return db.batch(l); } } as unknown as D1Database;
+    const e = { ...env, DB: flaky };
+    const g: any = await (await worker.fetch(new Request("http://x/api/game/start", { method: "POST", headers: { "Content-Type": "application/json" }, body: '{"topic":"population"}' }), e)).json();
+    const q = g.question;
+    const a1: any = await (await post("/api/game/answer", { game_id: g.game_id, question_id: q.question_id, choice_code: right(g.game_id, q.question_id) })).json();
+    expect(a1.next_question.number).toBe(2); // 정상 경로(여기서는 db 직접)
+    // 새 판으로 장애 상황 재현
+    const g2: any = await (await worker.fetch(new Request("http://x/api/game/start", { method: "POST", headers: { "Content-Type": "application/json" }, body: '{"topic":"population"}' }), e)).json();
+    fail = true;
+    const r = await worker.fetch(new Request("http://x/api/game/answer", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ game_id: g2.game_id, question_id: g2.question.question_id, choice_code: right(g2.game_id, g2.question.question_id) }) }), e);
+    fail = false;
+    const b: any = await r.json();
+    expect(r.status).toBe(200);
+    expect(b).toMatchObject({ ok: true, correct: true, streak: 1, game_over: true });
+    expect(b.next_question).toBeUndefined();
+    expect(JSON.stringify(b)).not.toContain("SECRET");
+    expect(sql.prepare("SELECT status, over_reason, streak FROM games WHERE id=?").get(g2.game_id)).toEqual({ status: "over", over_reason: "error", streak: 1 });
+    expect((await answer(g2.game_id, g2.question.question_id, "11")).r.status).toBe(409);
+  });
+});
+
+describe("시간 초과 끝내기와 표시 단위", () => {
+  it("choice_code null 또는 timeout:true → 판 timeout 종료, 정답·값 공개, 맞힌 것으로 치지 않음(15초 전이어도)", async () => {
+    for (const mk of [(g: any) => ({ game_id: g.game_id, question_id: g.question.question_id, choice_code: null }), (g: any) => ({ game_id: g.game_id, question_id: g.question.question_id, timeout: true })]) {
+      const g = (await start("population")).b;
+      const r = await post("/api/game/answer", mk(g));
+      const b: any = await r.json();
+      expect(r.status).toBe(200);
+      expect(b).toMatchObject({ ok: true, correct: false, timed_out: true, game_over: true, streak: 0, answer_code: right(g.game_id, g.question.question_id) });
+      expect(b.values).toHaveLength(2); expect(b.ref_date).toBeTruthy(); expect(b.source).toBeTruthy();
+      expect(sql.prepare("SELECT status, over_reason FROM games WHERE id=?").get(g.game_id)).toEqual({ status: "over", over_reason: "timeout" });
+      expect((await post("/api/game/answer", mk(g))).status).toBe(409);
+    }
+    // 연승 중이어도 그 문제는 틀림, 연승은 유지
+    const g = (await start("age")).b;
+    const a1 = await answer(g.game_id, g.question.question_id, right(g.game_id, g.question.question_id));
+    const q2 = a1.b.next_question;
+    const t: any = await (await post("/api/game/answer", { game_id: g.game_id, question_id: q2.question_id, choice_code: null })).json();
+    expect(t).toMatchObject({ correct: false, game_over: true, streak: 1 });
+  });
+  it("값 표시가 문제 문구의 단위와 맞는다", () => {
+    expect(STATS.cars_per_1000.format(339)).toBe("1,000명당 339대");
+    expect(STATS.density.format(13972)).toBe("1㎢당 13,972명");
+    expect(STATS.area.format(39.5)).toBe("39.5㎢");
+    expect(STATS.avg_age.format(43.14)).toBe("43.1세");
+    expect(STATS.persons_per_household.format(2.25)).toBe("2.25명");
+    expect(STATS.pop_change_5y.format(3.5)).toBe("+3.5%");
+    expect(STATS.elderly_ratio.format(20.04)).toBe("20.0%");
+    expect(STATS.child_ratio.format(9.95)).toMatch(/%$/);
+    expect(STATS.population.format(9279861)).toBe("928.0만 명");
+    expect(STATS.cars.format(3150052)).toBe("315.0만 대");
   });
 });

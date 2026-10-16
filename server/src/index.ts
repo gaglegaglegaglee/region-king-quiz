@@ -4,6 +4,9 @@ import type { Rng } from "./quiz";
 export interface Env {
   DB: D1Database;
   ALLOWED_ORIGINS?: string;
+  START_LIMITER?: RateLimit; // 주소(IP)별 판 시작 분당 상한 (wrangler.toml [[ratelimits]])
+  ANSWER_LIMITER?: RateLimit; // 주소별 답 분당 상한
+  DAILY_GAME_LIMIT?: string; // 하루 전체 판 시작 상한(없으면 20,000)
 }
 
 function allowedOrigins(env: Env): string[] {
@@ -96,7 +99,15 @@ export function createWorker(opts: WorkerOptions = {}) {
         }
         if (pathname === "/api/game/start" || pathname === "/api/game/answer") {
           if (request.method !== "POST") return json({ ok: false, message: "이 방식으로는 쓸 수 없어요" }, 405, origin);
-          const deps: GameDeps = { db: env.DB, now, rng };
+          // 주소는 저장하지 않고 속도 제한 바인딩의 키로만 쓴다(없으면 한 묶음으로 센다).
+          const limiter = pathname === "/api/game/start" ? env.START_LIMITER : env.ANSWER_LIMITER;
+          if (limiter) {
+            let allowed = true;
+            try { allowed = (await limiter.limit({ key: request.headers.get("cf-connecting-ip") ?? "local" })).success; } catch { /* 제한 장치 오류는 막지 않는다 */ }
+            if (!allowed) return json({ ok: false, message: "잠시 후 다시 해 주세요" }, 429, origin);
+          }
+          const dl = Number(env.DAILY_GAME_LIMIT);
+          const deps: GameDeps = { db: env.DB, now, rng, dailyLimit: Number.isInteger(dl) && dl > 0 ? dl : undefined };
           try {
             const body = await readJson(request);
             const data = pathname === "/api/game/start" ? await startGame(deps, body) : await answerGame(deps, body);

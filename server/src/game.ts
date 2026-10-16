@@ -8,10 +8,11 @@ import {
 export const TIME_LIMIT_SEC = 15;
 export const GRACE_MS = 2000; // 네트워크 여유
 export const RETENTION_DAYS = 7;
+export const DEFAULT_DAILY_GAME_LIMIT = 20000; // 하루 전체 판 시작 상한(UTC 날짜 기준)
 export const TOPICS = ["mix", "population", "age", "map", "cars"] as const;
 export type GameTopic = (typeof TOPICS)[number];
 
-export interface GameDeps { db: D1Database; now: () => number; rng: Rng }
+export interface GameDeps { db: D1Database; now: () => number; rng: Rng; dailyLimit?: number }
 
 export class GameError extends Error {
   constructor(public status: number, message: string) { super(message); }
@@ -81,6 +82,13 @@ export async function startGame(deps: GameDeps, body: unknown): Promise<{ game_i
     throw new GameError(400, "주제를 골라 주세요 (mix, population, age, map, cars 중 하나)");
   }
   const now = deps.now();
+  // 하루 전체 상한: 한 문장으로 "아직 상한 아래일 때만 1 올리기"(동시에 와도 안전)
+  const day = new Date(now).toISOString().slice(0, 10);
+  const inc = await deps.db
+    .prepare("INSERT INTO daily_counts (day, n) VALUES (?1, 1) ON CONFLICT(day) DO UPDATE SET n = n + 1 WHERE n < ?2")
+    .bind(day, deps.dailyLimit ?? DEFAULT_DAILY_GAME_LIMIT)
+    .run();
+  if ((inc.meta?.changes ?? 0) !== 1) throw new GameError(503, "오늘 게임이 너무 많아요. 내일 다시 해 주세요");
   const q = await makeQuestion(deps, topic as GameTopic, 1, null, new Set());
   if (!q) throw new GameError(503, "지금은 문제를 만들 수 없어요. 잠시 뒤에 다시 해 주세요");
   const id = newGameId();
@@ -115,7 +123,9 @@ export async function answerGame(deps: GameDeps, body: unknown): Promise<AnswerR
   const { game_id, question_id, choice_code } = b;
   if (typeof game_id !== "string" || !GAME_ID_RE.test(game_id)) throw new GameError(400, "판 번호가 올바르지 않아요");
   if (typeof question_id !== "string" || !QUESTION_ID_RE.test(question_id)) throw new GameError(400, "문제 번호가 올바르지 않아요");
-  if (typeof choice_code !== "string" || !CODE_RE.test(choice_code)) throw new GameError(400, "고른 지역이 올바르지 않아요");
+  // 시간이 다 돼서 화면이 "끝내기"를 보내는 경우: choice_code가 null이거나 timeout:true. (미리 보내도 포기로 끝나며 맞힌 것으로 치지 않는다)
+  const giveUp = b.timeout === true || choice_code === null;
+  if (!giveUp && (typeof choice_code !== "string" || !CODE_RE.test(choice_code))) throw new GameError(400, "고른 지역이 올바르지 않아요");
 
   const db = deps.db;
   const game = await db.prepare("SELECT id, topic, streak, status FROM games WHERE id = ?1").bind(game_id).first<GameRow>();
@@ -130,16 +140,16 @@ export async function answerGame(deps: GameDeps, body: unknown): Promise<AnswerR
     .first<QRow>();
   if (!row) throw new GameError(404, "이 판에 없는 문제예요");
   if (row.answered_at !== null) throw new GameError(409, "이미 답한 문제예요");
-  if (choice_code !== row.a_code && choice_code !== row.b_code) throw new GameError(400, "이 문제에 없는 지역이에요");
+  if (!giveUp && choice_code !== row.a_code && choice_code !== row.b_code) throw new GameError(400, "이 문제에 없는 지역이에요");
 
   const now = deps.now();
-  const timedOut = now - row.asked_at > TIME_LIMIT_SEC * 1000 + GRACE_MS;
+  const timedOut = giveUp || now - row.asked_at > TIME_LIMIT_SEC * 1000 + GRACE_MS;
   const correct = !timedOut && choice_code === row.answer_code;
 
   // 같은 문제에 답이 동시에 두 번 와도 한 번만 처리되게 "아직 답 안 한 문제"일 때만 표시한다.
   const claim = await db
     .prepare("UPDATE game_questions SET answered_at = ?3, choice_code = ?4, correct = ?5 WHERE game_id = ?1 AND question_id = ?2 AND answered_at IS NULL")
-    .bind(game_id, question_id, now, choice_code, correct ? 1 : 0)
+    .bind(game_id, question_id, now, giveUp ? null : choice_code, correct ? 1 : 0)
     .run();
   if ((claim.meta?.changes ?? 0) !== 1) throw new GameError(409, "이미 답한 문제예요");
 
@@ -167,20 +177,27 @@ export async function answerGame(deps: GameDeps, body: unknown): Promise<AnswerR
 
   const streak = game.streak + 1;
   result.streak = streak;
-  const prev = await db.prepare("SELECT stat_key, a_code, b_code FROM game_questions WHERE game_id = ?1").bind(game_id).all<{ stat_key: StatKey; a_code: string; b_code: string }>();
-  const exclude = new Set((prev.results ?? []).map((r) => pairKey(r.stat_key, r.a_code, r.b_code)));
-  const number = row.number + 1;
-  const next = await makeQuestion(deps, game.topic, number, row.stat_key, exclude);
-  if (!next) { // 낼 문제가 없으면 이 판은 여기서 끝낸다(맞힌 것은 인정)
-    await db.prepare("UPDATE games SET status = 'over', over_reason = 'abandoned', streak = ?2, last_at = ?3 WHERE id = ?1").bind(game_id, streak, now).run();
+  try {
+    const prev = await db.prepare("SELECT stat_key, a_code, b_code FROM game_questions WHERE game_id = ?1").bind(game_id).all<{ stat_key: StatKey; a_code: string; b_code: string }>();
+    const exclude = new Set((prev.results ?? []).map((r) => pairKey(r.stat_key, r.a_code, r.b_code)));
+    const number = row.number + 1;
+    const next = await makeQuestion(deps, game.topic, number, row.stat_key, exclude);
+    if (!next) { // 낼 문제가 없으면 이 판은 여기서 끝낸다(맞힌 것은 인정)
+      await db.prepare("UPDATE games SET status = 'over', over_reason = 'abandoned', streak = ?2, last_at = ?3 WHERE id = ?1").bind(game_id, streak, now).run();
+      result.game_over = true;
+      return result;
+    }
+    await db.batch([
+      db.prepare("UPDATE games SET streak = ?2, last_at = ?3 WHERE id = ?1").bind(game_id, streak, now),
+      insertQuestion(db, game_id, number, next, now),
+    ]);
+    result.next_question = numbered(next, number);
+  } catch {
+    // 다음 문제를 만들거나 저장하다 실패: 판이 멈춘 채 남지 않게 끝내고, 맞힌 결과는 인정해서 결과 화면으로 보낸다.
+    await db.prepare("UPDATE games SET status = 'over', over_reason = 'error', streak = ?2, last_at = ?3 WHERE id = ?1").bind(game_id, streak, now).run();
+    result.next_question = undefined;
     result.game_over = true;
-    return result;
   }
-  await db.batch([
-    db.prepare("UPDATE games SET streak = ?2, last_at = ?3 WHERE id = ?1").bind(game_id, streak, now),
-    insertQuestion(db, game_id, number, next, now),
-  ]);
-  result.next_question = numbered(next, number);
   return result;
 }
 
@@ -190,6 +207,7 @@ export async function purgeOldGames(db: D1Database, now: number): Promise<number
   const [, del] = await db.batch([
     db.prepare("DELETE FROM game_questions WHERE game_id IN (SELECT id FROM games WHERE last_at < ?1)").bind(cutoff),
     db.prepare("DELETE FROM games WHERE last_at < ?1").bind(cutoff),
+    db.prepare("DELETE FROM daily_counts WHERE day < ?1").bind(new Date(cutoff).toISOString().slice(0, 10)),
   ]);
   return del.meta?.changes ?? 0;
 }

@@ -18,3 +18,14 @@ ALLOWED_ORIGINS = "https://gaglegaglegaglee.github.io"
 [triggers]
 # 매일 새벽 3시(UTC) 7일 지난 게임 판 기록 삭제
 crons = ["0 3 * * *"]
+
+# 남용 방지: 주소(IP)별 분당 상한(Cloudflare Rate Limiting 바인딩). period는 10 또는 60초만 가능.
+[[ratelimits]]
+name = "START_LIMITER"
+namespace_id = "1001"
+simple = { limit = 20, period = 60 }
+
+[[ratelimits]]
+name = "ANSWER_LIMITER"
+namespace_id = "1002"
+simple = { limit = 120, period = 60 }

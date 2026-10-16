@@ -4,7 +4,9 @@ Cloudflare Workers(작은 서버 프로그램)와 D1(Cloudflare가 주는 작은
 창구(API):
 - `GET /api/health` — 서버·자료 상태
 - `POST /api/game/start` `{"topic":"mix|population|age|map|cars"}` — 판 시작, 1번 문제(정답 없음)
-- `POST /api/game/answer` `{"game_id","question_id","choice_code"}` — 답 내기. 답한 뒤에만 정답·두 값·출처를 알려 주고, 맞히면 `next_question`, 틀리거나 시간(15초+여유 2초)이 지나면 `game_over:true`
+- `POST /api/game/answer` `{"game_id","question_id","choice_code"}` — 답 내기. 답한 뒤에만 정답·두 값·출처를 알려 주고, 맞히면 `next_question`, 틀리거나 시간(15초 + 여유 2초 = 문제를 낸 뒤 17초까지 인정, 넘으면 틀림)이 지나면 `game_over:true`
+- 시간이 다 되면 화면이 `{"game_id","question_id","choice_code":null}`(또는 `"timeout":true`)를 보내 판을 끝내고 정답·두 값을 받습니다. 15초 전에 보내도 포기로 끝나며 맞힌 것으로 치지 않습니다.
+- 남용 방지: 한 주소(IP)당 판 시작 분당 20회·답 분당 120회를 넘으면 429 "잠시 후 다시 해 주세요"(주소는 저장하지 않고 Cloudflare 속도 제한 바인딩의 키로만 씁니다). 하루 전체 판 시작이 20,000판(`DAILY_GAME_LIMIT`로 조정)을 넘으면 503 "오늘 게임이 너무 많아요". 다음 문제를 만들다 서버 오류가 나면 그 판은 끝내고(`game_over:true`) 맞힌 연승은 인정합니다.
 - 판 기록은 하루 한 번(cron) 7일 지난 것을 지웁니다. 로컬에서는 `wrangler dev --test-scheduled` 후 `/cdn-cgi/handler/scheduled`로 시험
 
 ## 처음 한 번: 설치
