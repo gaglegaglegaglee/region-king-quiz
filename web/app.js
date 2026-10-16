@@ -51,5 +51,27 @@
       showToast(cfg.notReadyText || "준비 중이에요.");
     });
   }
+  // 서버에서 자료 기준월을 받아 출처 줄 아래에 보여 준다. 실패하면 조용히 숨긴 채로 둔다.
+  function showDataDate() {
+    if (!cfg.apiBase || typeof fetch !== "function") return;
+    var ctl = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function () { ctl.abort(); }, 8000) : null;
+    fetch(cfg.apiBase.replace(/\/+$/, "") + "/api/health", ctl ? { signal: ctl.signal } : {})
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        var stats = j && j.ok && j.data && j.data.stats ? j.data.stats : [];
+        var pop = null;
+        stats.forEach(function (s) { if (s.key === "population") pop = s; });
+        var m = pop && /^(\d{4})-(\d{2})/.exec(pop.latest_ref_date || "");
+        if (!m) return;
+        var label = m[1] + "년 " + Number(m[2]) + "월";
+        var el = document.getElementById("data-date");
+        el.textContent = (cfg.dataDateText || "자료 기준: {date}").replace("{date}", label);
+        el.hidden = false;
+      })
+      .catch(function () { /* 서버에 연결하지 못해도 화면은 그대로 쓸 수 있다 */ })
+      .then(function () { if (timer) clearTimeout(timer); });
+  }
   init();
+  showDataDate();
 })();

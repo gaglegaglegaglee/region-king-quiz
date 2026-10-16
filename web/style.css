@@ -112,6 +112,8 @@ h1 { margin: 0; font-size: 40px; line-height: 1.1; color: var(--primary); letter
   border-top: 1px solid var(--line);
   background: #e3ecfb;
 }
+.data-date { display: block; margin-top: 4px; font-weight: 700; }
+.data-date[hidden] { display: none; }
 .noscript { margin: 12px; padding: 12px; background: #fff3cd; color: #5c3b00; border-radius: 12px; font-size: 16px; }
 
 /* 화면 높이가 낮은 폰(예: 640px 이하)에서도 한 화면에 들어오게 살짝 줄임 */

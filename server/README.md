@@ -30,19 +30,22 @@ npm run typecheck
 ```
 
 ## 허용하는 화면 주소
-`wrangler.toml`의 `ALLOWED_ORIGINS`(쉼표로 구분)에 적힌 주소에서 온 요청만 받습니다.
-GitHub Pages 주소(예: `https://내아이디.github.io`)는 배포 때 추가합니다. 끝에 `/`나 경로는 붙이지 않습니다.
-주소창에 직접 열거나 curl처럼 출처 표시가 없는 요청은 지금은 허용됩니다(health만 있어서).
+`wrangler.toml`의 `ALLOWED_ORIGINS`(쉼표로 구분)에 적힌 주소에서 온 요청만 받습니다. 운영에는 GitHub Pages 주소(`https://gaglegaglegaglee.github.io`)만 있습니다. 끝에 `/`나 경로는 붙이지 않습니다.
+내 컴퓨터에서 시험할 때의 화면 주소는 `server/.dev.vars` 파일(저장소에 올라가지 않음)에 적습니다.
+```
+ALLOWED_ORIGINS=http://127.0.0.1:5500,http://localhost:5500,http://127.0.0.1:8080,http://localhost:8080
+```
+출처 표시가 없는 요청(주소창에 직접 열기, curl)은 지금은 허용됩니다(health만 있어서).
 
 ## 비밀값 (열쇠·비밀번호)
 KOSIS 열쇠, 운영자 비밀번호 같은 값은 파일에 적지 않습니다.
 - 로컬: `server/.dev.vars` 파일(저장소에 올라가지 않게 막아 둠)
 - 배포: `npx wrangler secret put 이름`
 
-## 배포 (Cloudflare 계정을 만든 뒤)
-1. `npx wrangler login` 으로 로그인합니다.
-2. `npx wrangler d1 create region-king` 을 실행하면 `database_id`가 나옵니다.
-3. `wrangler.toml`의 `database_id`를 그 값으로 바꿉니다. (계정 ID는 파일에 적지 않습니다. 이 값을 저장소에 올릴지는 올리기 전에 확인하세요.)
-4. `ALLOWED_ORIGINS`에 GitHub Pages 주소를 추가합니다.
-5. `npm run migrate:remote` 로 실제 저장소에 표를 만듭니다.
-6. `npm run deploy` 로 올립니다. 나오는 주소 뒤에 `/api/health`를 붙여 열어 확인합니다.
+## 배포 (이미 올라가 있음: https://region-king-api.dotlee.workers.dev)
+Cloudflare 토큰과 계정 ID는 파일에 적지 않고 환경변수 `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`로만 넘깁니다(프로젝트 맨 위 `.env`에 보관, 저장소에 올라가지 않음).
+다시 올릴 때:
+1. 환경변수를 설정한 상태에서 `npm run migrate:remote` (새 마이그레이션이 있을 때만)
+2. `npm run deploy`
+3. 나온 주소 뒤에 `/api/health`를 붙여 열어 확인합니다.
+KOSIS 열쇠는 `npx wrangler secret put KOSIS_API_KEY`로 이미 넣어 두었습니다(값은 어디에도 적지 않습니다).

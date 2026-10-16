@@ -1,15 +1,16 @@
-# 지역왕 게임 서버 설정. 계정 ID·실제 database_id는 여기에 적지 않습니다(README의 "배포" 참고).
-name = "region-king-server"
+# 지역왕 게임 서버 설정. 계정 ID와 토큰은 여기에 적지 않습니다(환경변수 CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN으로만).
+# database_id는 열쇠가 아니라 저장소 번호라서 적어도 됩니다.
+name = "region-king-api"
 main = "src/index.ts"
 compatibility_date = "2026-10-01"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "region-king"
-# 자리표시자입니다. 배포 때 `wrangler d1 create region-king`이 알려 주는 값으로 바꿉니다.
-database_id = "00000000-0000-0000-0000-000000000000"
+database_name = "region-king-db"
+database_id = "7c52f52f-1606-4f42-8735-917834a1845f"
 migrations_dir = "migrations"
 
 [vars]
-# 화면 주소(쉼표로 구분). 로컬 개발용 주소만 넣어 둡니다. 운영 주소는 배포 때 추가합니다.
-ALLOWED_ORIGINS = "http://127.0.0.1:5500,http://localhost:5500,http://127.0.0.1:8080,http://localhost:8080"
+# 화면 주소(쉼표로 구분). 운영에는 GitHub Pages 주소만 둡니다.
+# 내 컴퓨터에서 시험할 때의 주소는 server/.dev.vars 파일(저장소에 안 올라감)에 적습니다. README 참고.
+ALLOWED_ORIGINS = "https://gaglegaglegaglee.github.io"
