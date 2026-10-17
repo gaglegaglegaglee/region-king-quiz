@@ -11,7 +11,7 @@ export const TIME_LIMIT_SEC = 15;
 export const GRACE_MS = 2000; // 네트워크 여유
 export const RETENTION_DAYS = 7;
 export const DEFAULT_DAILY_GAME_LIMIT = 20000; // 하루 전체 판 시작 상한(UTC 날짜 기준)
-export const TOPICS = ["mix", "population", "map"] as const;
+export const TOPICS = ["mix", "population", "nature", "map", "industry"] as const;
 export type GameTopic = (typeof TOPICS)[number] | "cars" | "age"; // existing finished games remain readable
 
 export interface GameDeps { db: D1Database; now: () => number; rng: Rng; dailyLimit?: number }
@@ -42,7 +42,7 @@ function decodeStored(json: string): { choices: StoredValue[]; geo?: StoredGeo }
 }
 
 function statsOfTopic(topic: GameTopic): StatKey[] {
-  return (topic === "mix" ? (Object.keys(STATS) as StatKey[]) : (topic === "population" ? [...statKeysOfTopic("population"), ...statKeysOfTopic("age")] : statKeysOfTopic(topic as Topic))).filter(k=>STATS[k].topic!=="cars");
+  return (topic === "mix" ? (Object.keys(STATS) as StatKey[]) : (topic === "population" ? [...statKeysOfTopic("population"), ...statKeysOfTopic("age")] : statKeysOfTopic((topic === "cars" ? "industry" : topic) as Topic)));
 }
 
 /** 통계를 균등 무작위로 고르되 직전과 같은 통계는 피한다. 자료가 없으면 다음 통계로. */
@@ -97,7 +97,7 @@ function numbered(q: ServerQuestion, number: number): NumberedQuestion {
 export async function startGame(deps: GameDeps, body: unknown): Promise<{ game_id: string; question: NumberedQuestion }> {
   const topic = (body as { topic?: unknown } | null)?.topic;
   if (typeof topic !== "string" || !(TOPICS as readonly string[]).includes(topic)) {
-    throw new GameError(400, "주제를 골라 주세요 (mix, population, map 중 하나)");
+    throw new GameError(400, "주제를 골라 주세요 (mix, population, nature, map, industry 중 하나)");
   }
   const now = deps.now();
   // 하루 전체 상한: 한 문장으로 "아직 상한 아래일 때만 1 올리기"(동시에 와도 안전)

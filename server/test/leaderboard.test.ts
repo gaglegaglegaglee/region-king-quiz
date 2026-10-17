@@ -3,6 +3,7 @@ import { DatabaseSync } from 'node:sqlite';
 import m1 from '../migrations/0001_init.sql?raw';
 import m2 from '../migrations/0002_region_display_name.sql?raw';
 import m3 from '../migrations/0003_games.sql?raw';
+import m6 from '../migrations/0006_quiz_topics.sql?raw';
 import m5 from '../migrations/0005_leaderboard.sql?raw';
 import { submitScore,listScores,estimateRank,validateNickname,weekStartKst } from '../src/leaderboard';
 import { authorizeAdmin,adminStatus,deleteScore } from '../src/admin';
@@ -10,7 +11,7 @@ let sql:DatabaseSync,db:D1Database;
 let now=Date.UTC(2026,9,18,15);
 const deps=()=>({db,now:()=>now});
 beforeEach(()=>{
-  now=Date.UTC(2026,9,18,15);sql=new DatabaseSync(':memory:');sql.exec(m1);sql.exec(m2);sql.exec(m3);sql.exec(m5);
+  now=Date.UTC(2026,9,18,15);sql=new DatabaseSync(':memory:');sql.exec(m1);sql.exec(m2);sql.exec(m3);sql.exec(m5);sql.exec("BEGIN;"+m6+"COMMIT;");
   const statement=(q:string,args:any[]=[]):any=>({bind:(...a:any[])=>statement(q,a),first:async()=>sql.prepare(q).get(...args)??null,
     all:async()=>({results:sql.prepare(q).all(...args)}),run:async()=>({meta:{changes:Number(sql.prepare(q).run(...args).changes)}})});
   db={prepare:(q:string)=>statement(q)} as unknown as D1Database;
@@ -97,7 +98,7 @@ describe('operator',()=>{
     sql.exec("INSERT INTO stat_meta VALUES('population','인구','명','행안부','2026-09','2026-10-16')");
     sql.exec("INSERT INTO stat_values VALUES('11','population',100,'명','2026-09','행안부','2026-10-16')");
     const score=await submitScore(deps(),{game_id:game(),nickname:'지역왕'}),status=await adminStatus(deps());
-    expect(status.stats).toHaveLength(15);expect(status.stats.find(x=>x.key==='population')).toMatchObject({ref_date:'2026-09',fetched_at:'2026-10-16',regions:2,present:1,missing:1});
+    expect(status.stats).toHaveLength(17);expect(status.stats.find(x=>x.key==='population')).toMatchObject({ref_date:'2026-09',fetched_at:'2026-10-16',regions:2,present:1,missing:1});
     expect(status.stats.find(x=>x.key==='area')).toMatchObject({ref_date:null,missing:2});expect(status.total_records).toBe(1);
     await deleteScore(deps(),{id:score.record.id});expect((await listScores(deps())).records).toHaveLength(0);
     await expect(deleteScore(deps(),{id:score.record.id})).rejects.toMatchObject({status:404});

@@ -7,7 +7,7 @@ export type StatKey =
   | "position_north" | "position_south" | "position_east" | "position_west";
 
 // 주제 묶음(PRD F1). 지도 주제의 모양 문제는 스프린트 4.
-export type Topic = "population" | "age" | "map" | "cars";
+export type Topic = "population" | "age" | "map" | "cars" | "nature" | "industry";
 
 export interface StatDef {
   basis?: string;
@@ -40,9 +40,9 @@ export const STATS: Record<StatKey, StatDef> = {
   position_south: {label:"남쪽 위치",question:"{pair} 중 더 남쪽에 있는 곳은?",direction:"lower",unit:"°",topic:"map",format:(v)=>`북위 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"지역마다 지도 안에 기준 위치 하나를 정해 비교해요. (2023년 경계 기준)"},
   position_east: {label:"동쪽 위치",question:"{pair} 중 더 동쪽에 있는 곳은?",direction:"higher",unit:"°",topic:"map",format:(v)=>`동경 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"지역마다 지도 안에 기준 위치 하나를 정해 비교해요. (2023년 경계 기준)"},
   position_west: {label:"서쪽 위치",question:"{pair} 중 더 서쪽에 있는 곳은?",direction:"lower",unit:"°",topic:"map",format:(v)=>`동경 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"지역마다 지도 안에 기준 위치 하나를 정해 비교해요. (2023년 경계 기준)"},
-  annual_temp: { label:"연평균기온",question:"{pair} 중 연평균기온이 높은 곳은?",direction:"higher",unit:"℃",topic:"map",format:fixed(1,"℃"),diffMode:"absolute",minAbsDiff:1,basis:"1991~2020 기후평년값 · 지역 내 대표 관측지점 기준" },
-  annual_precip: { label:"연강수량",question:"{pair} 중 연간 강수량이 많은 곳은?",direction:"higher",unit:"mm",topic:"map",format:(v)=>`${comma(v)}mm`,diffMode:"relative",minAbsDiff:100,basis:"1991~2020 기후평년값 · 지역 내 대표 관측지점 기준" },
-  mean_elevation: { label:"평균 해발고도(근사)",question:"{pair} 중 평균 해발고도가 높은 곳은?",direction:"higher",unit:"m",topic:"map",format:(v)=>`약 ${comma(Math.round(v/10)*10)}m`,diffMode:"absolute",minAbsDiff:50,basis:"지역 전체 약300m 간격 표고 표본의 면적가중 평균 · 근삿값" },
+  annual_temp: { label:"연평균기온",question:"{pair} 중 연평균기온이 높은 곳은?",direction:"higher",unit:"℃",topic:"nature",format:fixed(1,"℃"),diffMode:"absolute",minAbsDiff:1,basis:"1991~2020 기후평년값 · 지역 내 대표 관측지점 기준" },
+  annual_precip: { label:"연강수량",question:"{pair} 중 연간 강수량이 많은 곳은?",direction:"higher",unit:"mm",topic:"nature",format:(v)=>`${comma(v)}mm`,diffMode:"relative",minAbsDiff:100,basis:"1991~2020 기후평년값 · 지역 내 대표 관측지점 기준" },
+  mean_elevation: { label:"평균 해발고도(근사)",question:"{pair} 중 평균 해발고도가 높은 곳은?",direction:"higher",unit:"m",topic:"nature",format:(v)=>`약 ${comma(Math.round(v/10)*10)}m`,diffMode:"absolute",minAbsDiff:50,basis:"지역 전체 약300m 간격 표고 표본의 면적가중 평균 · 근삿값" },
 
   population: { label: "인구", question: "{pair} 중 인구가 많은 곳은?", direction: "higher", unit: "명", topic: "population", format: man("명", "명"), diffMode: "relative", minAbsDiff: 1000 },
   pop_change_5y: { label: "5년간 인구 증감률", question: "{pair} 중 최근 5년간 인구가 더 많이 늘어난 곳은?", direction: "higher", unit: "%", topic: "population", format: (v) => `${v > 0 ? "+" : ""}${v.toFixed(1)}%`, diffMode: "absolute", minAbsDiff: 0.5 },
@@ -52,8 +52,8 @@ export const STATS: Record<StatKey, StatDef> = {
   elderly_ratio: { label: "고령 인구 비율", question: "{pair} 중 65세 이상 주민 비율이 더 높은 곳은?", direction: "higher", unit: "%", topic: "age", format: fixed(1, "%"), diffMode: "absolute", minAbsDiff: 1 },
   child_ratio: { label: "어린이 비율", question: "{pair} 중 15세 미만 주민 비율이 더 높은 곳은?", direction: "higher", unit: "%", topic: "age", format: fixed(1, "%"), diffMode: "absolute", minAbsDiff: 1 },
   area: { label: "면적", question: "{pair} 중 넓은 곳은?", direction: "higher", unit: "㎢", topic: "map", format: (v) => `${v >= 100 ? comma(v) : v.toFixed(1)}㎢`, diffMode: "relative", minAbsDiff: 0.1 },
-  cars: { label: "자동차 등록 대수", question: "{pair} 중 등록된 자동차가 더 많은 곳은?", direction: "higher", unit: "대", topic: "cars", format: man("대", "대"), diffMode: "relative", minAbsDiff: 1000 },
-  cars_per_1000: { label: "1,000명당 자동차 수", question: "{pair} 중 주민 1,000명당 자동차가 더 많은 곳은?", direction: "higher", unit: "대", topic: "cars", format: (v) => `1,000명당 ${comma(v)}대`, diffMode: "relative", minAbsDiff: 1 },
+  cars: { label: "자동차 등록 대수", question: "{pair} 중 등록된 자동차가 더 많은 곳은?", direction: "higher", unit: "대", topic: "industry", format: man("대", "대"), diffMode: "relative", minAbsDiff: 1000 },
+  cars_per_1000: { label: "1,000명당 자동차 수", question: "{pair} 중 주민 1,000명당 자동차가 더 많은 곳은?", direction: "higher", unit: "대", topic: "industry", format: (v) => `1,000명당 ${comma(v)}대`, diffMode: "relative", minAbsDiff: 1 },
 };
 
 export function isStatKey(k: string): k is StatKey {

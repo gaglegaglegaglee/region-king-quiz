@@ -3,6 +3,8 @@ import { DatabaseSync } from "node:sqlite";
 import m1 from "../migrations/0001_init.sql?raw";
 import m2 from "../migrations/0002_region_display_name.sql?raw";
 import m3 from "../migrations/0003_games.sql?raw";
+import m5 from "../migrations/0005_leaderboard.sql?raw";
+import m6 from "../migrations/0006_quiz_topics.sql?raw";
 import m4 from "../migrations/0004_daily_counts.sql?raw";
 import regionsSql from "../../data/regions.sql?raw";
 import statsSql from "../../data/stats/all.sql?raw";
@@ -14,7 +16,7 @@ import { difficultyFor, purgeOldGames, RETENTION_DAYS, GRACE_MS, TIME_LIMIT_SEC 
 // ── 진짜 SQL을 돌리는 메모리 D1 흉내(node:sqlite) ──
 function makeD1() {
   const sql = new DatabaseSync(":memory:");
-  sql.exec(m1); sql.exec(m2); sql.exec(m3); sql.exec(m4); sql.exec(regionsSql); sql.exec(statsSql);
+  sql.exec(m1); sql.exec(m2); sql.exec(m3); sql.exec(m4); sql.exec(m5); sql.exec("BEGIN;"+m6+"COMMIT;"); sql.exec(regionsSql); sql.exec(statsSql);
   const stmt = (q: string, args: unknown[] = []) => ({
     bind: (...a: unknown[]) => stmt(q, a),
     first: async () => (sql.prepare(q).get(...args) as any) ?? null,
@@ -69,16 +71,16 @@ describe("판 시작", () => {
   });
   it("주제 필터", async () => {
     const seen: Record<string, Set<string>> = {};
-    for (const t of ["population", "map", "mix"]) {
+    for (const t of ["population", "nature", "map", "industry", "mix"]) {
       seen[t] = new Set();
       for (let i = 0; i < (t === "mix" ? 150 : 60); i++) seen[t].add((await start(t)).b.question.stat_key);
     }
     expect([...seen.population].every((k) => [...statKeysOfTopic("population"), ...statKeysOfTopic("age")].includes(k as any))).toBe(true);
     expect((await start("age")).r.status).toBe(400);
     expect((await start("cars")).r.status).toBe(400);
-    expect([...seen.map].sort()).toEqual(["area", "name_to_shape", "parent", "shape_to_name","annual_temp","annual_precip","mean_elevation","position_north","position_south","position_east","position_west"].sort());
-    expect(seen.population.size).toBe(7); expect(seen.mix.has("cars")).toBe(false);expect(seen.mix.has("cars_per_1000")).toBe(false);
-    expect(seen.mix.size).toBe(18);
+    expect([...seen.map].sort()).toEqual(["area", "name_to_shape", "parent", "shape_to_name","position_north","position_south","position_east","position_west"].sort());
+    expect(seen.population.size).toBe(7); expect([...seen.industry].sort()).toEqual(["cars","cars_per_1000"]);expect([...seen.nature].sort()).toEqual(["annual_precip","annual_temp","mean_elevation"]);
+    expect(seen.mix.size).toBe(20);
   });
   it("시·도는 줄임말, 해설용 정식 이름은 답한 뒤 values에", async () => {
     let found = false;
