@@ -193,6 +193,6 @@ input{font:inherit;min-height:48px;width:100%;padding:10px 12px;border:2px solid
 
 .emoji-image{display:inline-block;width:1em;height:1em;vertical-align:-.12em}.icon .emoji-image{width:28px;height:28px}.topic.main .icon .emoji-image{width:38px;height:38px}.inline-emoji{width:1.2em;height:1.2em;margin-right:.15em}.source a{color:inherit}
 
-.topic:last-child:not(.main){grid-column:1/-1}#g-basis{font-size:14px;color:#526987;line-height:1.45}#g-basis[hidden]{display:none}
+#g-basis{font-size:14px;color:#526987;line-height:1.45}#g-basis[hidden]{display:none}
 
 .topic-info{text-align:center;font-size:13px;color:#62748e}

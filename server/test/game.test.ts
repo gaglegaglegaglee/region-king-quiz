@@ -69,15 +69,15 @@ describe("판 시작", () => {
   });
   it("주제 필터", async () => {
     const seen: Record<string, Set<string>> = {};
-    for (const t of ["population", "age", "map", "mix"]) {
+    for (const t of ["population", "map", "mix"]) {
       seen[t] = new Set();
       for (let i = 0; i < (t === "mix" ? 150 : 60); i++) seen[t].add((await start(t)).b.question.stat_key);
     }
-    expect([...seen.population].every((k) => statKeysOfTopic("population").includes(k as any))).toBe(true);
-    expect([...seen.age].every((k) => statKeysOfTopic("age").includes(k as any))).toBe(true);
+    expect([...seen.population].every((k) => [...statKeysOfTopic("population"), ...statKeysOfTopic("age")].includes(k as any))).toBe(true);
+    expect((await start("age")).r.status).toBe(400);
     expect((await start("cars")).r.status).toBe(400);
     expect([...seen.map].sort()).toEqual(["area", "name_to_shape", "parent", "shape_to_name","annual_temp","annual_precip","mean_elevation","position_north","position_south","position_east","position_west"].sort());
-    expect(seen.population.size).toBe(4); expect(seen.age.size).toBe(3); expect(seen.mix.has("cars")).toBe(false);expect(seen.mix.has("cars_per_1000")).toBe(false);
+    expect(seen.population.size).toBe(7); expect(seen.mix.has("cars")).toBe(false);expect(seen.mix.has("cars_per_1000")).toBe(false);
     expect(seen.mix.size).toBe(18);
   });
   it("시·도는 줄임말, 해설용 정식 이름은 답한 뒤 values에", async () => {
@@ -196,7 +196,7 @@ describe("답 내기", () => {
 describe("긴 판", () => {
   it("100문제: 같은 (통계, 두 지역) 반복 없음, 같은 통계 연속 없음, 번호 순서, 난이도 단계", async () => {
     expect([1, 5, 6, 15, 16, 40].map(difficultyFor)).toEqual(["easy", "easy", "normal", "normal", "hard", "hard"]);
-    for (const topic of ["mix", "age"]) {
+    for (const topic of ["mix", "population"]) {
       const g = (await start(topic)).b;
       let q = g.question;
       for (let n = 1; n <= 100; n++) {
@@ -294,17 +294,17 @@ describe("남용 방어", () => {
     const saved = clock;
     clock = Date.UTC(2031, 0, 5, 12);
     const e = { ...env, DAILY_GAME_LIMIT: "3" };
-    for (let i = 0; i < 3; i++) expect((await postWith(e, "/api/game/start", { topic: "age" })).status).toBe(200);
-    const r = await postWith(e, "/api/game/start", { topic: "age" });
+    for (let i = 0; i < 3; i++) expect((await postWith(e, "/api/game/start", { topic: "population" })).status).toBe(200);
+    const r = await postWith(e, "/api/game/start", { topic: "population" });
     expect(r.status).toBe(503);
     expect(((await r.json()) as any).message).toBe("오늘 게임이 너무 많아요. 내일 다시 해 주세요");
     const before = (sql.prepare("SELECT COUNT(*) n FROM games").get() as any).n;
     // 동시 요청도 상한을 넘지 못한다
-    await Promise.all([1, 2, 3, 4].map(() => postWith(e, "/api/game/start", { topic: "age" })));
+    await Promise.all([1, 2, 3, 4].map(() => postWith(e, "/api/game/start", { topic: "population" })));
     expect((sql.prepare("SELECT COUNT(*) n FROM games").get() as any).n).toBe(before);
     expect((sql.prepare("SELECT n FROM daily_counts WHERE day='2031-01-05'").get() as any).n).toBe(3);
     clock = Date.UTC(2031, 0, 6, 0, 0, 1);
-    expect((await postWith(e, "/api/game/start", { topic: "age" })).status).toBe(200);
+    expect((await postWith(e, "/api/game/start", { topic: "population" })).status).toBe(200);
     clock = saved;
   });
   it("잘못된 주제로는 하루 횟수를 쓰지 않는다", async () => {
@@ -352,7 +352,7 @@ describe("시간 초과 끝내기와 표시 단위", () => {
       expect((await post("/api/game/answer", mk(g))).status).toBe(409);
     }
     // 연승 중이어도 그 문제는 틀림, 연승은 유지
-    const g = (await start("age")).b;
+    const g = (await start("population")).b;
     const a1 = await answer(g.game_id, g.question.question_id, right(g.game_id, g.question.question_id));
     const q2 = a1.b.next_question;
     const t: any = await (await post("/api/game/answer", { game_id: g.game_id, question_id: q2.question_id, choice_code: null })).json();

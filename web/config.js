@@ -14,8 +14,7 @@ window.JIYEOK_CONFIG = {
   // 주제 버튼 (순서대로 보임). main: true 가 가장 큰 기본 버튼
   topics: [
     { id: "all",  icon: "🎲", name: "모든 분야 도전", main: true, serverTopic: "mix" },
-    { id: "pop",  icon: "👥", name: "인구", serverTopic: "population" },
-    { id: "age",  icon: "🎂", name: "나이", serverTopic: "age" },
+    { id: "pop",  icon: "👥", name: "인구·나이", serverTopic: "population" },
     { id: "map",  icon: "🗺", name: "지도·자연", serverTopic: "map" }
   ],
 
