@@ -6,7 +6,7 @@
  function button(text,fn,cls){var b=el('button','btn '+(cls||'home-btn'),text.replace('🏆',''));if(text.includes('🏆')){var icon=el('img','emoji-image inline-emoji');icon.src='assets/emoji/trophy.svg';icon.alt='';b.prepend(icon);}b.type='button';b.addEventListener('click',fn);return b;}
  function read(key,fallback){try{return JSON.parse(localStorage.getItem('region-king:'+key))||fallback;}catch{return fallback;}}
  function save(key,val){try{localStorage.setItem('region-king:'+key,JSON.stringify(val));}catch{/* 저장 차단 시 게임은 계속 */}}
- function topicName(t){var x=(app?app.cfg.topics:window.JIYEOK_CONFIG.topics).find(function(x){return x.serverTopic===t;});return x?x.name:'모두 섞기';}
+ function topicName(t){var x=(app?app.cfg.topics:window.JIYEOK_CONFIG.topics).find(function(x){return x.serverTopic===t;});return x?x.name:'모든 분야 도전';}
  function bestLabel(t){var n=read('bests',{})[t];return n?'내 최고 '+n+'연승':'기록 없음';}
  function remember(topic,n){var bests=read('bests',{});if(Number.isInteger(n)&&n>(bests[topic]||0)){bests[topic]=n;save('bests',bests);}refreshBests();}
  function refreshBests(){(app.cfg.topics||[]).forEach(function(t){var e=document.querySelector('[data-record="'+t.id+'"]');if(e)e.textContent=bestLabel(t.serverTopic);});}
