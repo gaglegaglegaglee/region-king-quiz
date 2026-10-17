@@ -9,7 +9,7 @@ window.JIYEOK_CONFIG = {
   sourceText: "자료: 통계청 KOSIS(행정안전부 주민등록 인구통계, 국토교통부) · 경계: VWorld / KnellBalm(2023) · 인천 신설 4구 모양 제외",
 
   // 한 줄 설명
-  tagline: "실제 공공데이터로 만든 지역 퀴즈, 몇 연승까지 갈 수 있을까?",
+  tagline: "비교하면, 우리나라가 보인다. 공공데이터 지역 비교 퀴즈",
 
   // 주제 버튼 (순서대로 보임). main: true 가 가장 큰 기본 버튼
   topics: [
