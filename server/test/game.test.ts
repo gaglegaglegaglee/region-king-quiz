@@ -69,16 +69,16 @@ describe("판 시작", () => {
   });
   it("주제 필터", async () => {
     const seen: Record<string, Set<string>> = {};
-    for (const t of ["population", "age", "map", "cars", "mix"]) {
+    for (const t of ["population", "age", "map", "mix"]) {
       seen[t] = new Set();
       for (let i = 0; i < (t === "mix" ? 150 : 60); i++) seen[t].add((await start(t)).b.question.stat_key);
     }
     expect([...seen.population].every((k) => statKeysOfTopic("population").includes(k as any))).toBe(true);
     expect([...seen.age].every((k) => statKeysOfTopic("age").includes(k as any))).toBe(true);
-    expect([...seen.cars].every((k) => statKeysOfTopic("cars").includes(k as any))).toBe(true);
-    expect([...seen.map].sort()).toEqual(["area", "name_to_shape", "parent", "shape_to_name"]);
-    expect(seen.population.size).toBe(4); expect(seen.age.size).toBe(3); expect(seen.cars.size).toBe(2);
-    expect(seen.mix.size).toBe(13);
+    expect((await start("cars")).r.status).toBe(400);
+    expect([...seen.map].sort()).toEqual(["area", "name_to_shape", "parent", "shape_to_name","annual_temp","annual_precip","mean_elevation","position_north","position_south","position_east","position_west"].sort());
+    expect(seen.population.size).toBe(4); expect(seen.age.size).toBe(3); expect(seen.mix.has("cars")).toBe(false);expect(seen.mix.has("cars_per_1000")).toBe(false);
+    expect(seen.mix.size).toBe(18);
   });
   it("시·도는 줄임말, 해설용 정식 이름은 답한 뒤 values에", async () => {
     let found = false;

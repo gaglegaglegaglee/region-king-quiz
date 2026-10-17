@@ -67,3 +67,7 @@ npm run sql
 `node src/refresh.mjs --out <새 빈 폴더>`는 최신 공통 게시월을 선택해 통계 10종을 모두 수집·검증한 뒤 후보 bundle.json을 저장합니다. 기존 data는 바꾸지 않습니다.
 `node src/apply-refresh.mjs <후보폴더>/bundle.json`은 Cloudflare 계정·토큰 환경변수로 D1에 후보를 올리고, 단일 활성화 문장으로 통계와 메타데이터를 함께 교체합니다. 실패 시 기존 값·기준일을 보존합니다.
 월간 Actions는 매월20일13:20(KST)에 동작하며 KOSIS_API_KEY/CLOUDFLARE_ACCOUNT_ID/CLOUDFLARE_API_TOKEN을 비밀값으로 읽습니다. 정적 웹에는 키가 필요 없습니다.
+
+## 자연·위치 자료
+
+기후평년값·표본 평균고도·동서남북 대표점은 `tools/build_nature.py`로 별도 생성합니다. [자료 기준과 재현 안내](../data/nature/README.md)를 참고하세요. 월간 KOSIS 10종 묶음은 과거 기록 호환을 위해 유지하지만 자동차는 현재 출제하지 않습니다.

@@ -39,6 +39,7 @@ export interface Shape { path: string; viewBox: string }
 export interface MapHint { outline: Shape; highlight: Shape; label: string }
 export interface PublicQuestion {
   question_id: string;
+  basis?: string;
   stat_key: QuestionKey;
   text: string;
   choices: { code: string; name: string; shape?: Shape }[];
@@ -59,7 +60,7 @@ export interface ServerQuestion extends PublicQuestion {
   explanation?: string;
 }
 export function toPublic(q: ServerQuestion): PublicQuestion {
-  return { question_id: q.question_id, stat_key: q.stat_key, text: q.text, choices: q.choices.map((c) => ({ code: c.code, name: c.name, ...(c.shape ? { shape: c.shape } : {}) })), ...(q.kind ? { kind: q.kind } : {}), ...(q.shape ? { shape: q.shape } : {}), ...(q.hint ? { hint: q.hint } : {}) };
+  return { question_id: q.question_id, stat_key: q.stat_key, text: q.text, ...(q.basis ? {basis:q.basis} : {}), choices: q.choices.map((c) => ({ code: c.code, name: c.name, ...(c.shape ? { shape: c.shape } : {}) })), ...(q.kind ? { kind: q.kind } : {}), ...(q.shape ? { shape: q.shape } : {}), ...(q.hint ? { hint: q.hint } : {}) };
 }
 
 export type Rng = () => number;
@@ -234,6 +235,7 @@ export function pickQuestion(pool: Pool, difficulty: Difficulty, opts: PickOptio
     question_id: opts.questionId ?? crypto.randomUUID(),
     stat_key: pool.stat,
     text: def.question.replace("{pair}", pairText(first.name, second.name)),
+    ...(def.basis ? {basis:def.basis} : {}),
     choices: [{ code: first.code, name: first.name }, { code: second.code, name: second.name }],
     level: pool.level,
     difficulty: usedDifficulty,

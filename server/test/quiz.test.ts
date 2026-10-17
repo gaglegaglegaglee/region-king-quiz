@@ -41,11 +41,11 @@ describe("조사 와/과", () => {
 });
 
 describe("통계 목록", () => {
-  it("10가지, 주제 묶음이 PRD와 같다", () => {
-    expect(Object.keys(STATS)).toHaveLength(10);
+  it("17개 정의 중 자동차2개는 과거 기록 호환, 활성 비교15개", () => {
+    expect(Object.keys(STATS)).toHaveLength(17);
     expect(statKeysOfTopic("population").sort()).toEqual(["density", "persons_per_household", "pop_change_5y", "population"]);
     expect(statKeysOfTopic("age").sort()).toEqual(["avg_age", "child_ratio", "elderly_ratio"]);
-    expect(statKeysOfTopic("map")).toEqual(["area"]);
+    expect(statKeysOfTopic("map")).toEqual(expect.arrayContaining(["area","annual_temp","annual_precip","mean_elevation","position_north","position_south","position_east","position_west"]));
     expect(statKeysOfTopic("cars").sort()).toEqual(["cars", "cars_per_1000"]);
     expect(STATS.avg_age.direction).toBe("lower");
     expect(STATS.population.format(279000)).toBe("27.9만 명");

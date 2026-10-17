@@ -8,3 +8,5 @@ __pycache__/
 
 # Also ignore development dependency symlinks.
 node_modules
+
+.cache/

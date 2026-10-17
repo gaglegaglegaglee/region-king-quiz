@@ -2,12 +2,15 @@
 // 키는 collector가 저장하는 stat_key와 같아야 한다(S2-1).
 export type StatKey =
   | "population" | "area" | "density" | "pop_change_5y" | "elderly_ratio"
-  | "child_ratio" | "avg_age" | "persons_per_household" | "cars" | "cars_per_1000";
+  | "child_ratio" | "avg_age" | "persons_per_household" | "cars" | "cars_per_1000"
+  | "annual_temp" | "annual_precip" | "mean_elevation"
+  | "position_north" | "position_south" | "position_east" | "position_west";
 
 // 주제 묶음(PRD F1). 지도 주제의 모양 문제는 스프린트 4.
 export type Topic = "population" | "age" | "map" | "cars";
 
 export interface StatDef {
+  basis?: string;
   label: string; // 통계 이름
   /** 문제 문구 틀. {pair}는 "A와 B"(받침에 맞는 조사)로 바뀐다. */
   question: string;
@@ -33,6 +36,14 @@ const man = (unitWord: string, small: string) => (v: number) =>
   v >= 10000 ? `${(v / 10000).toFixed(1)}만 ${unitWord}` : `${comma(v)}${small}`;
 
 export const STATS: Record<StatKey, StatDef> = {
+  position_north: {label:"북쪽 위치",question:"{pair} 중 대표점이 더 북쪽인 곳은?",direction:"higher",unit:"°",topic:"map",format:(v)=>`북위 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"2023 경계에서 계산한 지역 내부 대표점 기준 · 극점이나 청사 위치가 아닙니다"},
+  position_south: {label:"남쪽 위치",question:"{pair} 중 대표점이 더 남쪽인 곳은?",direction:"lower",unit:"°",topic:"map",format:(v)=>`북위 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"2023 경계에서 계산한 지역 내부 대표점 기준 · 극점이나 청사 위치가 아닙니다"},
+  position_east: {label:"동쪽 위치",question:"{pair} 중 대표점이 더 동쪽인 곳은?",direction:"higher",unit:"°",topic:"map",format:(v)=>`동경 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"2023 경계에서 계산한 지역 내부 대표점 기준 · 극점이나 청사 위치가 아닙니다"},
+  position_west: {label:"서쪽 위치",question:"{pair} 중 대표점이 더 서쪽인 곳은?",direction:"lower",unit:"°",topic:"map",format:(v)=>`동경 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"2023 경계에서 계산한 지역 내부 대표점 기준 · 극점이나 청사 위치가 아닙니다"},
+  annual_temp: { label:"연평균기온",question:"{pair} 중 연평균기온이 높은 곳은?",direction:"higher",unit:"℃",topic:"map",format:fixed(1,"℃"),diffMode:"absolute",minAbsDiff:1,basis:"1991~2020 기후평년값 · 지역 내 대표 관측지점 기준" },
+  annual_precip: { label:"연강수량",question:"{pair} 중 연간 강수량이 많은 곳은?",direction:"higher",unit:"mm",topic:"map",format:(v)=>`${comma(v)}mm`,diffMode:"relative",minAbsDiff:100,basis:"1991~2020 기후평년값 · 지역 내 대표 관측지점 기준" },
+  mean_elevation: { label:"평균 해발고도(근사)",question:"{pair} 중 평균 해발고도가 높은 곳은?",direction:"higher",unit:"m",topic:"map",format:(v)=>`약 ${comma(Math.round(v/10)*10)}m`,diffMode:"absolute",minAbsDiff:50,basis:"지역 전체 약300m 간격 표고 표본의 면적가중 평균 · 근삿값" },
+
   population: { label: "인구", question: "{pair} 중 인구가 많은 곳은?", direction: "higher", unit: "명", topic: "population", format: man("명", "명"), diffMode: "relative", minAbsDiff: 1000 },
   pop_change_5y: { label: "5년간 인구 증감률", question: "{pair} 중 최근 5년간 인구가 더 많이 늘어난 곳은?", direction: "higher", unit: "%", topic: "population", format: (v) => `${v > 0 ? "+" : ""}${v.toFixed(1)}%`, diffMode: "absolute", minAbsDiff: 0.5 },
   density: { label: "인구 밀도", question: "{pair} 중 인구 밀도가 높은 곳은?", direction: "higher", unit: "명/㎢", topic: "population", format: (v) => `1㎢당 ${comma(v)}명`, diffMode: "relative", minAbsDiff: 1 },

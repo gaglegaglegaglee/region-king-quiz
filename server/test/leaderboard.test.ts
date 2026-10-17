@@ -28,7 +28,7 @@ describe('verified leaderboard',()=>{
   it('only finished server scores, no zero scores or client-controlled streak/topic',async()=>{
     const result=await submitScore(deps(),{game_id:game(3,'population'),nickname:'지역왕',streak:999,topic:'cars'});
     expect(result.record).toMatchObject({nickname:'지역왕',topic:'population',streak:3,created_at:now});
-    expect(result.overall_rank).toBe(1);expect((await listScores(deps(),'cars')).records).toHaveLength(0);
+    expect(result.overall_rank).toBe(1);await expect(listScores(deps(),'cars')).rejects.toMatchObject({status:400});
     await expect(submitScore(deps(),{game_id:game(0),nickname:'하늘'})).rejects.toThrow('1연승');
     await expect(submitScore(deps(),{game_id:game(2,'mix',now,1500,'playing'),nickname:'하늘'})).rejects.toThrow('마친 뒤');
     const bad=game();sql.prepare('UPDATE games SET streak=99 WHERE id=?').run(bad);
@@ -92,12 +92,12 @@ describe('operator',()=>{
     expect(JSON.stringify(sql.prepare('SELECT * FROM admin_attempts').all())).not.toContain('test-only');now+=15*60000;
     await expect(authorizeAdmin(deps(),'test-only',{password:'test-only'})).resolves.toBeUndefined();
   });
-  it('ten metric dates/missing counts and immediate score deletion',async()=>{
+  it('active metric dates/missing counts and immediate score deletion',async()=>{
     sql.exec("INSERT INTO regions(code,name,level,active) VALUES('11','서울','sido',1),('26','부산','sido',1)");
     sql.exec("INSERT INTO stat_meta VALUES('population','인구','명','행안부','2026-09','2026-10-16')");
     sql.exec("INSERT INTO stat_values VALUES('11','population',100,'명','2026-09','행안부','2026-10-16')");
     const score=await submitScore(deps(),{game_id:game(),nickname:'지역왕'}),status=await adminStatus(deps());
-    expect(status.stats).toHaveLength(10);expect(status.stats.find(x=>x.key==='population')).toMatchObject({ref_date:'2026-09',fetched_at:'2026-10-16',regions:2,present:1,missing:1});
+    expect(status.stats).toHaveLength(15);expect(status.stats.find(x=>x.key==='population')).toMatchObject({ref_date:'2026-09',fetched_at:'2026-10-16',regions:2,present:1,missing:1});
     expect(status.stats.find(x=>x.key==='area')).toMatchObject({ref_date:null,missing:2});expect(status.total_records).toBe(1);
     await deleteScore(deps(),{id:score.record.id});expect((await listScores(deps())).records).toHaveLength(0);
     await expect(deleteScore(deps(),{id:score.record.id})).rejects.toMatchObject({status:404});

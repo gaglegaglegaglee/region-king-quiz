@@ -44,6 +44,7 @@
 
     box.appendChild(btn);
     box.appendChild(rec);
+    if(t.serverTopic==="map"){var info=document.createElement("small");info.className="topic-info";info.textContent="모양 · 동서남북 · 기후 · 고도";box.appendChild(info);}
     return box;
   }
 
@@ -161,6 +162,7 @@
     $("g-streak-n").textContent = "0";
     $("g-num").textContent = "";
     $("g-question").textContent = T.loading;
+    $("g-basis").hidden=true;
     $("g-choices").textContent = "";
     $("g-verdict").textContent = "";
     $("g-verdict").className = "verdict";
@@ -190,6 +192,8 @@
     st.picked = null;
     $("g-num").textContent = q.number + "번 문제";
     $("g-question").textContent = q.text;
+    $("g-basis").textContent=q.basis||"";
+    $("g-basis").hidden=!q.basis;
     $("g-verdict").textContent = "";
     $("g-verdict").className = "verdict";
     $("g-ref").textContent = "";

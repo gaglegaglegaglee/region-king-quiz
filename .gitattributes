@@ -1,0 +1,2 @@
+# Preserve the official CP949/CRLF source CSV byte-for-byte.
+data/nature/kma-normals-1991-2020.csv binary

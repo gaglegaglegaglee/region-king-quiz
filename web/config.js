@@ -6,7 +6,7 @@ window.JIYEOK_CONFIG = {
   apiBase: "https://region-king-api.dotlee.workers.dev",
 
   // 모든 화면 맨 아래에 보이는 자료 출처 문구
-  sourceText: "자료: 통계청 KOSIS(행정안전부 주민등록 인구통계, 국토교통부) · 경계: VWorld / KnellBalm(2023) · 인천 신설 4구 모양 제외",
+  sourceText: "자료: 행정안전부·한국국토정보공사(KOSIS), 기상청, USGS/Mapzen · 경계: VWorld / KnellBalm(2023) · 인천 신설 4구 모양 제외",
 
   // 한 줄 설명
   tagline: "비교하면, 우리나라가 보인다. 공공데이터 지역 비교 퀴즈",
@@ -16,8 +16,7 @@ window.JIYEOK_CONFIG = {
     { id: "all",  icon: "🎲", name: "모두 섞기", main: true, serverTopic: "mix" },
     { id: "pop",  icon: "👥", name: "인구", serverTopic: "population" },
     { id: "age",  icon: "🎂", name: "나이", serverTopic: "age" },
-    { id: "map",  icon: "🗺", name: "지도", serverTopic: "map" },
-    { id: "car",  icon: "🚗", name: "자동차", serverTopic: "cars" }
+    { id: "map",  icon: "🗺", name: "지도·자연", serverTopic: "map" }
   ],
 
   // 자료 기준 날짜 문구(서버에서 받은 기준월이 {date}에 들어감). 서버에 연결하지 못하면 아무것도 보이지 않습니다.
