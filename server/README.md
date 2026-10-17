@@ -63,4 +63,4 @@ POST /api/leaderboard {game_id,nickname}: 서버가 확인한 종료 판당 한 
 POST /api/admin/status {password,page}: 통계 10종과 순위 목록(50개씩)
 POST /api/admin/delete {password,id}: 관리자만 삭제합니다. ADMIN_PASSWORD는 Worker Secret에 둡니다.
 
-학교 공용 Wi-Fi를 고려해 IP별 시작120회/분·응답600회/분으로 조정했습니다. 순위 관련60회/분·관리20회/분 제한이 있고 하루 판 시작 상한은 기존20,000입니다. 무료 서비스의 전체 사용량은 공급자 대시보드에서 확인하세요.
+학교 공용 Wi-Fi를 고려해 IP별 시작120회/분·응답600회/분으로 조정했습니다. 순위 관련240회/분·관리20회/분 제한이 있고 하루 판 시작 상한은 기존20,000입니다. 무료 서비스의 전체 사용량은 공급자 대시보드에서 확인하세요.
