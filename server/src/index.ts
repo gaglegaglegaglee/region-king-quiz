@@ -1,8 +1,14 @@
 // 지역왕 게임 서버: /api/health, /api/game/start, /api/game/answer, 허용 출처(CORS), 한국어 오류, 하루 한 번 옛 판 정리.
 import { GameError, answerGame, purgeOldGames, startGame, type GameDeps } from "./game";
 import type { Rng } from "./quiz";
+import { GEO_STATUS } from "./geo";
+import { submitScore,listScores,estimateRank } from "./leaderboard";
+import { authorizeAdmin,adminStatus,deleteScore } from "./admin";
 export interface Env {
   DB: D1Database;
+  ADMIN_PASSWORD?: string;
+  SCORE_LIMITER?: RateLimit;
+  ADMIN_LIMITER?: RateLimit;
   ALLOWED_ORIGINS?: string;
   START_LIMITER?: RateLimit; // 주소(IP)별 판 시작 분당 상한 (wrangler.toml [[ratelimits]])
   ANSWER_LIMITER?: RateLimit; // 주소별 답 분당 상한
@@ -80,7 +86,8 @@ export function createWorker(opts: WorkerOptions = {}) {
         origin = reqOrigin;
       }
       try {
-        const { pathname } = new URL(request.url);
+        const url = new URL(request.url);
+        const { pathname } = url;
         if (request.method === "OPTIONS") {
           const headers = new Headers({ Vary: "Origin" });
           if (origin) {
@@ -96,6 +103,30 @@ export function createWorker(opts: WorkerOptions = {}) {
             return json({ ok: false, message: "이 방식으로는 쓸 수 없어요" }, 405, origin);
           }
           return await health(env, origin);
+        }
+        const ranking = pathname === "/api/leaderboard" || pathname === "/api/leaderboard/estimate";
+        const admin = pathname === "/api/admin/status" || pathname === "/api/admin/delete";
+        if (ranking || admin) {
+          const deps = {db:env.DB,now};
+          const limiter = admin ? env.ADMIN_LIMITER : env.SCORE_LIMITER;
+          if (limiter) {
+            const limit=await limiter.limit({key:request.headers.get("cf-connecting-ip")??"local"});
+            if (!limit.success) return json({ok:false,message:"요청이 많아요. 잠시 후 다시 해 주세요"},429,origin);
+          }
+          if (admin) {
+            if(request.method!=="POST") return json({ok:false,message:"이 방식으로는 쓸 수 없어요"},405,origin);
+            const body=await readJson(request);
+            await authorizeAdmin(deps,env.ADMIN_PASSWORD,body);
+            return json({ok:true,...(pathname.endsWith("/delete")?await deleteScore(deps,body):{...await adminStatus(deps,(body as {page?:unknown}).page??1),geography:GEO_STATUS})},200,origin);
+          }
+          if (request.method === "GET") {
+            const result=pathname.endsWith("/estimate")
+              ? await estimateRank(deps,url.searchParams.get("game_id"))
+              : await listScores(deps,url.searchParams.get("topic")??"mix",url.searchParams.get("period")??"all");
+            return json({ok:true,...result},200,origin);
+          }
+          if(request.method!=="POST" || pathname.endsWith("/estimate")) return json({ok:false,message:"이 방식으로는 쓸 수 없어요"},405,origin);
+          return json({ok:true,...await submitScore(deps,await readJson(request))},200,origin);
         }
         if (pathname === "/api/game/start" || pathname === "/api/game/answer") {
           if (request.method !== "POST") return json({ ok: false, message: "이 방식으로는 쓸 수 없어요" }, 405, origin);
@@ -118,7 +149,8 @@ export function createWorker(opts: WorkerOptions = {}) {
           }
         }
         return json({ ok: false, message: "찾을 수 없는 주소예요" }, 404, origin);
-      } catch {
+      } catch (error) {
+        if(error instanceof GameError) return json({ok:false,message:error.message},error.status,origin);
         // 예외 내용·스택은 밖으로 내보내지 않는다.
         return json({ ok: false, message: "서버에 문제가 생겼어요. 잠시 뒤에 다시 해 주세요" }, 500, origin);
       }

@@ -12,6 +12,8 @@
     "population": "node src/fetch-population.mjs",
     "load-population": "npm run population && cd ../server && npx wrangler d1 execute DB --local --file=../data/stats/population.sql",
     "stats": "node src/fetch-stats.mjs",
-    "load-stats": "npm run stats && cd ../server && npx wrangler d1 execute DB --local --file=../data/stats/all.sql"
+    "load-stats": "npm run stats && cd ../server && npx wrangler d1 execute DB --local --file=../data/stats/all.sql",
+    "refresh": "node src/refresh.mjs",
+    "apply-refresh": "node src/apply-refresh.mjs"
   }
 }

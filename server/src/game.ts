@@ -1,8 +1,9 @@
 // 게임 판 진행: 판 시작 → 문제 받기 → 답 내기. 정답 판정은 출제 때 저장한 answer_code로만 한다.
+import { GEO_KEYS, pickGeoQuestion } from "./geo";
 import { STATS, statKeysOfTopic, type StatKey, type Topic } from "./stats";
 import {
   chooseLevel, loadPool, pairKey, pickQuestion, toPublic,
-  type Difficulty, type Level, type PublicQuestion, type Rng, type ServerQuestion,
+  type QuestionKey, type Difficulty, type Level, type PublicQuestion, type Rng, type ServerQuestion,
 } from "./quiz";
 
 export const TIME_LIMIT_SEC = 15;
@@ -32,7 +33,12 @@ const QUESTION_ID_RE = /^[0-9A-Za-z-]{1,64}$/;
 const CODE_RE = /^[0-9A-Za-z]{1,20}$/;
 
 export interface NumberedQuestion extends PublicQuestion { number: number; time_limit_sec: number }
-interface StoredValue { code: string; name: string; name_full: string; value: number }
+interface StoredValue { code: string; name: string; name_full: string; value: number | null; display?: string }
+interface StoredGeo { choices: StoredValue[]; key: string; explanation: string; unit: string }
+function decodeStored(json: string): { choices: StoredValue[]; geo?: StoredGeo } {
+  const data = JSON.parse(json) as StoredValue[] | StoredGeo;
+  return Array.isArray(data) ? { choices: data } : { choices: data.choices, geo: data };
+}
 
 function statsOfTopic(topic: GameTopic): StatKey[] {
   return topic === "mix" ? (Object.keys(STATS) as StatKey[]) : statKeysOfTopic(topic as Topic);
@@ -42,18 +48,23 @@ function statsOfTopic(topic: GameTopic): StatKey[] {
 async function makeQuestion(
   deps: GameDeps, topic: GameTopic, number: number, lastStat: string | null, exclude: Set<string>,
 ): Promise<ServerQuestion | null> {
-  const keys = statsOfTopic(topic);
+  const keys: QuestionKey[] = [...statsOfTopic(topic), ...((topic === "map" || topic === "mix") ? GEO_KEYS : [])];
   const order = keys.filter((k) => k !== lastStat);
   for (let i = order.length - 1; i > 0; i--) { // 무작위 섞기 — 앞에서부터 시도
     const j = Math.floor(deps.rng() * (i + 1));
     [order[i], order[j]] = [order[j], order[i]];
   }
-  if (keys.includes(lastStat as StatKey)) order.push(lastStat as StatKey); // 다른 통계로 못 내면 마지막 수단
+  if (keys.includes(lastStat as QuestionKey)) order.push(lastStat as QuestionKey); // 다른 통계로 못 내면 마지막 수단
   const difficulty = difficultyFor(number);
   for (const stat of order) {
+    if ((GEO_KEYS as string[]).includes(stat)) {
+      const q = pickGeoQuestion(stat as typeof GEO_KEYS[number], difficulty, { rng: deps.rng, exclude, questionId: `q${number}-${crypto.randomUUID().slice(0, 8)}` });
+      if (q) return q;
+      continue;
+    }
     const first = chooseLevel(difficulty, deps.rng);
     for (const level of [first, first === "sido" ? "sigungu" : "sido"] as Level[]) {
-      const pool = await loadPool(deps.db, stat, level, deps.now());
+      const pool = await loadPool(deps.db, stat as StatKey, level, deps.now());
       if (!pool) continue;
       const q = pickQuestion(pool, difficulty, { rng: deps.rng, exclude, questionId: `q${number}-${crypto.randomUUID().slice(0, 8)}` });
       if (q) return q;
@@ -63,13 +74,14 @@ async function makeQuestion(
 }
 
 function insertQuestion(db: D1Database, gameId: string, number: number, q: ServerQuestion, now: number): D1PreparedStatement {
-  const stored: StoredValue[] = q.choices.map((c) => ({ code: c.code, name: c.name, name_full: q.full_names[c.code], value: q.values[c.code] }));
+  const stored: StoredValue[] = q.choices.map((c) => ({ code: c.code, name: c.name, name_full: q.full_names[c.code], value: q.kind ? null : q.values[c.code], ...(q.displays ? { display: q.displays[c.code] } : {}) }));
+  const payload = q.kind ? { choices: stored, key: q.question_key, unit: "", explanation: q.explanation } : stored;
   return db
     .prepare(
       `INSERT INTO game_questions (game_id, question_id, number, stat_key, a_code, b_code, answer_code, values_json, ref_date, source, asked_at)
        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)`,
     )
-    .bind(gameId, q.question_id, number, q.stat_key, q.choices[0].code, q.choices[1].code, q.answer_code, JSON.stringify(stored), q.ref_date, q.source, now);
+    .bind(gameId, q.question_id, number, q.stat_key, q.choices[0].code, q.choices[1].code, q.answer_code, JSON.stringify(payload), q.ref_date, q.source, now);
 }
 
 function numbered(q: ServerQuestion, number: number): NumberedQuestion {
@@ -109,7 +121,8 @@ export interface AnswerResult {
   correct: boolean;
   timed_out?: boolean;
   answer_code: string;
-  values: { code: string; name: string; name_full: string; value: number; display: string }[];
+  values: { code: string; name: string; name_full: string; value: number | null; display: string }[];
+  explanation?: string;
   unit: string;
   ref_date: string;
   source: string;
@@ -140,7 +153,8 @@ export async function answerGame(deps: GameDeps, body: unknown): Promise<AnswerR
     .first<QRow>();
   if (!row) throw new GameError(404, "이 판에 없는 문제예요");
   if (row.answered_at !== null) throw new GameError(409, "이미 답한 문제예요");
-  if (!giveUp && choice_code !== row.a_code && choice_code !== row.b_code) throw new GameError(400, "이 문제에 없는 지역이에요");
+  const storedData = decodeStored(row.values_json);
+  if (!giveUp && !storedData.choices.some(v => v.code === choice_code)) throw new GameError(400, "이 문제에 없는 지역이에요");
 
   const now = deps.now();
   const timedOut = giveUp || now - row.asked_at > TIME_LIMIT_SEC * 1000 + GRACE_MS;
@@ -153,13 +167,14 @@ export async function answerGame(deps: GameDeps, body: unknown): Promise<AnswerR
     .run();
   if ((claim.meta?.changes ?? 0) !== 1) throw new GameError(409, "이미 답한 문제예요");
 
-  const stored = JSON.parse(row.values_json) as StoredValue[];
+  const stored = storedData.choices;
   const def = STATS[row.stat_key as StatKey];
   const result: AnswerResult = {
     correct,
     answer_code: row.answer_code,
-    values: stored.map((v) => ({ ...v, display: def.format(v.value) })),
-    unit: def.unit,
+    values: stored.map((v) => ({ ...v, display: v.display ?? def.format(v.value as number) })),
+    unit: storedData.geo?.unit ?? def.unit,
+    ...(storedData.geo ? { explanation: storedData.geo.explanation } : {}),
     ref_date: row.ref_date,
     source: row.source,
     streak: game.streak,
@@ -178,8 +193,8 @@ export async function answerGame(deps: GameDeps, body: unknown): Promise<AnswerR
   const streak = game.streak + 1;
   result.streak = streak;
   try {
-    const prev = await db.prepare("SELECT stat_key, a_code, b_code FROM game_questions WHERE game_id = ?1").bind(game_id).all<{ stat_key: StatKey; a_code: string; b_code: string }>();
-    const exclude = new Set((prev.results ?? []).map((r) => pairKey(r.stat_key, r.a_code, r.b_code)));
+    const prev = await db.prepare("SELECT stat_key, a_code, b_code, values_json FROM game_questions WHERE game_id = ?1").bind(game_id).all<{ stat_key: StatKey; a_code: string; b_code: string; values_json: string }>();
+    const exclude = new Set((prev.results ?? []).map((r) => decodeStored(r.values_json).geo?.key ?? pairKey(r.stat_key, r.a_code, r.b_code)));
     const number = row.number + 1;
     const next = await makeQuestion(deps, game.topic, number, row.stat_key, exclude);
     if (!next) { // 낼 문제가 없으면 이 판은 여기서 끝낸다(맞힌 것은 인정)

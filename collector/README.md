@@ -61,3 +61,9 @@ npm run sql
 - 이미 받은 응답으로 다시 만들려면 `node src/fetch-stats.mjs --from-dir 폴더`.
 - 1,000명당 자동차가 1,000대를 넘는 지역(영업용·렌터카 등록 영향)은 `data/stats/cars.json`, `cars_per_1000.json`에 값은 남기고 `quiz_exclude: true`를 붙이며, SQL에는 넣지 않아 문제에서 빠집니다(목록은 `report.json`). 이미 저장소에 들어간 값이 있다면 `all.sql`을 넣기 전에 해당 통계의 옛 행을 지워야 합니다.
 - 5년 전 인구는 지금 구성 기준으로 시·도 값을 보정합니다(군위군은 경북에서 빼고 대구에 더함).
+
+## 월간 안전 갱신
+
+`node src/refresh.mjs --out <새 빈 폴더>`는 최신 공통 게시월을 선택해 통계 10종을 모두 수집·검증한 뒤 후보 bundle.json을 저장합니다. 기존 data는 바꾸지 않습니다.
+`node src/apply-refresh.mjs <후보폴더>/bundle.json`은 Cloudflare 계정·토큰 환경변수로 D1에 후보를 올리고, 단일 활성화 문장으로 통계와 메타데이터를 함께 교체합니다. 실패 시 기존 값·기준일을 보존합니다.
+월간 Actions는 매월20일13:20(KST)에 동작하며 KOSIS_API_KEY/CLOUDFLARE_ACCOUNT_ID/CLOUDFLARE_API_TOKEN을 비밀값으로 읽습니다. 정적 웹에는 키가 필요 없습니다.

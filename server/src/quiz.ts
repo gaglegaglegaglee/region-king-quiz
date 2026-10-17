@@ -33,11 +33,18 @@ export const SAMPLE_PAIRS = 800;
 const SMALL_POOL = 40; // 이 이하면 짝을 전부 센다(시·도 16곳 = 120짝)
 const PICK_TRIES = 40;
 
+export type GeoStatKey = "parent" | "shape_to_name" | "name_to_shape";
+export type QuestionKey = StatKey | GeoStatKey;
+export interface Shape { path: string; viewBox: string }
+export interface MapHint { outline: Shape; highlight: Shape; label: string }
 export interface PublicQuestion {
   question_id: string;
-  stat_key: StatKey;
+  stat_key: QuestionKey;
   text: string;
-  choices: { code: string; name: string }[];
+  choices: { code: string; name: string; shape?: Shape }[];
+  kind?: GeoStatKey;
+  shape?: Shape;
+  hint?: MapHint;
 }
 export interface ServerQuestion extends PublicQuestion {
   level: Level;
@@ -47,9 +54,12 @@ export interface ServerQuestion extends PublicQuestion {
   full_names: Record<string, string>; // 코드 → 정식 이름
   ref_date: string;
   source: string;
+  question_key?: string;
+  displays?: Record<string, string>;
+  explanation?: string;
 }
 export function toPublic(q: ServerQuestion): PublicQuestion {
-  return { question_id: q.question_id, stat_key: q.stat_key, text: q.text, choices: q.choices.map((c) => ({ code: c.code, name: c.name })) };
+  return { question_id: q.question_id, stat_key: q.stat_key, text: q.text, choices: q.choices.map((c) => ({ code: c.code, name: c.name, ...(c.shape ? { shape: c.shape } : {}) })), ...(q.kind ? { kind: q.kind } : {}), ...(q.shape ? { shape: q.shape } : {}), ...(q.hint ? { hint: q.hint } : {}) };
 }
 
 export type Rng = () => number;

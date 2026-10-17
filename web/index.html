@@ -17,21 +17,22 @@
 
       <section class="topics" id="topics" aria-label="주제 고르기"></section>
 
-      <button type="button" class="btn rank-btn" id="rank-btn">🏆 순위표 보기</button>
+      <button type="button" class="btn rank-btn" id="rank-btn"><img class="emoji-image inline-emoji" src="assets/emoji/trophy.svg" alt=""> 순위표 보기</button>
 
       <p class="toast" id="toast" role="status" aria-live="polite"></p>
     </main>
 
     <main class="screen" id="game" hidden aria-label="게임 화면">
       <div class="game-top">
-        <p class="streak" id="g-streak" aria-live="polite">🔥 <span id="g-streak-n">0</span>연승</p>
+        <p class="streak" id="g-streak" aria-live="polite"><img class="emoji-image inline-emoji" src="assets/emoji/fire.svg" alt=""> <span id="g-streak-n">0</span>연승</p>
         <p class="qnum" id="g-num"></p>
       </div>
       <div class="timer" id="g-timer" aria-hidden="true"><div class="timer-fill" id="g-fill"></div></div>
       <h2 class="question" id="g-question"></h2>
+      <div id="g-geography" hidden></div>
       <div class="choices" id="g-choices"></div>
       <p class="verdict" id="g-verdict" role="status" aria-live="assertive" tabindex="-1"></p>
-      <p class="refline" id="g-ref"></p>
+      <p class="refline" id="g-ref"></p><p class="refline" id="g-explanation"></p>
       <button type="button" class="btn quit-btn" id="g-quit">그만하기</button>
       <div class="end" id="g-err" hidden>
         <p class="end-text" id="g-err-text" role="alert"></p>
@@ -43,6 +44,7 @@
     <main class="screen" id="result" hidden aria-label="결과 화면">
       <h2 class="r-title" id="r-title" tabindex="-1"></h2>
       <p class="r-reason" id="r-reason"></p>
+      <section id="r-record" aria-label="이번 기록과 순위표"></section>
       <div class="r-actions">
         <button type="button" class="btn again-btn" id="r-again">다시 하기</button>
         <button type="button" class="btn home-btn" id="r-home">홈으로</button>
@@ -52,19 +54,20 @@
         <p class="r-q" id="r-q"></p>
         <ul class="r-rows" id="r-rows"></ul>
         <p class="r-answer" id="r-answer"></p>
-        <p class="refline" id="r-ref"></p>
+        <p class="refline" id="r-ref"></p><p class="refline" id="r-detail"></p>
       </section>
       <p class="refline" id="r-noexplain" hidden></p>
     </main>
 
     <footer class="source">
-      <span id="source">자료: 통계청 KOSIS(행정안전부 주민등록 인구통계, 국토교통부) · 행정구역 경계: (준비 중)</span>
+      <span id="source">자료: 통계청 KOSIS(행정안전부 주민등록 인구통계, 국토교통부) · 경계: VWorld / KnellBalm(2023) · 인천 신설 4구 모양 제외</span>
       <span class="data-date" id="data-date" hidden></span>
     </footer>
   </div>
 
   <noscript><p class="noscript">이 게임은 자바스크립트가 켜져 있어야 해요. 브라우저 설정을 확인해 주세요.</p></noscript>
   <script src="config.js"></script>
+  <script src="features.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

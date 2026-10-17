@@ -5,3 +5,6 @@ node_modules/
 .wrangler/
 __pycache__/
 *.pyc
+
+# Also ignore development dependency symlinks.
+node_modules

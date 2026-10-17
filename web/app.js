@@ -24,7 +24,9 @@
     var icon = document.createElement("span");
     icon.className = "icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = t.icon;
+    var image=document.createElement("img");
+    image.src="assets/emoji/"+({mix:"dice",population:"people",age:"cake",map:"map",cars:"car"}[t.serverTopic]||"dice")+".svg";
+    image.alt="";image.className="emoji-image";icon.appendChild(image);
     var name = document.createElement("span");
     name.className = "name";
     name.textContent = t.name;
@@ -38,7 +40,7 @@
     var rec = document.createElement("p");
     rec.className = "record";
     rec.setAttribute("data-record", t.id);
-    rec.textContent = cfg.noRecordText || "기록 없음";
+    rec.textContent = window.RegionFeatures.bestLabel(t.serverTopic);
 
     box.appendChild(btn);
     box.appendChild(rec);
@@ -51,7 +53,7 @@
     var wrap = document.getElementById("topics");
     topics.forEach(function (t) { wrap.appendChild(makeTopic(t)); });
     document.getElementById("rank-btn").addEventListener("click", function () {
-      showToast(cfg.notReadyText || "준비 중이에요.");
+      window.RegionFeatures.openRanking("mix");
     });
   }
   // 서버에서 자료 기준월을 받아 출처 줄 아래에 보여 준다. 실패하면 조용히 숨긴 채로 둔다.
@@ -123,9 +125,7 @@
   }
 
   function show(which) {
-    $("home").hidden = which !== "home";
-    $("game").hidden = which !== "game";
-    $("result").hidden = which !== "result";
+    document.querySelectorAll(".screen").forEach(function(screen){screen.hidden=screen.id!==which;});
     window.scrollTo(0, 0);
   }
 
@@ -133,6 +133,7 @@
     clearTimers();
     st = null; // 늦게 도착한 응답은 버려진다
     show("home");
+    window.RegionFeatures.refreshBests();
   }
 
   // 게임 화면 아래 안내 박스(오류용). retryFn 이 없으면 "다시 시도" 버튼이 숨는다.
@@ -164,6 +165,7 @@
     $("g-verdict").textContent = "";
     $("g-verdict").className = "verdict";
     $("g-ref").textContent = "";
+    $("g-explanation").textContent = "";
     $("g-err").hidden = true;
     $("g-quit").hidden = false;
     resetFill();
@@ -191,10 +193,13 @@
     $("g-verdict").textContent = "";
     $("g-verdict").className = "verdict";
     $("g-ref").textContent = "";
+    $("g-explanation").textContent = "";
     $("g-err").hidden = true;
     $("g-quit").hidden = false;
     var box = $("g-choices");
     box.textContent = "";
+    window.RegionFeatures.renderGeo(q);
+    box.classList.toggle("grid-choices",q.choices.length===4);
     q.choices.forEach(function (c) {
       var b = document.createElement("button");
       b.type = "button";
@@ -203,6 +208,7 @@
       var n = document.createElement("span"); n.className = "c-name"; n.textContent = c.name;
       var m = document.createElement("span"); m.className = "c-mark";
       var v = document.createElement("span"); v.className = "c-val";
+      if(c.shape) b.appendChild(window.RegionFeatures.shape(c.shape));
       b.appendChild(n); b.appendChild(m); b.appendChild(v);
       b.addEventListener("click", function () { pick(c.code); });
       box.appendChild(b);
@@ -297,7 +303,7 @@
   }
   function nameOf(values, code) {
     var n = "";
-    (values || []).forEach(function (v) { if (v.code === code) n = v.name || v.name_full || ""; });
+    (values || []).forEach(function (v) { if (v.code === code) n = v.name_full || v.name || ""; });
     return n;
   }
 
@@ -317,6 +323,8 @@
     $("g-ref").textContent = fill(T.refLine, { date: refLabel(j.ref_date), source: j.source || "" });
     st.streak = typeof j.streak === "number" ? j.streak : st.streak;
     $("g-streak-n").textContent = String(st.streak);
+    window.RegionFeatures.remember(st.topic,st.streak);
+    $("g-explanation").textContent = j.explanation || "";
     var ans = nameOf(j.values, j.answer_code);
     var v = $("g-verdict");
     if (j.correct) {
@@ -355,6 +363,7 @@
     $("r-noexplain").textContent = missing === "lost" ? "" : T.noExplain;
     if (data) {
       $("r-q").textContent = q ? q.text : "";
+      $("r-detail").textContent = data.explanation || "";
       var list = $("r-rows");
       list.textContent = "";
       (data.values || []).forEach(function (v) {
@@ -374,6 +383,7 @@
       $("r-answer").textContent = fullAns ? fill(T.answerLine, { name: fullAns }) : "";
       $("r-ref").textContent = fill(T.refLine, { date: refLabel(data.ref_date), source: data.source || "" });
     }
+    window.RegionFeatures.onResult({topic:topic,streak:n,game_id:st&&st.gameId,confirmed:!!data});
     show("result");
     $("r-title").focus();
     st = null; // 판은 끝났다
@@ -388,6 +398,9 @@
   $("g-quit").addEventListener("click", function () { finishEarly("quit"); });
   $("r-home").addEventListener("click", goHome);
   $("r-again").addEventListener("click", function () { if (lastTopic) startGame(lastTopic); else goHome(); });
+  window.RegionFeatures.setup({show:show,home:goHome,post:post,apiUrl:apiUrl,cfg:cfg});
   init();
   showDataDate();
+  if(location.hash==="#admin") window.RegionFeatures.openAdmin();
+  window.addEventListener("hashchange",function(){if(location.hash==="#admin")window.RegionFeatures.openAdmin();else goHome();});
 })();

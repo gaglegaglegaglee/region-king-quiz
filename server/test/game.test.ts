@@ -76,9 +76,9 @@ describe("판 시작", () => {
     expect([...seen.population].every((k) => statKeysOfTopic("population").includes(k as any))).toBe(true);
     expect([...seen.age].every((k) => statKeysOfTopic("age").includes(k as any))).toBe(true);
     expect([...seen.cars].every((k) => statKeysOfTopic("cars").includes(k as any))).toBe(true);
-    expect([...seen.map]).toEqual(["area"]);
+    expect([...seen.map].sort()).toEqual(["area", "name_to_shape", "parent", "shape_to_name"]);
     expect(seen.population.size).toBe(4); expect(seen.age.size).toBe(3); expect(seen.cars.size).toBe(2);
-    expect(seen.mix.size).toBe(10);
+    expect(seen.mix.size).toBe(13);
   });
   it("시·도는 줄임말, 해설용 정식 이름은 답한 뒤 values에", async () => {
     let found = false;
@@ -133,7 +133,7 @@ describe("답 내기", () => {
   });
   it("정답 판정은 출제 때 저장한 값으로(원자료와도 일치)", async () => {
     for (let i = 0; i < 40; i++) {
-      const g = (await start("mix")).b;
+      const g = (await start("population")).b;
       const x = sql.prepare("SELECT stat_key, a_code, b_code, answer_code FROM game_questions WHERE game_id=?").get(g.game_id) as any;
       const val = (c: string) => (sql.prepare("SELECT value FROM stat_values WHERE region_code=? AND stat_key=?").get(c, x.stat_key) as any).value as number;
       const higher = STATS[x.stat_key as keyof typeof STATS].direction === "higher";
@@ -206,9 +206,9 @@ describe("긴 판", () => {
         if (n === 100) break;
         q = a.b.next_question;
       }
-      const rows = sql.prepare("SELECT stat_key, a_code, b_code FROM game_questions WHERE game_id=? ORDER BY number").all(g.game_id) as any[];
+      const rows = sql.prepare("SELECT stat_key, a_code, b_code, values_json FROM game_questions WHERE game_id=? ORDER BY number").all(g.game_id) as any[];
       expect(rows).toHaveLength(101);
-      expect(new Set(rows.map((r) => pairKey(r.stat_key, r.a_code, r.b_code))).size).toBe(101);
+      expect(new Set(rows.map((r) => { const v=JSON.parse(r.values_json); return Array.isArray(v) ? pairKey(r.stat_key, r.a_code, r.b_code) : v.key; })).size).toBe(101);
       for (let i = 1; i < rows.length; i++) expect(rows[i].stat_key).not.toBe(rows[i - 1].stat_key);
     }
   });
@@ -369,5 +369,38 @@ describe("시간 초과 끝내기와 표시 단위", () => {
     expect(STATS.child_ratio.format(9.95)).toMatch(/%$/);
     expect(STATS.population.format(9279861)).toBe("928.0만 명");
     expect(STATS.cars.format(3150052)).toBe("315.0만 대");
+  });
+});
+
+describe("지도 4지선다 진행과 답 공개", () => {
+  it("3·4번째 보기 정답도 인정하고, 모든 지도 유형의 해설은 답 뒤에만 공개한다", async () => {
+    const seen = new Set<string>();
+    let laterChoice = false;
+    const g = (await start("map")).b;
+    let q = g.question;
+    for (let i = 0; i < 65; i++) {
+      const code = right(g.game_id, q.question_id);
+      const chosen = q.choices.findIndex((c: any) => c.code === code);
+      if (q.kind) {
+        seen.add(q.kind);
+        expect(q.choices).toHaveLength(4);
+        expect(JSON.stringify(q)).not.toMatch(/answer_code|question_key|full_names|displays/);
+        if (chosen >= 2) laterChoice = true;
+      }
+      const a = await answer(g.game_id, q.question_id, code);
+      expect(a.r.status).toBe(200); expect(a.b.correct).toBe(true);
+      if (q.kind) {
+        expect(a.b.values).toHaveLength(4);
+        expect(a.b.values.every((v: any) => v.value === null && v.display && v.name_full)).toBe(true);
+        expect(a.b.explanation).toBeTruthy();
+      }
+      q = a.b.next_question;
+      expect(q).toBeTruthy();
+    }
+    expect([...seen].sort()).toEqual(["name_to_shape", "parent", "shape_to_name"]);
+    expect(laterChoice).toBe(true);
+    const history = sql.prepare("SELECT stat_key,values_json FROM game_questions WHERE game_id=?").all(g.game_id) as any[];
+    const keys = history.map(r => { const d = JSON.parse(r.values_json); return Array.isArray(d) ? undefined : d.key; }).filter(Boolean);
+    expect(new Set(keys).size).toBe(keys.length);
   });
 });

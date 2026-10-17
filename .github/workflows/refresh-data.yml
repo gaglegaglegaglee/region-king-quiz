@@ -1,0 +1,39 @@
+name: 월간 공공데이터 갱신
+on:
+  schedule:
+    # Every month on the 20th, 04:20 UTC (13:20 Korea).
+    - cron: '20 4 20 * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: monthly-stat-refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - name: Node 확인
+        run: node --version
+      - name: 수집기와 원자적 교체 검증
+        working-directory: collector
+        run: npm test
+      - name: 10가지 통계 수집 및 전체 검증
+        working-directory: collector
+        env:
+          KOSIS_API_KEY: ${{ secrets.KOSIS_API_KEY }}
+        run: node src/refresh.mjs --out "$RUNNER_TEMP/region-king-refresh"
+      - name: 검증된 자료를 D1에 한 번에 적용
+        working-directory: collector
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: node src/apply-refresh.mjs "$RUNNER_TEMP/region-king-refresh/bundle.json"
+      - name: 임시 자료 삭제
+        if: always()
+        run: node -e 'require("fs").rmSync(process.env.RUNNER_TEMP + "/region-king-refresh", { recursive:true, force:true })'

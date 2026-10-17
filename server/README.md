@@ -55,3 +55,12 @@ Cloudflare 토큰과 계정 ID는 파일에 적지 않고 환경변수 `CLOUDFLA
 2. `npm run deploy`
 3. 나온 주소 뒤에 `/api/health`를 붙여 열어 확인합니다.
 KOSIS 열쇠는 `npx wrangler secret put KOSIS_API_KEY`로 이미 넣어 두었습니다(값은 어디에도 적지 않습니다).
+
+## 순위와 운영자 API
+
+GET /api/leaderboard?topic=mix&period=all|week, GET /api/leaderboard/estimate?game_id=...
+POST /api/leaderboard {game_id,nickname}: 서버가 확인한 종료 판당 한 번 등록합니다. 임의 점수는 받지 않습니다.
+POST /api/admin/status {password,page}: 통계 10종과 순위 목록(50개씩)
+POST /api/admin/delete {password,id}: 관리자만 삭제합니다. ADMIN_PASSWORD는 Worker Secret에 둡니다.
+
+학교 공용 Wi-Fi를 고려해 IP별 시작120회/분·응답600회/분으로 조정했습니다. 순위 관련60회/분·관리20회/분 제한이 있고 하루 판 시작 상한은 기존20,000입니다. 무료 서비스의 전체 사용량은 공급자 대시보드에서 확인하세요.
