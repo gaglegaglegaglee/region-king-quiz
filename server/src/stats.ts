@@ -4,6 +4,7 @@ export type StatKey =
   | "population" | "area" | "density" | "pop_change_5y" | "elderly_ratio"
   | "child_ratio" | "avg_age" | "persons_per_household" | "cars" | "cars_per_1000"
   | "annual_temp" | "annual_precip" | "mean_elevation"
+  | "convenience_count" | "convenience_per_10000" | "cafe_count" | "cafe_per_10000" | "bakery_count" | "bakery_per_10000" | "karaoke_count" | "karaoke_per_10000" | "bicycle_length" | "coastline_length" | "road_length" | "rice_production" | "electricity_sales"
   | "position_north" | "position_south" | "position_east" | "position_west";
 
 // 주제 묶음(PRD F1). 지도 주제의 모양 문제는 스프린트 4.
@@ -36,6 +37,19 @@ const man = (unitWord: string, small: string) => (v: number) =>
   v >= 10000 ? `${(v / 10000).toFixed(1)}만 ${unitWord}` : `${comma(v)}${small}`;
 
 export const STATS: Record<StatKey, StatDef> = {
+  convenience_count: {label:"편의점 수",question:"{pair} 중 등록된 편의점이 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>comma(v)+"곳",diffMode:"relative",minAbsDiff:10},
+  convenience_per_10000: {label:"편의점 / 인구 1만 명",question:"{pair} 중 인구 1만 명당 등록된 편의점이 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>v.toFixed(1)+"곳 / 1만 명",diffMode:"relative",minAbsDiff:.2},
+  cafe_count: {label:"카페 수",question:"{pair} 중 등록된 카페가 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>comma(v)+"곳",diffMode:"relative",minAbsDiff:10},
+  cafe_per_10000: {label:"카페 / 인구 1만 명",question:"{pair} 중 인구 1만 명당 등록된 카페가 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>v.toFixed(1)+"곳 / 1만 명",diffMode:"relative",minAbsDiff:.2},
+  bakery_count: {label:"빵집 수",question:"{pair} 중 등록된 빵집이 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>comma(v)+"곳",diffMode:"relative",minAbsDiff:10},
+  bakery_per_10000: {label:"빵집 / 인구 1만 명",question:"{pair} 중 인구 1만 명당 등록된 빵집이 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>v.toFixed(1)+"곳 / 1만 명",diffMode:"relative",minAbsDiff:.2},
+  karaoke_count: {label:"노래방 수",question:"{pair} 중 등록된 노래방이 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>comma(v)+"곳",diffMode:"relative",minAbsDiff:5},
+  karaoke_per_10000: {label:"노래방 / 인구 1만 명",question:"{pair} 중 인구 1만 명당 등록된 노래방이 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>v.toFixed(1)+"곳 / 1만 명",diffMode:"relative",minAbsDiff:.2},
+  bicycle_length: {label:"자전거도로 길이",question:"{pair} 중 자전거도로 총연장이 더 긴 곳은?",direction:"higher",unit:"km",topic:"map",format:(v)=>v.toLocaleString("ko-KR",{maximumFractionDigits:1})+"km",diffMode:"relative",minAbsDiff:50},
+  coastline_length: {label:"해안선 길이",question:"{pair} 중 해안선이 더 긴 곳은?",direction:"higher",unit:"km",topic:"map",format:(v)=>v.toLocaleString("ko-KR",{maximumFractionDigits:1})+"km",diffMode:"relative",minAbsDiff:20},
+  road_length: {label:"도로 총연장",question:"{pair} 중 도로 총연장이 더 긴 곳은?",direction:"higher",unit:"km",topic:"map",format:(v)=>comma(v)+"km",diffMode:"relative",minAbsDiff:100},
+  rice_production: {label:"쌀 생산량",question:"{pair} 중 쌀 생산량이 더 많은 곳은?",direction:"higher",unit:"톤",topic:"industry",format:man("톤","톤"),diffMode:"relative",minAbsDiff:5000},
+  electricity_sales: {label:"전력판매량",question:"{pair} 중 전력판매량이 더 많은 곳은?",direction:"higher",unit:"MWh",topic:"industry",format:(v)=>comma(v)+"MWh",diffMode:"relative",minAbsDiff:100000},
   position_north: {label:"북쪽 위치",question:"{pair} 중 더 북쪽에 있는 곳은?",direction:"higher",unit:"°",topic:"map",format:(v)=>`북위 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"지역마다 지도 안에 기준 위치 하나를 정해 비교해요. (2023년 경계 기준)"},
   position_south: {label:"남쪽 위치",question:"{pair} 중 더 남쪽에 있는 곳은?",direction:"lower",unit:"°",topic:"map",format:(v)=>`북위 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"지역마다 지도 안에 기준 위치 하나를 정해 비교해요. (2023년 경계 기준)"},
   position_east: {label:"동쪽 위치",question:"{pair} 중 더 동쪽에 있는 곳은?",direction:"higher",unit:"°",topic:"map",format:(v)=>`동경 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"지역마다 지도 안에 기준 위치 하나를 정해 비교해요. (2023년 경계 기준)"},

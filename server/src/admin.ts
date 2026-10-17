@@ -1,5 +1,6 @@
 import { GameError } from './game';
 import { STATS } from './stats';
+import {isExtraKey,extraMeta} from './extra';
 import {isNatureKey,natureMeta} from './nature';
 import type { LeaderboardDeps } from './leaderboard';
 const WINDOW_MS = 15 * 60 * 1000;
@@ -33,6 +34,7 @@ export async function adminStatus(deps: LeaderboardDeps, pageInput: unknown = 1)
   const stats=[];
   for (const [key,def] of Object.entries(STATS)) {
     if(def.topic==="cars")continue;
+    if(isExtraKey(key)){stats.push(extraMeta(key));continue;}
     if(isNatureKey(key)){stats.push(natureMeta(key));continue;}
     const meta=metadata.get(key);
     const counts=await deps.db.prepare(`SELECT COUNT(v.region_code) present,MAX(v.fetched_at) fetched_at FROM regions r

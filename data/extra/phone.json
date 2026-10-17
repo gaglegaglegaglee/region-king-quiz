@@ -1,0 +1,76 @@
+{
+  "source": "KTis 114On 전국 전화 지역번호 안내",
+  "source_url": "https://www.114.co.kr/search?tab=market",
+  "ref_date": "2026-10-17 확인",
+  "basis": "전화 지역번호 안내표 기준 · 광명·과천·부천 등은 행정구역과 전화 통화권이 다를 수 있어요.",
+  "rows": [
+    {
+      "prefix": "02",
+      "region": "서울"
+    },
+    {
+      "prefix": "031",
+      "region": "경기"
+    },
+    {
+      "prefix": "032",
+      "region": "인천"
+    },
+    {
+      "prefix": "033",
+      "region": "강원"
+    },
+    {
+      "prefix": "041",
+      "region": "충남"
+    },
+    {
+      "prefix": "042",
+      "region": "대전"
+    },
+    {
+      "prefix": "043",
+      "region": "충북"
+    },
+    {
+      "prefix": "044",
+      "region": "세종"
+    },
+    {
+      "prefix": "051",
+      "region": "부산"
+    },
+    {
+      "prefix": "052",
+      "region": "울산"
+    },
+    {
+      "prefix": "053",
+      "region": "대구"
+    },
+    {
+      "prefix": "054",
+      "region": "경북"
+    },
+    {
+      "prefix": "055",
+      "region": "경남"
+    },
+    {
+      "prefix": "061",
+      "region": "전남"
+    },
+    {
+      "prefix": "062",
+      "region": "광주"
+    },
+    {
+      "prefix": "063",
+      "region": "전북"
+    },
+    {
+      "prefix": "064",
+      "region": "제주"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ window.JIYEOK_CONFIG = {
   apiBase: "https://region-king-api.dotlee.workers.dev",
 
   // 모든 화면 맨 아래에 보이는 자료 출처 문구
-  sourceText: "자료: 행정안전부·한국국토정보공사(KOSIS), 국토교통부(KOSIS), 기상청, USGS/Mapzen · 경계: VWorld / KnellBalm(2023) · 인천 신설 4구 모양 제외",
+  sourceText: "자료: 행정안전부·한국국토정보공사(KOSIS), 국토교통부(KOSIS), 기상청, 소상공인시장진흥공단, 국가데이터처, 한국전력공사, 해양수산부, USGS/Mapzen · 전화번호: KTis 114On · 경계: VWorld / KnellBalm(2023) · 인천 신설 4구 모양 제외",
 
   // 한 줄 설명
   tagline: "비교하면, 우리나라가 보인다. 공공데이터 지역 비교 퀴즈",
@@ -21,7 +21,7 @@ window.JIYEOK_CONFIG = {
   ],
 
   // 자료 기준 날짜 문구(서버에서 받은 기준월이 {date}에 들어감). 서버에 연결하지 못하면 아무것도 보이지 않습니다.
-  dataDateText: "자료 기준: {date}",
+  dataDateText: "인구 기준: {date}",
 
   // 게임 진행 설정
   game: {

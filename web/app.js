@@ -44,7 +44,7 @@
 
     box.appendChild(btn);
     box.appendChild(rec);
-    if(t.serverTopic!=="mix"){var info=document.createElement("small");info.className="topic-info";info.textContent=({population:"인구 · 나이 · 세대",nature:"기온 · 강수량 · 고도",map:"면적 · 동서남북 · 모양",industry:"자동차 등록 · 1,000명당 자동차"})[t.serverTopic]||"";box.appendChild(info);}
+    if(t.serverTopic!=="mix"){var info=document.createElement("small");info.className="topic-info";info.textContent=({population:"인구 · 나이 · 세대",nature:"기온 · 강수량 · 고도",map:"모양 · 위치 · 길이 · 지역번호",industry:"점포 · 자동차 · 쌀 · 전력"})[t.serverTopic]||"";box.appendChild(info);}
     return box;
   }
 

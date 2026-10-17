@@ -1,4 +1,5 @@
 // 게임 판 진행: 판 시작 → 문제 받기 → 답 내기. 정답 판정은 출제 때 저장한 answer_code로만 한다.
+import {isExtraKey,pickExtraQuestion} from "./extra";
 import { isNatureKey, pickNatureQuestion } from "./nature";
 import { GEO_KEYS, pickGeoQuestion } from "./geo";
 import { STATS, statKeysOfTopic, type StatKey, type Topic } from "./stats";
@@ -58,6 +59,9 @@ async function makeQuestion(
   if (keys.includes(lastStat as QuestionKey)) order.push(lastStat as QuestionKey); // 다른 통계로 못 내면 마지막 수단
   const difficulty = difficultyFor(number);
   for (const stat of order) {
+    if (isExtraKey(stat)) {
+      const q=pickExtraQuestion(stat,difficulty,{rng:deps.rng,exclude,questionId:`q${number}-${crypto.randomUUID().slice(0,8)}`});if(q)return q;continue;
+    }
     if (isNatureKey(stat)) {
       const q=pickNatureQuestion(stat,difficulty,{rng:deps.rng,exclude,questionId:`q${number}-${crypto.randomUUID().slice(0,8)}`});
       if(q)return q;

@@ -73,14 +73,14 @@ describe("판 시작", () => {
     const seen: Record<string, Set<string>> = {};
     for (const t of ["population", "nature", "map", "industry", "mix"]) {
       seen[t] = new Set();
-      for (let i = 0; i < (t === "mix" ? 150 : 60); i++) seen[t].add((await start(t)).b.question.stat_key);
+      for (let i = 0; i < (t === "mix" ? 500 : 200); i++) seen[t].add((await start(t)).b.question.stat_key);
     }
     expect([...seen.population].every((k) => [...statKeysOfTopic("population"), ...statKeysOfTopic("age")].includes(k as any))).toBe(true);
     expect((await start("age")).r.status).toBe(400);
     expect((await start("cars")).r.status).toBe(400);
-    expect([...seen.map].sort()).toEqual(["area", "name_to_shape", "parent", "shape_to_name","position_north","position_south","position_east","position_west"].sort());
-    expect(seen.population.size).toBe(7); expect([...seen.industry].sort()).toEqual(["cars","cars_per_1000"]);expect([...seen.nature].sort()).toEqual(["annual_precip","annual_temp","mean_elevation"]);
-    expect(seen.mix.size).toBe(20);
+    expect([...seen.map].sort()).toEqual(["area","bicycle_length","coastline_length","road_length","name_to_shape","parent","shape_to_name","phone_to_region","region_to_phone","position_north","position_south","position_east","position_west"].sort());
+    expect(seen.population.size).toBe(7); expect([...seen.industry].sort()).toEqual(statKeysOfTopic("industry").sort());expect([...seen.nature].sort()).toEqual(["annual_precip","annual_temp","mean_elevation"]);
+    expect(seen.mix.size).toBe(35);
   });
   it("시·도는 줄임말, 해설용 정식 이름은 답한 뒤 values에", async () => {
     let found = false;
@@ -399,7 +399,7 @@ describe("지도 4지선다 진행과 답 공개", () => {
       q = a.b.next_question;
       expect(q).toBeTruthy();
     }
-    expect([...seen].sort()).toEqual(["name_to_shape", "parent", "shape_to_name"]);
+    expect([...seen].sort()).toEqual(["name_to_shape", "parent", "phone_to_region", "region_to_phone", "shape_to_name"]);
     expect(laterChoice).toBe(true);
     const history = sql.prepare("SELECT stat_key,values_json FROM game_questions WHERE game_id=?").all(g.game_id) as any[];
     const keys = history.map(r => { const d = JSON.parse(r.values_json); return Array.isArray(d) ? undefined : d.key; }).filter(Boolean);
