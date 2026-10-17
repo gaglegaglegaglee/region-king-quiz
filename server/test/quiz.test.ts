@@ -41,13 +41,13 @@ describe("조사 와/과", () => {
 });
 
 describe("통계 목록", () => {
-  it("30개 비교 지표의 분야 분류", () => {
-    expect(Object.keys(STATS)).toHaveLength(30);
-    expect(statKeysOfTopic("population").sort()).toEqual(["density", "persons_per_household", "pop_change_5y", "population"]);
+  it("39개 비교 지표의 분야 분류", () => {
+    expect(Object.keys(STATS)).toHaveLength(39);
+    expect(statKeysOfTopic("population").sort()).toEqual(["daytime_increase", "density", "persons_per_household", "pop_change_5y", "population", "single_household_ratio"]);
     expect(statKeysOfTopic("age").sort()).toEqual(["avg_age", "child_ratio", "elderly_ratio"]);
     expect(statKeysOfTopic("map")).toEqual(expect.arrayContaining(["area","position_north","position_south","position_east","position_west"]));
     expect(statKeysOfTopic("industry").sort()).toEqual(expect.arrayContaining(["cars", "cars_per_1000"]));
-    expect(statKeysOfTopic("nature").sort()).toEqual(["annual_precip","annual_temp","mean_elevation"]);
+    expect(statKeysOfTopic("nature").sort()).toEqual(["annual_precip","annual_temp","mean_elevation","urban_park_per_person","snow_days","forest_share"].sort());
     expect(STATS.avg_age.direction).toBe("lower");
     expect(STATS.population.format(279000)).toBe("27.9만 명");
   });

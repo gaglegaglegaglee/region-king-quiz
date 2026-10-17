@@ -1,0 +1,29 @@
+{
+  "source": "고흥군 2026 주요업무계획(2025 평가) · 한국철도공사 역 위치정보",
+  "ref_date": "2025",
+  "source_urls": [
+    "https://www.goheung.go.kr/home/www/down/www453/2026/04%20%EA%B4%80%EA%B4%91%EC%A0%95%EC%B1%85%EC%8B%A4.pdf",
+    "https://www.data.go.kr/data/15127532/fileData.do"
+  ],
+  "basis": "2025년 지자체 공식 업무평가와 코레일 역 위치자료를 확인한 보기만 출제 · 전국 미수록 지역을 0으로 추정하지 않음",
+  "answer": "고흥군",
+  "others": [
+    {
+      "name": "순천시",
+      "station": "순천역"
+    },
+    {
+      "name": "목포시",
+      "station": "목포역"
+    },
+    {
+      "name": "보성군",
+      "station": "보성역"
+    }
+  ],
+  "evidence": "2025년 주요업무 평가: 철도 없는 곳에 우주과학열차 상품 등 방문객 급증",
+  "sha256": {
+    "goheung.pdf": "c28caafe4f51d6f71c70d46a79000045198c0445ff4f1a2e544a938495673cb6",
+    "rail-location.csv": "5efb7af37f800b6632c19bb050ce81dce4ab0ae54998b718e581c377e2f232aa"
+  }
+}

@@ -33,7 +33,7 @@ export const SAMPLE_PAIRS = 800;
 const SMALL_POOL = 40; // 이 이하면 짝을 전부 센다(시·도 16곳 = 120짝)
 const PICK_TRIES = 40;
 
-export type GeoStatKey = "parent" | "shape_to_name" | "name_to_shape" | "phone_to_region" | "region_to_phone";
+export type GeoStatKey = "parent" | "shape_to_name" | "name_to_shape" | "phone_to_region" | "region_to_phone" | "bridge_location" | "tunnel_location" | "railway_absence";
 export type QuestionKey = StatKey | GeoStatKey;
 export interface Shape { path: string; viewBox: string }
 export interface MapHint { outline: Shape; highlight: Shape; label: string }

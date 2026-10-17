@@ -31,7 +31,7 @@ describe("official administrative geometry", () => {
 describe("geo question generators", () => {
   it("four unique choices, correct parent from current legal data; no answer leakage", () => {
     const rng = seededRng(401);
-    for (const kind of GEO_KEYS.filter(k=>k!=="phone_to_region"&&k!=="region_to_phone")) for (const difficulty of ["easy", "normal", "hard"] as Difficulty[]) for (let i=0; i<80; i++) {
+    for (const kind of GEO_KEYS.filter(k=>["parent","shape_to_name","name_to_shape"].includes(k))) for (const difficulty of ["easy", "normal", "hard"] as Difficulty[]) for (let i=0; i<80; i++) {
       const q=pickGeoQuestion(kind,difficulty,{rng,questionId:`q-${i}`})!;
       expect(q.choices).toHaveLength(4);
       expect(new Set(q.choices.map(c=>c.code)).size).toBe(4);
@@ -58,7 +58,7 @@ describe("geo question generators", () => {
     }
   });
   it("same game does not repeat target/kind, even after easy province pool exhausts",()=>{
-    for(const kind of GEO_KEYS.filter(k=>k!=="phone_to_region"&&k!=="region_to_phone")) {
+    for(const kind of GEO_KEYS.filter(k=>["parent","shape_to_name","name_to_shape"].includes(k))) {
       const exclude=new Set<string>(),rng=seededRng(19);
       for(let i=0;i<250;i++) {
         const q=pickGeoQuestion(kind,'hard',{rng,questionId:`q-${i}`,exclude});

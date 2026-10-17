@@ -1,0 +1,141 @@
+{
+  "source": "국토교통부 2026 도로 교량 및 터널 현황조서",
+  "source_url": "https://www.index.go.kr/unity/potal/main/EachDtlPageDetail.do?idx_cd=1213",
+  "ref_date": "2025-12-31",
+  "basis": "현황조서에 기록된 위치 주소 기준 · 시설 전체가 한 시도 안에 있다는 뜻은 아님 · 길이는 시설물 연장(접속도로 제외)",
+  "rows": [
+    {
+      "id": "bridge_location-1",
+      "kind": "bridge_location",
+      "name": "인천대교",
+      "province": "인천",
+      "length": 11856
+    },
+    {
+      "id": "bridge_location-2",
+      "kind": "bridge_location",
+      "name": "동서고가로",
+      "province": "부산",
+      "length": 10856
+    },
+    {
+      "id": "bridge_location-3",
+      "kind": "bridge_location",
+      "name": "두모교",
+      "province": "서울",
+      "length": 8298
+    },
+    {
+      "id": "bridge_location-4",
+      "kind": "bridge_location",
+      "name": "부천고가교",
+      "province": "인천",
+      "length": 7754
+    },
+    {
+      "id": "bridge_location-5",
+      "kind": "bridge_location",
+      "name": "광안대교",
+      "province": "부산",
+      "length": 7420
+    },
+    {
+      "id": "bridge_location-6",
+      "kind": "bridge_location",
+      "name": "북부간선고가교",
+      "province": "서울",
+      "length": 6693
+    },
+    {
+      "id": "bridge_location-7",
+      "kind": "bridge_location",
+      "name": "영종대교",
+      "province": "인천",
+      "length": 6554
+    },
+    {
+      "id": "bridge_location-8",
+      "kind": "bridge_location",
+      "name": "을숙도대교",
+      "province": "부산",
+      "length": 5052
+    },
+    {
+      "id": "bridge_location-9",
+      "kind": "bridge_location",
+      "name": "홍제천고가교",
+      "province": "서울",
+      "length": 4997
+    },
+    {
+      "id": "tunnel_location-1",
+      "kind": "tunnel_location",
+      "name": "인제양양터널",
+      "province": "강원",
+      "length": 10965
+    },
+    {
+      "id": "tunnel_location-2",
+      "kind": "tunnel_location",
+      "name": "서부간선지하도로",
+      "province": "서울",
+      "length": 9363
+    },
+    {
+      "id": "tunnel_location-3",
+      "kind": "tunnel_location",
+      "name": "남한산성터널",
+      "province": "경기",
+      "length": 8345
+    },
+    {
+      "id": "tunnel_location-4",
+      "kind": "tunnel_location",
+      "name": "재약산터널",
+      "province": "경남",
+      "length": 7982
+    },
+    {
+      "id": "tunnel_location-5",
+      "kind": "tunnel_location",
+      "name": "문무대왕1터널",
+      "province": "경북",
+      "length": 7543
+    },
+    {
+      "id": "tunnel_location-6",
+      "kind": "tunnel_location",
+      "name": "금정산터널",
+      "province": "부산",
+      "length": 7129
+    },
+    {
+      "id": "tunnel_location-7",
+      "kind": "tunnel_location",
+      "name": "신월여의지하도로",
+      "province": "서울",
+      "length": 7111
+    },
+    {
+      "id": "tunnel_location-8",
+      "kind": "tunnel_location",
+      "name": "보령해저터널",
+      "province": "충남",
+      "length": 6927
+    },
+    {
+      "id": "tunnel_location-9",
+      "kind": "tunnel_location",
+      "name": "신불산터널",
+      "province": "울산",
+      "length": 6459
+    },
+    {
+      "id": "tunnel_location-10",
+      "kind": "tunnel_location",
+      "name": "진해터널",
+      "province": "경남",
+      "length": 6100
+    }
+  ]
+}

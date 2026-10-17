@@ -9,6 +9,7 @@ import m4 from "../migrations/0004_daily_counts.sql?raw";
 import regionsSql from "../../data/regions.sql?raw";
 import statsSql from "../../data/stats/all.sql?raw";
 import { createWorker } from "../src/index";
+import extraData from "../../data/extra/extra.json";
 import { STATS, statKeysOfTopic } from "../src/stats";
 import { seededRng, pairKey } from "../src/quiz";
 import { difficultyFor, purgeOldGames, RETENTION_DAYS, GRACE_MS, TIME_LIMIT_SEC } from "../src/game";
@@ -61,7 +62,7 @@ describe("판 시작", () => {
     const { r, b } = await start("population");
     expect(r.status).toBe(200);
     expect(Object.keys(b).sort()).toEqual(["game_id", "ok", "question"]);
-    expect(Object.keys(b.question).sort()).toEqual(["choices", "number", "question_id", "stat_key", "text", "time_limit_sec"]);
+    expect(Object.keys(b.question).filter(k=>k!=="basis").sort()).toEqual(["choices", "number", "question_id", "stat_key", "text", "time_limit_sec"]);
     expect(b.question.number).toBe(1);
     expect(b.question.time_limit_sec).toBe(15);
     expect(b.question.choices).toHaveLength(2);
@@ -78,9 +79,9 @@ describe("판 시작", () => {
     expect([...seen.population].every((k) => [...statKeysOfTopic("population"), ...statKeysOfTopic("age")].includes(k as any))).toBe(true);
     expect((await start("age")).r.status).toBe(400);
     expect((await start("cars")).r.status).toBe(400);
-    expect([...seen.map].sort()).toEqual(["area","bicycle_length","coastline_length","road_length","name_to_shape","parent","shape_to_name","phone_to_region","region_to_phone","position_north","position_south","position_east","position_west"].sort());
-    expect(seen.population.size).toBe(7); expect([...seen.industry].sort()).toEqual(statKeysOfTopic("industry").sort());expect([...seen.nature].sort()).toEqual(["annual_precip","annual_temp","mean_elevation"]);
-    expect(seen.mix.size).toBe(35);
+    expect([...seen.map].sort()).toEqual(["area","bicycle_length","coastline_length","road_length","uninhabited_islands","bridge_location","tunnel_location","railway_absence","name_to_shape","parent","shape_to_name","phone_to_region","region_to_phone","position_north","position_south","position_east","position_west"].sort());
+    expect(seen.population.size).toBe(9); expect([...seen.industry].sort()).toEqual(statKeysOfTopic("industry").sort());expect([...seen.nature].sort()).toEqual(["annual_precip","annual_temp","mean_elevation","urban_park_per_person","snow_days","forest_share"].sort());
+    expect(seen.mix.size).toBe(47);
   });
   it("시·도는 줄임말, 해설용 정식 이름은 답한 뒤 values에", async () => {
     let found = false;
@@ -115,14 +116,14 @@ describe("답 내기", () => {
     expect(a1.b.answer_code).toBe(right(g.game_id, q1.question_id));
     expect(a1.b.values).toHaveLength(2);
     expect(a1.b.values[0]).toMatchObject({ display: expect.stringMatching(/.+\d.*/) });
-    expect(a1.b.ref_date).toMatch(/^\d{4}-\d{2}/);
+    expect(a1.b.ref_date).toMatch(/^\d{4}/);
     expect(a1.b.source).toBeTruthy();
     expect(a1.b.game_over).toBeUndefined();
     const q2 = a1.b.next_question;
     expect(q2.number).toBe(2);
     expect(q2.question_id).not.toBe(q1.question_id);
     // 다음 문제에 정답·값이 미리 들어 있지 않다
-    expect(Object.keys(q2).sort()).toEqual(["choices", "number", "question_id", "stat_key", "text", "time_limit_sec"]);
+    expect(Object.keys(q2).filter(k=>k!=="basis").sort()).toEqual(["choices", "number", "question_id", "stat_key", "text", "time_limit_sec"]);
     expect(JSON.stringify(q2)).not.toMatch(/answer|value|correct/);
     const a2 = await answer(g.game_id, q2.question_id, wrong(g.game_id, q2.question_id));
     expect(a2.b.correct).toBe(false);
@@ -137,7 +138,7 @@ describe("답 내기", () => {
     for (let i = 0; i < 40; i++) {
       const g = (await start("population")).b;
       const x = sql.prepare("SELECT stat_key, a_code, b_code, answer_code FROM game_questions WHERE game_id=?").get(g.game_id) as any;
-      const val = (c: string) => (sql.prepare("SELECT value FROM stat_values WHERE region_code=? AND stat_key=?").get(c, x.stat_key) as any).value as number;
+      const val = (c: string) => x.stat_key in extraData.metrics ? extraData.metrics[x.stat_key as keyof typeof extraData.metrics].rows.find(r=>r.code===c)!.value : (sql.prepare("SELECT value FROM stat_values WHERE region_code=? AND stat_key=?").get(c, x.stat_key) as any).value as number;
       const higher = STATS[x.stat_key as keyof typeof STATS].direction === "higher";
       expect(x.answer_code).toBe((val(x.a_code) > val(x.b_code)) === higher ? x.a_code : x.b_code);
     }
@@ -380,7 +381,7 @@ describe("지도 4지선다 진행과 답 공개", () => {
     let laterChoice = false;
     const g = (await start("map")).b;
     let q = g.question;
-    for (let i = 0; i < 65; i++) {
+    for (let i = 0; i < 150; i++) {
       const code = right(g.game_id, q.question_id);
       const chosen = q.choices.findIndex((c: any) => c.code === code);
       if (q.kind) {
@@ -399,7 +400,7 @@ describe("지도 4지선다 진행과 답 공개", () => {
       q = a.b.next_question;
       expect(q).toBeTruthy();
     }
-    expect([...seen].sort()).toEqual(["name_to_shape", "parent", "phone_to_region", "region_to_phone", "shape_to_name"]);
+    expect([...seen].sort()).toEqual(["name_to_shape", "parent", "phone_to_region", "region_to_phone", "shape_to_name", "bridge_location", "tunnel_location", "railway_absence"].sort());
     expect(laterChoice).toBe(true);
     const history = sql.prepare("SELECT stat_key,values_json FROM game_questions WHERE game_id=?").all(g.game_id) as any[];
     const keys = history.map(r => { const d = JSON.parse(r.values_json); return Array.isArray(d) ? undefined : d.key; }).filter(Boolean);

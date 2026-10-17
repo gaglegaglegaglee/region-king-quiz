@@ -54,6 +54,64 @@ add('road_length','국토교통부 도로현황 통계 인포그래픽','https:/
 # KOSIS e-regional indicators: KEPCO electricity sales, not gross energy consumption.
 d=json.loads((CACHE/'power-all.json').read_text())['allRegionDataList'];raw={r['regionNm']:r['vl'] for r in d if r['regionNm'] in short and r['vl'] is not None};assert len(raw)==17 and all(r['unit']=='MWh' and r['wrtPnttm']=='2025' for r in d)
 add('electricity_sales','한국전력공사 전력판매량 · KOSIS e-지방지표','https://kosis.kr/visual/eRegionIndex/eRegionWhole.do?unitySrvcId=911','2025',provinces(raw),'한전이 판매한 전력량(MWh) · 가정·상가·공장 등 전체 용도 · 자가발전 소비와 다를 수 있음');audit['power']=raw
+# API list snapshot: registered station nodes, including historical records. Never infer zero from missing cities.
+city_names={11:'서울',12:'세종',21:'부산',22:'대구',23:'인천',24:'광주',25:'대전',26:'울산',31:'경기',32:'강원',33:'충북',34:'충남',35:'전북',36:'전남',37:'경북',38:'경남'}
+raw={};seen=set()
+for city,name in city_names.items():
+ d=json.loads((CACHE/f'tago-stations-{city}.json').read_text())['response'];assert d['header']['resultCode']=='00'
+ b=d['body'];items=b['items']['item'];assert len(items)==b['totalCount']
+ for item in items:assert item['nodeid'] not in seen;seen.add(item['nodeid'])
+ raw[name]=len(items)
+assert len(seen)==349
+add('railway_registered','국토교통부 TAGO 국내 기차정보','https://www.data.go.kr/data/15098552/openapi.do','2026-10-17',provinces(raw),'조회 목록에 등록된 기차역 수 · 과거 역 정보 포함 · 현재 운영 중인 전체 철도역 수와 다름 · 미제공 지역은 제외');audit['railway_registered']=raw
+# Census household ratios and urban-resident park area: do not add or average rates across merged provinces.
+for key,filename,indicator,date,source,basis in [
+ ('single_household_ratio','single-household.json','813','2025','국가데이터처 인구총조사 · KOSIS e-지방지표','일반가구 중 1인 가구 비율 · 주민등록 세대와 다름 · 통합지역의 단순 평균은 사용하지 않음'),
+ ('urban_park_per_person','parks.json','1035','2025','국토교통부 도시계획현황 · KOSIS e-지방지표','도시공원 조성면적(미집행 제외) ÷ 도시지역 인구 · 원지표 천㎡/천명과 같은 수치 · 통합지역 제외')]:
+ d=json.loads((CACHE/filename).read_text())['allRegionDataList'];raw={r['regionNm']:r['vl'] for r in d if r['regionNm'] in short and r['vl'] is not None};assert len(raw)==17
+ add(key,source,'https://kosis.kr/visual/eRegionIndex/eRegionWhole.do?unitySrvcId='+indicator,date,provinces(raw,('광주','전남')),basis);audit[key]=raw
+# Coastal portal identifies uninhabited islands specifically; do not label this as all islands.
+raw={}
+for row in t.rows:
+ if len(row)==7 and row[0] in short and row[0] not in raw:
+  try:raw[row[0]]=int(row[5].replace(',',''))
+  except ValueError:pass
+assert len(raw)==11 and sum(raw.values())==2910
+add('uninhabited_islands','해양수산부 연안포털 · 제5차 연안기본조사','https://coast.mof.go.kr/coastAdmin/research/aspect.do','제5차 연안기본조사',provinces(raw),'지정·미지정 무인도서 합계 · 사람이 사는 섬은 포함하지 않음 · 미수록 내륙 제외');audit['uninhabited_islands']=raw
+snow=json.loads((OUT/'snow.json').read_text())
+# Fixed, named province observation sites. Never treat station data as an areal mean.
+selected={108:'11',156:'12',159:'26',102:'28',133:'30',152:'31',119:'41',131:'43',136:'47',155:'48',184:'50'}
+snow_rows=[{'code':selected[r['station_id']],'name':by[selected[r['station_id']]]['short_name']+' · '+r['station_name']+' 관측소','level':'sido','value':r['value'],'station_id':r['station_id']} for r in snow['rows'] if r['station_id'] in selected]
+assert len(snow_rows)==len(selected)
+add('snow_days',snow['source'],snow['source_url'],snow['ref_date'],snow_rows,snow['basis']+' · 시도마다 명시한 한 관측지점만 비교')
+audit['snow_stations']={r['station_name']:r['value'] for r in snow['rows']}
+# Public libraries, not school/university/small libraries.
+d=json.loads((CACHE/'libraries.json').read_text())['allRegionDataList'];raw={r['regionNm']:r['vl'] for r in d if r['regionNm'] in short and r['vl'] is not None};assert len(raw)==17 and sum(raw.values())==1296
+add('public_libraries','문화체육관광부 전국 공공도서관 통계조사 · KOSIS','https://kosis.kr/visual/eRegionIndex/eRegionWhole.do?unitySrvcId=1051','2024',provinces(raw),'전국 공공도서관 통계조사에 수록된 공공도서관 수 · 학교·대학·작은도서관 전체 수와 다름');audit['public_libraries']=raw
+# Forest share uses numerator/denominator together, never an average of percentages.
+facts=json.loads((CACHE/'forest-data.json').read_text())['data'];forest=defaultdict(dict)
+for r in facts:
+ if r['iemEnglsNm'] in ['forestArea','landArea']:forest[r['ctprvCd']][r['iemEnglsNm']]=int(r['sttstVal'])
+assert len(forest)==17
+mapped=defaultdict(lambda: {'forestArea':0,'landArea':0})
+for code,r in forest.items():
+ if code in ['27','47']:continue # Gunwi transfer changed these provincial boundaries after 2020.
+ c={'29':'12','46':'12','45':'52','42':'51'}.get(code,code)
+ for key in ['forestArea','landArea']:mapped[c][key]+=r[key]
+add('forest_share','산림청 2020 산림기본통계','https://kfss.forest.go.kr/stat/ptl/main/majorStatIndirs.do?curMenu=12505','2020',rows({c:r['forestArea']/r['landArea']*100 for c,r in mapped.items()}),'산림면적 ÷ 국토면적 × 100 · 군위 편입으로 경계가 달라진 대구·경북 제외 · 전남광주는 두 면적을 합산해 계산');audit['forest_share']=dict(forest)
+# Census daytime population index is not a phone-based real-time headcount.
+text=fitz.open(CACHE/'daytime.pdf')[49].get_text();raw={}
+for name in short:
+ separated='\\s*'.join(name)
+ m=re.search(r'(?m)^'+separated+r'\n([\d,.-]+)\n([\d,.-]+)\n([\d,.-]+)\n([\d,.-]+)\n([\d,.-]+)\n([\d,.-]+)\n([\d,.-]+)\n([\d,.-]+)',text)
+ if m:raw[name]=float(m[7])-100
+assert len(raw)==17 and abs(raw['서울']-8.8)<1e-9 and abs(raw['세종']+6.6)<1e-9
+add('daytime_increase','국가데이터처 2020 인구주택총조사 통근·통학','https://www.kostat.go.kr/boardDownload.es?bid=203&list_no=415274&seq=6','2020',provinces(raw,('광주','전남','대구','경북')),'주간인구지수 − 100(%) · 거주 인구에 통근·통학 순유입을 반영 · 실시간 낮·밤 실측 인구와 다름 · 경계변경·통합 지역 제외');audit['daytime_increase']=raw
+book=fitz.open(CACHE/'culture-book.pdf')[8].get_text();raw={}
+for m in re.finditer(r'(?m)^('+('|'.join(short))+r')\n([\d,\n]+)',book):
+ v=[int(x.replace(',','')) for x in m[2].strip().splitlines()];assert len(v)==19 and v[6]==sum(v[7:10]);raw[m[1]]=v[6]
+assert len(raw)==17 and sum(raw.values())==918
+add('museum_count','문화체육관광부 2025 전국 문화기반시설 총람','https://www.mcst.go.kr/site/s_policy/dept/deptView.jsp?pSeq=2078','2025-01-01',provinces(raw),'문화기반시설 총람 수록 박물관 수 · 국공립·사립·대학 박물관 합계 · 미술관 제외');audit['museum_count']=raw
 # Raw table facts and source hashes make manual transcription explicit and reproducible.
-result={'collected_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'regions_as_of':'2026-09-30','metrics':metrics,'audit':audit,'source_sha256':{f:hashlib.sha256((CACHE/f).read_bytes()).hexdigest() for f in ['bike.pdf','rice.pdf','coast','road.pdf','power-all.json']}}
+result={'collected_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'regions_as_of':'2026-09-30','metrics':metrics,'audit':audit,'source_sha256':{f:hashlib.sha256((CACHE/f).read_bytes()).hexdigest() for f in ['bike.pdf','rice.pdf','coast','road.pdf','power-all.json','single-household.json','parks.json','libraries.json','forest-data.json','daytime.pdf','culture-book.pdf','bridge.pdf',*[f'tago-stations-{city}.json' for city in city_names]]}}
 tmp=OUT/'extra.tmp';tmp.write_text(json.dumps(result,ensure_ascii=False,separators=(',',':')));tmp.replace(OUT/'extra.json');print(json.dumps({key:len(value['rows']) for key,value in metrics.items()},ensure_ascii=False))

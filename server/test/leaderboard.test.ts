@@ -98,7 +98,7 @@ describe('operator',()=>{
     sql.exec("INSERT INTO stat_meta VALUES('population','인구','명','행안부','2026-09','2026-10-16')");
     sql.exec("INSERT INTO stat_values VALUES('11','population',100,'명','2026-09','행안부','2026-10-16')");
     const score=await submitScore(deps(),{game_id:game(),nickname:'지역왕'}),status=await adminStatus(deps());
-    expect(status.stats).toHaveLength(30);expect(status.stats.find(x=>x.key==='population')).toMatchObject({ref_date:'2026-09',fetched_at:'2026-10-16',regions:2,present:1,missing:1});
+    expect(status.stats).toHaveLength(39);expect(status.stats.find(x=>x.key==='population')).toMatchObject({ref_date:'2026-09',fetched_at:'2026-10-16',regions:2,present:1,missing:1});
     expect(status.stats.find(x=>x.key==='area')).toMatchObject({ref_date:null,missing:2});expect(status.total_records).toBe(1);
     await deleteScore(deps(),{id:score.record.id});expect((await listScores(deps())).records).toHaveLength(0);
     await expect(deleteScore(deps(),{id:score.record.id})).rejects.toMatchObject({status:404});

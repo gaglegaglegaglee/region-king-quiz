@@ -5,6 +5,7 @@ export type StatKey =
   | "child_ratio" | "avg_age" | "persons_per_household" | "cars" | "cars_per_1000"
   | "annual_temp" | "annual_precip" | "mean_elevation"
   | "convenience_count" | "convenience_per_10000" | "cafe_count" | "cafe_per_10000" | "bakery_count" | "bakery_per_10000" | "karaoke_count" | "karaoke_per_10000" | "bicycle_length" | "coastline_length" | "road_length" | "rice_production" | "electricity_sales"
+  | "museum_count" | "public_libraries" | "forest_share" | "daytime_increase" | "snow_days" | "railway_registered" | "single_household_ratio" | "urban_park_per_person" | "uninhabited_islands"
   | "position_north" | "position_south" | "position_east" | "position_west";
 
 // 주제 묶음(PRD F1). 지도 주제의 모양 문제는 스프린트 4.
@@ -37,6 +38,15 @@ const man = (unitWord: string, small: string) => (v: number) =>
   v >= 10000 ? `${(v / 10000).toFixed(1)}만 ${unitWord}` : `${comma(v)}${small}`;
 
 export const STATS: Record<StatKey, StatDef> = {
+  museum_count: {label:"박물관 수",question:"{pair} 중 박물관이 더 많은 곳은?",direction:"higher",unit:"관",topic:"industry",format:(v)=>comma(v)+"관",diffMode:"relative",minAbsDiff:5},
+  public_libraries: {label:"공공도서관 수",question:"{pair} 중 공공도서관이 더 많은 곳은?",direction:"higher",unit:"관",topic:"industry",format:(v)=>comma(v)+"관",diffMode:"relative",minAbsDiff:5},
+  forest_share: {label:"산림 비율",question:"{pair} 중 땅에서 숲이 차지하는 비율이 더 높은 곳은?",direction:"higher",unit:"%",topic:"nature",format:fixed(1,"%"),diffMode:"absolute",minAbsDiff:3},
+  daytime_increase: {label:"통근·통학에 따른 낮 인구 증감률",question:"{pair} 중 통근·통학에 따른 낮 인구 증감률이 더 높은 곳은?",direction:"higher",unit:"%",topic:"population",format:(v)=>(v>0?"+":"")+v.toFixed(1)+"%",diffMode:"absolute",minAbsDiff:1},
+  snow_days: {label:"눈이 내린 날 수",question:"{pair} 중 눈이 내린 날이 더 많은 관측지점은?",direction:"higher",unit:"일",topic:"nature",format:(v)=>comma(v)+"일",diffMode:"absolute",minAbsDiff:3},
+  railway_registered: {label:"등록 기차역 수",question:"{pair} 중 TAGO 기차역 목록에 등록된 역이 더 많은 곳은?",direction:"higher",unit:"역",topic:"industry",format:(v)=>comma(v)+"역",diffMode:"relative",minAbsDiff:2},
+  single_household_ratio: {label:"1인 가구 비율",question:"{pair} 중 혼자 사는 가구의 비율이 더 높은 곳은?",direction:"higher",unit:"%",topic:"population",format:fixed(1,"%"),diffMode:"absolute",minAbsDiff:1},
+  urban_park_per_person: {label:"도시지역 1인당 조성 공원면적",question:"{pair} 중 도시지역 인구 1명당 조성된 공원면적이 더 넓은 곳은?",direction:"higher",unit:"㎡/명",topic:"nature",format:fixed(1,"㎡/명"),diffMode:"relative",minAbsDiff:1},
+  uninhabited_islands: {label:"무인도 수",question:"{pair} 중 사람이 살지 않는 섬이 더 많은 곳은?",direction:"higher",unit:"개",topic:"map",format:(v)=>comma(v)+"개",diffMode:"relative",minAbsDiff:5},
   convenience_count: {label:"편의점 수",question:"{pair} 중 등록된 편의점이 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>comma(v)+"곳",diffMode:"relative",minAbsDiff:10},
   convenience_per_10000: {label:"편의점 / 인구 1만 명",question:"{pair} 중 인구 1만 명당 등록된 편의점이 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>v.toFixed(1)+"곳 / 1만 명",diffMode:"relative",minAbsDiff:.2},
   cafe_count: {label:"카페 수",question:"{pair} 중 등록된 카페가 더 많은 곳은?",direction:"higher",unit:"곳",topic:"industry",format:(v)=>comma(v)+"곳",diffMode:"relative",minAbsDiff:10},

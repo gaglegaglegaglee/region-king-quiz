@@ -1,9 +1,11 @@
 /** Public administrative geography, attributed cached geometry. Answer mapping remains server-side. */
+import {pickRailwayAbsence} from "./railway";
+import {pickLandmarkQuestion} from "./landmarks";
 import {pickPhoneQuestion} from "./phone";
 import legal from "../../data/regions.json";
 import boundary from "../../data/geo/boundaries.json";
 import type { Difficulty, GeoStatKey, Level, MapHint, Rng, ServerQuestion, Shape } from "./quiz";
-export const GEO_KEYS: GeoStatKey[] = ["parent", "shape_to_name", "name_to_shape", "phone_to_region", "region_to_phone"];
+export const GEO_KEYS: GeoStatKey[] = ["parent", "shape_to_name", "name_to_shape", "phone_to_region", "region_to_phone", "bridge_location", "tunnel_location", "railway_absence"];
 interface Region { code: string; name: string; display_name: string; level: string; parent_code: string | null }
 interface Mapped extends Region { shape: Shape; location?: Shape }
 const regions = legal.regions as Region[];
@@ -16,6 +18,8 @@ function shuffle<T>(a: readonly T[], rng: Rng): T[] {
 }
 export function pickGeoQuestion(kind: GeoStatKey, difficulty: Difficulty, options: { rng: Rng; exclude?: ReadonlySet<string>; questionId: string }): ServerQuestion | null {
   if(kind==="phone_to_region"||kind==="region_to_phone")return pickPhoneQuestion(kind,difficulty,options);
+  if(kind==="railway_absence")return pickRailwayAbsence(difficulty,options);
+  if(kind==="bridge_location"||kind==="tunnel_location")return pickLandmarkQuestion(kind,difficulty,options);
   const { rng, exclude } = options;
   // Easy shape questions are province outlines; hard ones are municipalities. Normal gradually mixes both.
   const level: Level = difficulty === "easy" ? "sido" : difficulty === "hard" ? "sigungu" : rng() < .25 ? "sido" : "sigungu";
