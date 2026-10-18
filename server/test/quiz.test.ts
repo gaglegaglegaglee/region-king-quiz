@@ -244,3 +244,20 @@ describe("예시 출력", () => {
     expect(out).toHaveLength(20);
   });
 });
+
+// A negative change is still eligible: -3% is higher than -8%, without implying growth.
+describe("증감률 질문의 부호 해석", () => {
+  it.each([[-8,-3],[-4,2],[1,5],[-3,0],[0,4]])("%s / %s: 증가·감소를 전제하지 않고 더 높은 비율을 정답으로", (a,b) => {
+    for (const stat of ["pop_change_5y","daytime_increase"] as const) {
+      const pool=buildPool(stat,"sigungu","2026-09",[{code:"11110",name:"가 지역",value:a},{code:"11140",name:"나 지역",value:b}]);
+      for(let seed=0;seed<6;seed++) {
+        const q=pickQuestion(pool,"normal",{rng:seededRng(seed)})!;
+        expect(q.answer_code).toBe("11140");
+        expect(q.text).toContain("증감률이 더 높은");
+        expect(q.text).not.toMatch(/늘어난|증가한|감소한|줄어든/);
+        expect(q.values[q.answer_code]).toBe(b);
+        expect(STATS[stat].format(a)).toContain(a.toFixed(1));
+      }
+    }
+  });
+});

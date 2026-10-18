@@ -69,7 +69,7 @@ export const STATS: Record<StatKey, StatDef> = {
   mean_elevation: { label:"평균 해발고도(근사)",question:"{pair} 중 평균 해발고도가 높은 곳은?",direction:"higher",unit:"m",topic:"nature",format:(v)=>`약 ${comma(Math.round(v/10)*10)}m`,diffMode:"absolute",minAbsDiff:50,basis:"지역 전체 약300m 간격 표고 표본의 면적가중 평균 · 근삿값" },
 
   population: { label: "인구", question: "{pair} 중 인구가 많은 곳은?", direction: "higher", unit: "명", topic: "population", format: man("명", "명"), diffMode: "relative", minAbsDiff: 1000 },
-  pop_change_5y: { label: "5년간 인구 증감률", question: "{pair} 중 최근 5년간 인구가 더 많이 늘어난 곳은?", direction: "higher", unit: "%", topic: "population", format: (v) => `${v > 0 ? "+" : ""}${v.toFixed(1)}%`, diffMode: "absolute", minAbsDiff: 0.5 },
+  pop_change_5y: { label: "5년간 인구 증감률", question: "{pair} 중 최근 5년간 인구 증감률이 더 높은 곳은?", direction: "higher", unit: "%", topic: "population", format: (v) => `${v > 0 ? "+" : ""}${v.toFixed(1)}%`, diffMode: "absolute", minAbsDiff: 0.5, basis: "양수는 증가, 음수는 감소예요. −3%는 −8%보다 높은 증감률이에요." },
   density: { label: "인구 밀도", question: "{pair} 중 인구 밀도가 높은 곳은?", direction: "higher", unit: "명/㎢", topic: "population", format: (v) => `1㎢당 ${comma(v)}명`, diffMode: "relative", minAbsDiff: 1 },
   persons_per_household: { label: "세대당 인구", question: "{pair} 중 한 세대에 사는 사람이 더 많은 곳은?", direction: "higher", unit: "명", topic: "population", format: fixed(2, "명"), diffMode: "relative", minAbsDiff: 0.02 },
   avg_age: { label: "평균 나이", question: "{pair} 중 주민 평균 나이가 더 젊은 곳은?", direction: "lower", unit: "세", topic: "age", format: fixed(1, "세"), diffMode: "absolute", minAbsDiff: 1 },
