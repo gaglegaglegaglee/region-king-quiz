@@ -14,7 +14,7 @@
 > 스프린트 3까지 끝나면 지도 문제 없이도 **학생들이 폰으로 겨룰 수 있는 게임**이 손에 있습니다.
 
 ## 스프린트 1 — 공개 주소 + 공공데이터 통로
-- **상태**: 완료 (2026-10-16) — 화면 https://gaglegaglegaglee.github.io/region-king-quiz/ , 서버 https://region-king-api.dotlee.workers.dev
+- **상태**: 완료 (2026-10-16) — 화면 https://gaglegaglegaglee.github.io/regionking/ , 서버 https://region-king-api.dotlee.workers.dev
 - **포함 기능**: F10(자료 모으기 — 지역 목록과 인구 통계부터), F11, 배포 골격
 - **끝나면 확인할 수 있는 것**:
   - GitHub 공개 저장소가 있고, 폰으로 GitHub Pages 주소를 열면 "지역왕" 홈 화면(아직 버튼만)과 아래 출처 문구가 보인다.

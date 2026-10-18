@@ -2,7 +2,7 @@
 
 실제 공공데이터로 대한민국 지역 상식을 겨루는 웹 퀴즈입니다.
 
-- 게임: https://gaglegaglegaglee.github.io/region-king-quiz/
+- 게임: https://gaglegaglegaglee.github.io/regionking/
 - 게임 서버: https://region-king-api.dotlee.workers.dev
 - 주제: 모든 분야 도전 / 사람 / 자연 / 지리 / 산업
 - 문제당 15초, 목숨 1개. 정답·연승·공용 순위는 서버에서 확인합니다.
