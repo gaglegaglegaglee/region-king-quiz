@@ -143,6 +143,7 @@ h1 { margin: 0; font-size: 40px; line-height: 1.1; color: var(--primary); letter
 .verdict.good { color: #15803d; }
 .verdict.bad { color: #b91c1c; }
 .refline { margin: 0; text-align: center; font-size: 16px; color: var(--sub); word-break: keep-all; overflow-wrap: anywhere; }
+.question-reference { margin: 0; text-align: center; font-size: 15px; font-weight: 700; line-height: 1.5; color: #334d6f; word-break: keep-all; overflow-wrap: anywhere; }
 .end { display: flex; flex-direction: column; gap: 10px; padding: 12px; background: var(--card); border: 2px solid var(--line); border-radius: var(--radius); }
 .end[hidden] { display: none; }
 .end-text { margin: 0; text-align: center; font-size: 22px; font-weight: 800; word-break: keep-all; }

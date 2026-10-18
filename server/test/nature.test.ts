@@ -33,8 +33,8 @@ describe('source-backed nature comparisons',()=>{
    expect(q.values[a.code]).toBe(original(a.code));expect(q.values[b.code]).toBe(original(b.code));
    const higher=STATS[key].direction==='higher';expect(q.answer_code).toBe((original(a.code)>original(b.code))===higher?a.code:b.code);
    expect(Math.abs(original(a.code)-original(b.code))).toBeGreaterThanOrEqual(STATS[key].minAbsDiff-1e-9);
-   expect(q.basis).toBeTruthy();expect(JSON.stringify(toPublic(q))).not.toMatch(/answer_code|full_names|"values"|"displays"/);
-   if(key==='annual_temp'||key==='annual_precip'){expect(q.level).toBe('sigungu');expect(q.displays![a.code]).toContain('관측');expect(q.ref_date).toBe('1991–2020');}
+   expect(q.basis).toBeTruthy();expect(toPublic(q).reference!.date).toContain(natureMeta(key).ref_date);expect(toPublic(q).reference!.scope).toBeTruthy();expect(JSON.stringify(toPublic(q))).not.toMatch(/answer_code|full_names|"values"|"displays"/);
+   if(key==='annual_temp'||key==='annual_precip'){expect(q.level).toBe('sigungu');expect(q.displays![a.code]).toContain('관측');expect(q.ref_date).toBe('1991–2020');expect(toPublic(q).reference!.date).toBe('1991–2020 평년값');for(const c of q.choices)expect(toPublic(q).reference!.scope).toContain(data.climate.rows.find(r=>r.code===c.code)!.station_name+' 관측소');}
   }
  });
  it('all four compass directions and approximate elevation are labelled clearly',()=>{

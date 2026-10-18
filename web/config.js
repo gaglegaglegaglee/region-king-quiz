@@ -6,18 +6,18 @@ window.JIYEOK_CONFIG = {
   apiBase: "https://region-king-api.dotlee.workers.dev",
 
   // 모든 화면 맨 아래에 보이는 자료 출처 문구
-  sourceText: "자료: 행정안전부·한국국토정보공사(KOSIS), 국토교통부(KOSIS), 기상청, 소상공인시장진흥공단, 국가데이터처, 한국전력공사, 해양수산부, 산림청, 문화체육관광부, 한국철도공사, 고흥군, USGS/Mapzen · 전화번호: KTis 114On · 경계: VWorld / KnellBalm(2023) · 인천 신설 4구 모양 제외",
+  sourceText: "자료: 행정안전부·한국국토정보공사(KOSIS), 국토교통부(KOSIS), 기상청, 소상공인시장진흥공단, 국가데이터처, 한국전력공사, 해양수산부, 산림청, 문화체육관광부, 한국철도공사, 지역 공식 자료, USGS/Mapzen · 전화번호: KTis 114On · 경계: VWorld / KnellBalm(2023) · 인천 신설 4구 모양 제외",
 
   // 한 줄 설명
-  tagline: "비교하면, 우리나라가 보인다. 공공데이터 지역 비교 퀴즈",
+  tagline: "우리나라 동네 사정, 어디까지 알고 있니?",
 
   // 주제 버튼 (순서대로 보임). main: true 가 가장 큰 기본 버튼
   topics: [
-    { id: "all",  icon: "🎲", name: "모든 분야 도전", main: true, serverTopic: "mix" },
+    { id: "all",  icon: "👑", name: "모든 분야 도전", main: true, serverTopic: "mix" },
     { id: "pop",  icon: "👥", name: "사람", serverTopic: "population" },
-    { id: "nature", icon: "☀", name: "자연", serverTopic: "nature" },
+    { id: "nature", icon: "⛰️", name: "자연", serverTopic: "nature" },
     { id: "map", icon: "🗺", name: "지리", serverTopic: "map" },
-    { id: "industry", icon: "🚗", name: "산업", serverTopic: "industry" }
+    { id: "industry", icon: "🏭", name: "산업", serverTopic: "industry" }
   ],
 
   // 자료 기준 날짜 문구(서버에서 받은 기준월이 {date}에 들어감). 서버에 연결하지 못하면 아무것도 보이지 않습니다.
@@ -50,7 +50,7 @@ window.JIYEOK_CONFIG = {
     resultTitle: "{n}연승!",
     resultZero: "아쉽게도 첫 문제에서 끝났어요",
     reasons: {
-      wrong: "틀려서 끝났어요.",
+      wrong: "아쉽지만, 이번 도전은 여기까지!",
       timeout: "시간이 지나서 끝났어요.",
       quit: "그만하기를 눌러서 끝났어요.",
       nomore: "더 낼 문제가 없어서 여기서 끝났어요.",

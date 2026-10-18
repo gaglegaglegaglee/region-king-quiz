@@ -16,12 +16,12 @@ def provinces(raw,exclude=()):
 def add(key,source,url,date,values,basis):metrics[key]={'source':source,'source_url':url,'ref_date':date,'basis':basis,'rows':values}
 shops=json.loads((ROOT/'data/shops/shops.json').read_text());population=json.loads((ROOT/'data/stats/population.json').read_text());pop={r['region_code']:r['value'] for r in population['values']}
 for key,label in [('convenience','편의점'),('cafe','카페'),('bakery','빵·도넛'),('karaoke','노래방')]:
- data=shops[key];month=data['ref_date'][:4]+'-'+data['ref_date'][4:];basis=f'{month} 소상공인 자료에 등록된 {label} 점포 수'
+ data=shops[key];month=data['ref_date'][:4]+'-'+data['ref_date'][4:];basis=f'{month} 소상공인 자료에 실린 가게 수({label})'
  add(key+'_count',shops['source']+' · '+data['category'],shops['source_url'],month,data['rows'],basis)
  ratio=[]
  for r in data['rows']:
   if r['code'] in pop and pop[r['code']]>0:ratio.append({**r,'value':r['value']/pop[r['code']]*10000})
- add(key+'_per_10000',shops['source']+' + 행정안전부 주민등록인구(KOSIS)',shops['source_url'],month+' 점포 / '+population['ref_date']+' 인구',ratio,basis+' ÷ '+population['ref_date']+' 인구 × 1만 (서로 다른 기준월)')
+ add(key+'_per_10000',shops['source']+' + 행정안전부 주민등록인구(KOSIS)',shops['source_url'],month+' 가게 / '+population['ref_date']+' 인구',ratio,basis+' ÷ '+population['ref_date']+' 인구 × 1만 (서로 다른 기준월)')
  audit[key]={'national':data['reported_total'],'province_total':sum(r['value'] for r in data['rows'] if r['level']=='sido'),'category':data['category'],'excluded':data['excluded']};assert audit[key]['national']==audit[key]['province_total']
 # Official 2025 bicycle survey: page4, total length includes all four road types.
 bike=fitz.open(CACHE/'bike.pdf')[3].get_text();raw={m[0]:float(m[2].replace(',','')) for m in re.findall(r'(?m)^('+('|'.join(short))+r')\n([\d,]+)\n([\d,.]+)\n',bike)};assert len(raw)==17 and abs(sum(raw.values())-28453.41)<.1
@@ -53,7 +53,7 @@ raw={'서울':8391,'부산':3928,'대구':3039,'인천':3417,'광주':1933,'대�
 add('road_length','국토교통부 도로현황 통계 인포그래픽','https://www.rsis.kr/','2025-12-31',provinces(raw),'도로법상 7개 도로 등급의 총연장 · km 단위 반올림 공표값 · 시도 비교');audit['road']=raw
 # KOSIS e-regional indicators: KEPCO electricity sales, not gross energy consumption.
 d=json.loads((CACHE/'power-all.json').read_text())['allRegionDataList'];raw={r['regionNm']:r['vl'] for r in d if r['regionNm'] in short and r['vl'] is not None};assert len(raw)==17 and all(r['unit']=='MWh' and r['wrtPnttm']=='2025' for r in d)
-add('electricity_sales','한국전력공사 전력판매량 · KOSIS e-지방지표','https://kosis.kr/visual/eRegionIndex/eRegionWhole.do?unitySrvcId=911','2025',provinces(raw),'한전이 판매한 전력량(MWh) · 가정·상가·공장 등 전체 용도 · 자가발전 소비와 다를 수 있음');audit['power']=raw
+add('electricity_sales','한국전력공사 전력판매량 · KOSIS e-지방지표','https://kosis.kr/visual/eRegionIndex/eRegionWhole.do?unitySrvcId=911','2025',provinces(raw),'한전 공급 전력 사용량(MWh) 기준 · 가정·상가·공장 등 전체 용도 · 자가발전 소비 제외');audit['power']=raw
 # API list snapshot: registered station nodes, including historical records. Never infer zero from missing cities.
 city_names={11:'서울',12:'세종',21:'부산',22:'대구',23:'인천',24:'광주',25:'대전',26:'울산',31:'경기',32:'강원',33:'충북',34:'충남',35:'전북',36:'전남',37:'경북',38:'경남'}
 raw={};seen=set()

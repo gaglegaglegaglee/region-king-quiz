@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#2563eb">
-  <title>VS · 지역 비교 퀴즈</title>
+  <title>동네잘알 선발대회 · 공공데이터 지역 퀴즈</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
     <main class="screen" id="home" aria-labelledby="title">
       <header class="hero">
-        <h1 id="title">VS</h1>
-        <p class="tagline" id="tagline">비교하면, 우리나라가 보인다. 공공데이터 지역 비교 퀴즈</p>
+        <h1 id="title">동네잘알 선발대회</h1>
+        <p class="tagline" id="tagline">우리나라 동네 사정, 어디까지 알고 있니?</p>
       </header>
 
       <section class="topics" id="topics" aria-label="주제 고르기"></section>
@@ -29,6 +29,7 @@
       </div>
       <div class="timer" id="g-timer" aria-hidden="true"><div class="timer-fill" id="g-fill"></div></div>
       <h2 class="question" id="g-question"></h2>
+      <p class="question-reference" id="g-reference" hidden></p>
       <p class="refline" id="g-basis" hidden></p><div id="g-geography" hidden></div>
       <div class="choices" id="g-choices"></div>
       <p class="verdict" id="g-verdict" role="status" aria-live="assertive" tabindex="-1"></p>

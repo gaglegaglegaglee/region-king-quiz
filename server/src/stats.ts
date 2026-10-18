@@ -59,7 +59,7 @@ export const STATS: Record<StatKey, StatDef> = {
   coastline_length: {label:"해안선 길이",question:"{pair} 중 해안선이 더 긴 곳은?",direction:"higher",unit:"km",topic:"map",format:(v)=>v.toLocaleString("ko-KR",{maximumFractionDigits:1})+"km",diffMode:"relative",minAbsDiff:20},
   road_length: {label:"도로 총연장",question:"{pair} 중 도로 총연장이 더 긴 곳은?",direction:"higher",unit:"km",topic:"map",format:(v)=>comma(v)+"km",diffMode:"relative",minAbsDiff:100},
   rice_production: {label:"쌀 생산량",question:"{pair} 중 쌀 생산량이 더 많은 곳은?",direction:"higher",unit:"톤",topic:"industry",format:man("톤","톤"),diffMode:"relative",minAbsDiff:5000},
-  electricity_sales: {label:"전력판매량",question:"{pair} 중 전력판매량이 더 많은 곳은?",direction:"higher",unit:"MWh",topic:"industry",format:(v)=>comma(v)+"MWh",diffMode:"relative",minAbsDiff:100000},
+  electricity_sales: {label:"전력 소비량",question:"{pair} 중 전기를 더 많이 사용한 곳은?",direction:"higher",unit:"MWh",topic:"industry",format:(v)=>comma(v)+"MWh",diffMode:"relative",minAbsDiff:100000},
   position_north: {label:"북쪽 위치",question:"{pair} 중 더 북쪽에 있는 곳은?",direction:"higher",unit:"°",topic:"map",format:(v)=>`북위 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"지역마다 지도 안에 기준 위치 하나를 정해 비교해요. (2023년 경계 기준)"},
   position_south: {label:"남쪽 위치",question:"{pair} 중 더 남쪽에 있는 곳은?",direction:"lower",unit:"°",topic:"map",format:(v)=>`북위 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"지역마다 지도 안에 기준 위치 하나를 정해 비교해요. (2023년 경계 기준)"},
   position_east: {label:"동쪽 위치",question:"{pair} 중 더 동쪽에 있는 곳은?",direction:"higher",unit:"°",topic:"map",format:(v)=>`동경 ${v.toFixed(2)}°`,diffMode:"absolute",minAbsDiff:.3,basis:"지역마다 지도 안에 기준 위치 하나를 정해 비교해요. (2023년 경계 기준)"},

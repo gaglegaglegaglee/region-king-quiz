@@ -39,6 +39,7 @@ export interface Shape { path: string; viewBox: string }
 export interface MapHint { outline: Shape; highlight: Shape; label: string }
 export interface PublicQuestion {
   question_id: string;
+  reference?: { date: string; scope: string };
   basis?: string;
   stat_key: QuestionKey;
   text: string;
@@ -60,7 +61,15 @@ export interface ServerQuestion extends PublicQuestion {
   explanation?: string;
 }
 export function toPublic(q: ServerQuestion): PublicQuestion {
-  return { question_id: q.question_id, stat_key: q.stat_key, text: q.text, ...(q.basis ? {basis:q.basis} : {}), choices: q.choices.map((c) => ({ code: c.code, name: c.name, ...(c.shape ? { shape: c.shape } : {}) })), ...(q.kind ? { kind: q.kind } : {}), ...(q.shape ? { shape: q.shape } : {}), ...(q.hint ? { hint: q.hint } : {}) };
+  let date=q.ref_date;
+  if(q.stat_key==='pop_change_5y' && /^\d{4}-\d{2}$/.test(date))date=`${Number(date.slice(0,4))-5}${date.slice(4)} ~ ${date}`;
+  let scope=q.level==='sido'?'전국 시·도 비교':'전국 시·군·구 비교';
+  if(q.kind==='phone_to_region'||q.kind==='region_to_phone')scope='전국 전화 통화권';
+  else if(q.kind==='bridge_location'||q.kind==='tunnel_location')scope='국토부 현황조서의 소재 시·도';
+  else if(q.kind==='railway_absence')scope='시·군·구 철도 부재 확인 사례';
+  else if(q.kind==='parent')scope='전국 시·군·구의 소속 시·도';
+  else if(q.stat_key==='snow_days')scope='보기에 명시된 관측지점 비교 · 시도 전체 평균 아님';
+  return { question_id: q.question_id, stat_key: q.stat_key, text: q.text, reference: {date:q.reference?.date??date,scope:q.reference?.scope??scope}, ...(q.basis ? {basis:q.basis} : {}), choices: q.choices.map((c) => ({ code: c.code, name: c.name, ...(c.shape ? { shape: c.shape } : {}) })), ...(q.kind ? { kind: q.kind } : {}), ...(q.shape ? { shape: q.shape } : {}), ...(q.hint ? { hint: q.hint } : {}) };
 }
 
 export type Rng = () => number;

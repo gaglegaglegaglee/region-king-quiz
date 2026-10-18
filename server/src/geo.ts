@@ -55,5 +55,6 @@ export function pickGeoQuestion(kind: GeoStatKey, difficulty: Difficulty, option
     }
     explanation = `정답은 ${t.display_name}입니다. 경계는 ${boundary.ref_date} 공개자료를 현재 행정구역 코드에 연결한 것으로, 2026 신설 인천 4개 구는 출제하지 않습니다.`;
   }
-  return { question_id: options.questionId, stat_key: kind, kind, text, choices, ...(shape ? { shape } : {}), ...(hint ? { hint } : {}), level: kind === "parent" ? "sigungu" : level, difficulty, answer_code: answer, values: Object.fromEntries(choices.map(c => [c.code, 0])), full_names: full, displays, explanation, question_key: geoKey(kind, target.code), ref_date: kind === "parent" ? legal.as_of : boundary.ref_date, source: kind === "parent" ? legal.source : boundary.source };
+  const reference=kind==='parent'?{date:legal.as_of,scope:'전국 시·군·구의 소속 시·도'}:{date:`${boundary.ref_date} 경계 / ${legal.as_of} 행정구역`,scope:level==='sido'?'전국 시·도':`${provinces.find(r=>r.code===target.parent_code)!.name} 내 시·군·구`};
+  return { question_id: options.questionId, stat_key: kind, kind, text, choices, reference, ...(shape ? { shape } : {}), ...(hint ? { hint } : {}), level: kind === "parent" ? "sigungu" : level, difficulty, answer_code: answer, values: Object.fromEntries(choices.map(c => [c.code, 0])), full_names: full, displays, explanation, question_key: geoKey(kind, target.code), ref_date: kind === "parent" ? legal.as_of : boundary.ref_date, source: kind === "parent" ? legal.source : boundary.source };
 }

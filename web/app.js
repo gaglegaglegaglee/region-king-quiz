@@ -25,7 +25,7 @@
     icon.className = "icon";
     icon.setAttribute("aria-hidden", "true");
     var image=document.createElement("img");
-    image.src="assets/emoji/"+({mix:"dice",population:"people",age:"cake",map:"map",cars:"car",nature:"sun",industry:"car"}[t.serverTopic]||"dice")+".svg";
+    image.src="assets/emoji/"+({mix:"crown",population:"people",age:"cake",map:"map",cars:"car",nature:"mountain",industry:"economy"}[t.serverTopic]||"crown")+".svg";
     image.alt="";image.className="emoji-image";icon.appendChild(image);
     var name = document.createElement("span");
     name.className = "name";
@@ -44,7 +44,7 @@
 
     box.appendChild(btn);
     box.appendChild(rec);
-    if(t.serverTopic!=="mix"){var info=document.createElement("small");info.className="topic-info";info.textContent=({population:"인구 · 나이 · 세대",nature:"기온 · 강수량 · 고도",map:"모양 · 위치 · 길이 · 지역번호",industry:"점포 · 자동차 · 쌀 · 전력"})[t.serverTopic]||"";box.appendChild(info);}
+    if(t.serverTopic!=="mix"){var info=document.createElement("small");info.className="topic-info";info.textContent=({population:"인구 · 나이 · 세대",nature:"지형 · 숲 · 기후",map:"모양 · 위치 · 길이 · 지역번호",industry:"가게 · 자동차 · 쌀 · 전기"})[t.serverTopic]||"";box.appendChild(info);}
     return box;
   }
 
@@ -162,6 +162,8 @@
     $("g-streak-n").textContent = "0";
     $("g-num").textContent = "";
     $("g-question").textContent = T.loading;
+    $("g-reference").textContent = "";
+    $("g-reference").hidden = true;
     $("g-basis").hidden=true;
     $("g-choices").textContent = "";
     $("g-verdict").textContent = "";
@@ -192,6 +194,8 @@
     st.picked = null;
     $("g-num").textContent = q.number + "번 문제";
     $("g-question").textContent = q.text;
+    $("g-reference").textContent=q.reference?'기준: '+refLabel(q.reference.date)+' · 범위: '+q.reference.scope:'';
+    $("g-reference").hidden=!q.reference;
     $("g-basis").textContent=q.basis||"";
     $("g-basis").hidden=!q.basis;
     $("g-verdict").textContent = "";
@@ -394,8 +398,9 @@
   }
 
   function refLabel(d) {
-    var m = /^(\d{4})-(\d{2})/.exec(d || "");
-    return m ? m[1] + "년 " + Number(m[2]) + "월" : String(d || "");
+    return String(d || "").replace(/\b(\d{4})-(\d{2})(?:-(\d{2}))?\b/g,function(_,y,m,day){
+      return y+'년 '+Number(m)+'월'+(day?' '+Number(day)+'일':'');
+    }).replace(/^(\d{4})[–~](\d{4})(.*)$/,'$1~$2년$3').replace(/^(\d{4})$/,'$1년');
   }
 
   $("g-home").addEventListener("click", goHome);

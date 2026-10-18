@@ -113,7 +113,7 @@ describe("인구 문제 출제", () => {
     const pub = JSON.stringify(toPublic(q));
     expect(pub).not.toContain("answer_code");
     expect(pub).not.toContain("values");
-    expect(Object.keys(toPublic(q)).sort()).toEqual(["choices", "question_id", "stat_key", "text"]);
+    expect(Object.keys(toPublic(q)).sort()).toEqual(["choices", "question_id", "reference", "stat_key", "text"]);
   });
 });
 
@@ -259,5 +259,21 @@ describe("증감률 질문의 부호 해석", () => {
         expect(STATS[stat].format(a)).toContain(a.toFixed(1));
       }
     }
+  });
+});
+
+
+describe("답을 고르기 전 기준 정보",()=>{
+  it("자료의 기준월과 실제 출제 단위를 공개한다",()=>{
+    for(const level of ['sido','sigungu'] as const){
+      const pool=buildPool('population',level,'2026-09',[{code:'11',name:'가',value:10000},{code:'26',name:'나',value:50000}]);
+      const q=pickQuestion(pool,'normal',{rng:seededRng(1)})!,pub=toPublic(q);
+      expect(pub.reference).toEqual({date:'2026-09',scope:level==='sido'?'전국 시·도 비교':'전국 시·군·구 비교'});
+      expect(JSON.stringify(pub)).not.toMatch(/answer_code|full_names|displays|values/);
+    }
+  });
+  it("5년 인구 변화에는 끝나는 월과 함께 시작하는 월도 표시한다",()=>{
+    const pool=buildPool('pop_change_5y','sigungu','2026-09',[{code:'11110',name:'가',value:-8},{code:'11140',name:'나',value:-3}]);
+    expect(toPublic(pickQuestion(pool,'normal',{rng:seededRng(1)})!).reference).toEqual({date:'2021-09 ~ 2026-09',scope:'전국 시·군·구 비교'});
   });
 });

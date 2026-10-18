@@ -37,7 +37,7 @@ describe("geo question generators", () => {
       expect(new Set(q.choices.map(c=>c.code)).size).toBe(4);
       expect(new Set(q.choices.map(c=>c.name)).size).toBe(4);
       expect(q.choices.some(c=>c.code===q.answer_code)).toBe(true);
-      const pub=toPublic(q); const serialized=JSON.stringify(pub);
+      const pub=toPublic(q); const serialized=JSON.stringify(pub);expect(pub.reference!.date).toContain(legal.as_of);expect(pub.reference!.scope).toBeTruthy();if(kind!=="parent")expect(pub.reference!.date).toContain(maps.ref_date);
       expect(serialized).not.toMatch(/answer_code|full_names|question_key|explanation|displays|values/);
       if(kind==='parent') {
         const code=q.question_key!.split('|')[1];

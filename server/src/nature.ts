@@ -25,7 +25,10 @@ export function pickNatureQuestion(key:NatureKey,difficulty:Difficulty,opts:Pick
   }
   const q=pickQuestion(pool,difficulty,opts);
   if(!q)continue;
-  if(climate)q.displays=Object.fromEntries(q.choices.map(c=>{const station=data.climate.rows.find(r=>r.code===c.code)!;return [c.code,STATS[key].format(q.values[c.code])+' · '+station.station_name+' 관측'];}));
+  if(climate){
+   q.displays=Object.fromEntries(q.choices.map(c=>{const station=data.climate.rows.find(r=>r.code===c.code)!;return [c.code,STATS[key].format(q.values[c.code])+' · '+station.station_name+' 관측'];}));
+   q.reference={date:q.ref_date+' 평년값',scope:q.choices.map(c=>data.climate.rows.find(r=>r.code===c.code)!.station_name+' 관측소').join(' · ')+' 비교'};
+  }
   return q;
  }
  return null;

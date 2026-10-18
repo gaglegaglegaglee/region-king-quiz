@@ -62,7 +62,7 @@ describe("판 시작", () => {
     const { r, b } = await start("population");
     expect(r.status).toBe(200);
     expect(Object.keys(b).sort()).toEqual(["game_id", "ok", "question"]);
-    expect(Object.keys(b.question).filter(k=>k!=="basis").sort()).toEqual(["choices", "number", "question_id", "stat_key", "text", "time_limit_sec"]);
+    expect(Object.keys(b.question).filter(k=>k!=="basis").sort()).toEqual(["choices", "number", "question_id", "reference", "stat_key", "text", "time_limit_sec"]);
     expect(b.question.number).toBe(1);
     expect(b.question.time_limit_sec).toBe(15);
     expect(b.question.choices).toHaveLength(2);
@@ -123,7 +123,7 @@ describe("답 내기", () => {
     expect(q2.number).toBe(2);
     expect(q2.question_id).not.toBe(q1.question_id);
     // 다음 문제에 정답·값이 미리 들어 있지 않다
-    expect(Object.keys(q2).filter(k=>k!=="basis").sort()).toEqual(["choices", "number", "question_id", "stat_key", "text", "time_limit_sec"]);
+    expect(Object.keys(q2).filter(k=>k!=="basis").sort()).toEqual(["choices", "number", "question_id", "reference", "stat_key", "text", "time_limit_sec"]);
     expect(JSON.stringify(q2)).not.toMatch(/answer|value|correct/);
     const a2 = await answer(g.game_id, q2.question_id, wrong(g.game_id, q2.question_id));
     expect(a2.b.correct).toBe(false);
